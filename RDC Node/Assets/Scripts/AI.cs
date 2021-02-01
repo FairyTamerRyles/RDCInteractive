@@ -5,11 +5,18 @@ using UnityEngine;
 
 
 //All functions will default to void. Go back and fix as more information presents itself
+public class GameBoard
+{
+    //nothign
+}
+
 
 public class AI : MonoBehaviour
 {
     const WIN = 1000000;
     const LOSE = -1000000;
+    const float WIN = 1000000f;
+    const float LOSE = -1000000f;
     //TODO: Make Gamepiece class; most likely in GameCore
     public GameBoard AIGameBoard;
     
@@ -23,6 +30,14 @@ public class AI : MonoBehaviour
 
         public void getStrat();
         public void setStrat(int newStrat);
+        public void getStrat()
+        {
+            //stuffs
+        }
+        public void setStrat(int newStrat)
+        {
+            //stuffs
+        }
     }
 
     public AI()
@@ -37,10 +52,14 @@ public class AI : MonoBehaviour
 
     //based on the pseudoCode found in the negamax Wikipedia
     void negamax(GameBoard position, float depth, float alpha, int beta, int player)
+    //currently only returns the value, MUST RETURN THE BOARD AS WELL
+    double negamax(GameBoard position, float depth, float alpha, int beta, int player)
     {
         //first check if the game is over so you don't call all the heuristic searches
         hvalue = gameOver() * player;
         if (hvalue == WIN || hvalue == LOSE) \
+       double  hvalue = gameOver() * player;
+        if (hvalue == WIN || hvalue == LOSE)
         {
             return hvalue; //also need board position
         } 
@@ -52,8 +71,12 @@ public class AI : MonoBehaviour
         legalMoves = getPossibleMoves(position, player);
         baseValue = -1 / 0; //negative infinity
         foreach (Gameboard childBoard in legalMoves)
+        GameBoard[] legalMoves = getPossibleMoves(position, player);
+        double baseValue = double.PositiveInfinity; //negative infinity
+        foreach (GameBoard childBoard in legalMoves)
         {
             float evaluation = max(value, -negamax(childBoard, depth - 1, -beta, -alpha, -color));
+            double evaluation = max(value, -negamax(childBoard, depth - 1, -beta, -alpha, -color));
             alpha = max(alpha, value);
             if (alpha >= beta)
             {
@@ -63,6 +86,7 @@ public class AI : MonoBehaviour
         return evaluation;
     }
     public int gameOver();
+    public int gameOver()
     {
         //determine if the game has been won;
     }
@@ -72,20 +96,26 @@ public class AI : MonoBehaviour
         return heuristicResult;
     }
     GameBoard[] getPossibleMoves(int player)
+    GameBoard[] getPossibleMoves(GameBoard board, int player)
     {
 
+        GameBoard gameBoard = new GameBoard();
+        return gameBoard;
     }
     void getPossibleNodes()
     {
 
+        //ya
     }
     void getPossibleBranches()
     {
 
+        //ya
     }
     void getPossibleCapturedTiles()
     {
 
+        //ya
     }
     void getPotentialResources()
     {
@@ -104,4 +134,5 @@ public class AI : MonoBehaviour
         
     }
 }
+*/
 */
