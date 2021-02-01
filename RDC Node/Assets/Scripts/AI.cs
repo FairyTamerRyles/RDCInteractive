@@ -13,8 +13,6 @@ public class GameBoard
 
 public class AI : MonoBehaviour
 {
-    const WIN = 1000000;
-    const LOSE = -1000000;
     const float WIN = 1000000f;
     const float LOSE = -1000000f;
     //TODO: Make Gamepiece class; most likely in GameCore
@@ -28,8 +26,6 @@ public class AI : MonoBehaviour
         private int[] stratChoices;
         private int currentStrat;
 
-        public void getStrat();
-        public void setStrat(int newStrat);
         public void getStrat()
         {
             //stuffs
@@ -51,14 +47,11 @@ public class AI : MonoBehaviour
     }
 
     //based on the pseudoCode found in the negamax Wikipedia
-    void negamax(GameBoard position, float depth, float alpha, int beta, int player)
     //currently only returns the value, MUST RETURN THE BOARD AS WELL
     double negamax(GameBoard position, float depth, float alpha, int beta, int player)
     {
         //first check if the game is over so you don't call all the heuristic searches
-        hvalue = gameOver() * player;
-        if (hvalue == WIN || hvalue == LOSE) \
-       double  hvalue = gameOver() * player;
+        double hvalue = gameOver() * player;
         if (hvalue == WIN || hvalue == LOSE)
         {
             return hvalue; //also need board position
@@ -85,7 +78,6 @@ public class AI : MonoBehaviour
         }
         return evaluation;
     }
-    public int gameOver();
     public int gameOver()
     {
         //determine if the game has been won;
@@ -95,10 +87,8 @@ public class AI : MonoBehaviour
         int heuristicResult;
         return heuristicResult;
     }
-    GameBoard[] getPossibleMoves(int player)
     GameBoard[] getPossibleMoves(GameBoard board, int player)
     {
-
         GameBoard gameBoard = new GameBoard();
         return gameBoard;
     }
@@ -134,5 +124,4 @@ public class AI : MonoBehaviour
         
     }
 }
-*/
 */
