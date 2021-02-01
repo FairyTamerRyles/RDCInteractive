@@ -1,0 +1,127 @@
+/*
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+//All functions will default to void. Go back and fix as more information presents itself
+public class GameBoard
+{
+    //nothign
+}
+
+
+public class AI : MonoBehaviour
+{
+    const float WIN = 1000000f;
+    const float LOSE = -1000000f;
+    //TODO: Make Gamepiece class; most likely in GameCore
+    public GameBoard AIGameBoard;
+    
+
+    private class Vicki
+    {
+        private GameBoard[,] GameBoard;
+        private bool isExpert;
+        private int[] stratChoices;
+        private int currentStrat;
+
+        public void getStrat()
+        {
+            //stuffs
+        }
+        public void setStrat(int newStrat)
+        {
+            //stuffs
+        }
+    }
+
+    public AI()
+    {
+        AIGameBoard = new GameBoard();
+    }
+
+    public class AIMove
+    {
+        //IDK Man
+    }
+
+    //based on the pseudoCode found in the negamax Wikipedia
+    //currently only returns the value, MUST RETURN THE BOARD AS WELL
+    double negamax(GameBoard position, float depth, float alpha, int beta, int player)
+    {
+        //first check if the game is over so you don't call all the heuristic searches
+        double hvalue = gameOver() * player;
+        if (hvalue == WIN || hvalue == LOSE)
+        {
+            return hvalue; //also need board position
+        } 
+        else if (depth == 0)
+        {
+            hvalue = heuristic() * player;
+            return hvalue; //also need board position
+        }
+        legalMoves = getPossibleMoves(position, player);
+        baseValue = -1 / 0; //negative infinity
+        foreach (Gameboard childBoard in legalMoves)
+        GameBoard[] legalMoves = getPossibleMoves(position, player);
+        double baseValue = double.PositiveInfinity; //negative infinity
+        foreach (GameBoard childBoard in legalMoves)
+        {
+            float evaluation = max(value, -negamax(childBoard, depth - 1, -beta, -alpha, -color));
+            double evaluation = max(value, -negamax(childBoard, depth - 1, -beta, -alpha, -color));
+            alpha = max(alpha, value);
+            if (alpha >= beta)
+            {
+                break;
+            }
+        }
+        return evaluation;
+    }
+    public int gameOver()
+    {
+        //determine if the game has been won;
+    }
+    public float heuristic()
+    {
+        int heuristicResult;
+        return heuristicResult;
+    }
+    GameBoard[] getPossibleMoves(GameBoard board, int player)
+    {
+        GameBoard gameBoard = new GameBoard();
+        return gameBoard;
+    }
+    void getPossibleNodes()
+    {
+
+        //ya
+    }
+    void getPossibleBranches()
+    {
+
+        //ya
+    }
+    void getPossibleCapturedTiles()
+    {
+
+        //ya
+    }
+    void getPotentialResources()
+    {
+
+    }
+    void getResourceSpread()
+    {
+
+    }
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+}
+*/
