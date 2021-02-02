@@ -1,16 +1,10 @@
-/*
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 //All functions will default to void. Go back and fix as more information presents itself
-public class GameBoard
-{
-    //nothign
-}
-
-
 public class AI : MonoBehaviour
 {
     const float WIN = 1000000f;
@@ -23,14 +17,14 @@ public class AI : MonoBehaviour
     {
         private GameBoard[,] GameBoard;
         private bool isExpert;
-        private int[] stratChoices;
-        private int currentStrat;
+        private float[] stratChoices;
+        private float currentStrat;
 
         public void getStrat()
         {
             //stuffs
         }
-        public void setStrat(int newStrat)
+        public void setStrat(float newStrat)
         {
             //stuffs
         }
@@ -48,10 +42,10 @@ public class AI : MonoBehaviour
 
     //based on the pseudoCode found in the negamax Wikipedia
     //currently only returns the value, MUST RETURN THE BOARD AS WELL
-    double negamax(GameBoard position, float depth, float alpha, int beta, int player)
+    float negamax(GameBoard position, float depth, float alpha, float beta, float player)
     {
         //first check if the game is over so you don't call all the heuristic searches
-        double hvalue = gameOver() * player;
+        float hvalue = gameOver() * player;
         if (hvalue == WIN || hvalue == LOSE)
         {
             return hvalue; //also need board position
@@ -61,16 +55,13 @@ public class AI : MonoBehaviour
             hvalue = heuristic() * player;
             return hvalue; //also need board position
         }
-        legalMoves = getPossibleMoves(position, player);
-        baseValue = -1 / 0; //negative infinity
-        foreach (Gameboard childBoard in legalMoves)
+        float evaluation = 0;
         GameBoard[] legalMoves = getPossibleMoves(position, player);
-        double baseValue = double.PositiveInfinity; //negative infinity
+        float baseValue = -Mathf.Infinity; //negative infinity
         foreach (GameBoard childBoard in legalMoves)
         {
-            float evaluation = max(value, -negamax(childBoard, depth - 1, -beta, -alpha, -color));
-            double evaluation = max(value, -negamax(childBoard, depth - 1, -beta, -alpha, -color));
-            alpha = max(alpha, value);
+            evaluation = Mathf.Max(baseValue, -negamax(childBoard, depth - 1, -beta, -alpha, -player));
+            alpha = Mathf.Max(alpha, baseValue);
             if (alpha >= beta)
             {
                 break;
@@ -78,19 +69,23 @@ public class AI : MonoBehaviour
         }
         return evaluation;
     }
-    public int gameOver()
+    public float gameOver()
     {
+        float end = 0;
+        return end;
         //determine if the game has been won;
     }
     public float heuristic()
     {
-        int heuristicResult;
+        float heuristicResult = 0;
         return heuristicResult;
     }
-    GameBoard[] getPossibleMoves(GameBoard board, int player)
+    GameBoard[] getPossibleMoves(GameBoard board, float player)
     {
         GameBoard gameBoard = new GameBoard();
-        return gameBoard;
+        GameBoard[] result = new GameBoard[5];
+        result[0] = gameBoard;
+        return result;
     }
     void getPossibleNodes()
     {
@@ -124,4 +119,3 @@ public class AI : MonoBehaviour
         
     }
 }
-*/
