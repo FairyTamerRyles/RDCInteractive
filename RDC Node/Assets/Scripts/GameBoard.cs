@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
+    const int numResources = 4;
+
+    int[] player1Resources = new int[numResources];
+    int[] player2Resources = new int[numResources];
+
     public enum Player
     {
         None = 0,
         Player1 = 1,
-        player2 = 2
+        Player2 = 2
     }
 
     public enum PieceType
@@ -46,30 +51,94 @@ public class GameBoard : MonoBehaviour
         public ResourceType ResourceType;
         public int maxLoad;
 
-        public Tile(ResourceType r, int max, Player p = None, Coordinate c = null)
+        public Tile(ResourceType r, int max)
         {
-            pieceType = Tile;
+            pieceType = PieceType.Tile;
             ResourceType = r;
             maxLoad = max;
+            player = Player.None;
+            coord = new Coordinate() {x = 0, y = 0};
+        }
+    }
+
+    public class Move
+    {
+        int[] resourceChange;
+        Player player;
+
+        public Move(int[] rChange, Player p)
+        {
+            resourceChange = rChange;
             player = p;
+        }
+    }
+
+    public class PlacePiece : Move
+    {
+        Coordinate coord;
+        public PlacePiece(int[] rChange, Player p, Coordinate c) : base(rChange, p)
+        {
             coord = c;
         }
     }
 
     public Tile[] GameTiles = new Tile[] 
     {
-        new Tile(Red, 1), 
-        new Tile(Red, 2), 
-        new Tile(Red, 3),
-        new Tile(Blue, 1),
-        new Tile(Blue, 2),
-        new Tile(Blue, 3),
-        new Tile(Green, 1),
-        new Tile(Green, 2),
-        new Tile(Green, 3),
-        new Tile(Yellow, 1),
-        new Tile(Yellow, 2),
-        new Tile(Yellow, 3),
-        new Tile(None, 0)
+        new Tile(ResourceType.Red, 1), 
+        new Tile(ResourceType.Red, 2), 
+        new Tile(ResourceType.Red, 3),
+        new Tile(ResourceType.Blue, 1),
+        new Tile(ResourceType.Blue, 2),
+        new Tile(ResourceType.Blue, 3),
+        new Tile(ResourceType.Green, 1),
+        new Tile(ResourceType.Green, 2),
+        new Tile(ResourceType.Green, 3),
+        new Tile(ResourceType.Yellow, 1),
+        new Tile(ResourceType.Yellow, 2),
+        new Tile(ResourceType.Yellow, 3),
+        new Tile(ResourceType.None, 0)
     };
+
+    public int getScore(Player p)
+    {
+        return numberOfNodes(p) + numberCapturedTiles(p) + longestNetwork(p);
+    }
+
+    private int numberOfNodes(Player p)
+    {
+        return 0;
+    }
+
+    private int numberCapturedTiles(Player p)
+    {
+        return 0;
+    }
+
+    private int longestNetwork(Player p)
+    {
+        return 0;
+    }
+
+    public void makeMove(Move[] moves)
+    {
+        
+    }
+
+    public Player checkForWin()
+    {
+        if(getScore(Player.Player1) >= 10)
+        {
+            return Player.Player1;
+        }
+        else if (getScore(Player.Player2) >= 10)
+        {
+            return Player.Player1;
+        }
+        return Player.None;
+    }
+
+    public bool isValidMove(Move m)
+    {
+        return true;
+    }
 }
