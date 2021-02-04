@@ -7,8 +7,14 @@ public class ConnectionManager : MonoBehaviourPunCallbacks {
     [SerializeField]
     private string gameVersion = "1";
 
+    private Action failedToConnect_Callback;
     private Action onConnected_Callback;
     private Action onDisconnected_Callback;
+
+    public Action FailedToConnect_Callback {
+        get => failedToConnect_Callback;
+        set => failedToConnect_Callback = value;
+    }
 
     public Action OnConnected_Callback {
         get => onConnected_Callback;
@@ -26,13 +32,24 @@ public class ConnectionManager : MonoBehaviourPunCallbacks {
 
     public void Connect() {
         if (!IsConnected()) {
-            PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = gameVersion;
+            if(Application.internetReachability == NetworkReachability.NotReachable) {
+                OnFailedToConnect();
+            }
+            else {
+                PhotonNetwork.ConnectUsingSettings();
+                PhotonNetwork.GameVersion = gameVersion;
+            }
         }
     }
 
-    public void Connect(Action callback) {
-        OnConnected_Callback = callback;
+    public void Connect(Action onConnected_Callback) {
+        OnConnected_Callback = onConnected_Callback;
+        Connect();
+    }
+
+    public void Connect(Action onConnected_Callback, Action failedToConnect_Callback) {
+        OnConnected_Callback = onConnected_Callback;
+        FailedToConnect_Callback = failedToConnect_Callback;
         Connect();
     }
 
@@ -42,9 +59,14 @@ public class ConnectionManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    public void Disconnect(Action callback) {
-        OnDisconnected_Callback = callback;
+    public void Disconnect(Action onDisconnected_Callback) {
+        OnDisconnected_Callback = onDisconnected_Callback;
         Disconnect();
+    }
+
+    public void OnFailedToConnect() {
+        Action callback = FailedToConnect_Callback;
+        if (callback != null) callback();
     }
 
     public override void OnConnectedToMaster() {
