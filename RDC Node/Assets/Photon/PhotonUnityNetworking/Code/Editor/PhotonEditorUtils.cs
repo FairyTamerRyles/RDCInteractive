@@ -234,7 +234,7 @@ namespace Photon.Pun
                     yield return null;
 
                 #if UNITY_2017_1_OR_NEWER
-                if (w.isNetworkError || w.isHttpError)
+                if (w.result == UnityWebRequest.Result.ConnectionError || w.result == UnityWebRequest.Result.ProtocolError)
                 #else
                 if (w.isError)
                 #endif
