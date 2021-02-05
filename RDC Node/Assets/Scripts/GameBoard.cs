@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static System.Math;
 
-public class GameBoard : MonoBehaviour
+public class GameBoard
 {
+
+    private float rnd;
+
+    public void Start()
+    {
+        //Hi
+    }
+
     const int numResources = 4;
 
-    int[] player1Resources = new int[numResources];
-    int[] player2Resources = new int[numResources];
+    int[] player1Resources;
+    int[] player2Resources;
+
+    GamePiece[,] gameBoard;
 
     public enum Player
     {
@@ -43,7 +54,14 @@ public class GameBoard : MonoBehaviour
         public Coordinate coord;
         public Player player;
         public PieceType pieceType;
-        public GamePiece[] adjacentPieces = new GamePiece[8];
+        //public GamePiece[] adjacentPieces = new GamePiece[8];
+
+        public GamePiece(Coordinate c, PieceType pt)
+        {
+            player = Player.None;
+            coord = c;
+            pieceType = pt;
+        }
     }
 
     public class Tile : GamePiece
@@ -51,13 +69,11 @@ public class GameBoard : MonoBehaviour
         public ResourceType ResourceType;
         public int maxLoad;
 
-        public Tile(ResourceType r, int max)
+        public Tile(ResourceType r, int max): base(new Coordinate() {x = 0, y = 0}, PieceType.Tile)
         {
-            pieceType = PieceType.Tile;
             ResourceType = r;
             maxLoad = max;
             player = Player.None;
-            coord = new Coordinate() {x = 0, y = 0};
         }
     }
 
@@ -82,7 +98,25 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public Tile[] GameTiles = new Tile[] 
+    //TODO: Try to make this const later
+    private List<Coordinate> tileIndexes = new List<Coordinate> 
+    {
+        new Coordinate{x = 1, y = 5}, 
+        new Coordinate{x = 3, y = 3}, 
+        new Coordinate{x = 3, y = 5}, 
+        new Coordinate{x = 3, y = 7}, 
+        new Coordinate{x = 5, y = 1}, 
+        new Coordinate{x = 5, y = 3}, 
+        new Coordinate{x = 5, y = 5}, 
+        new Coordinate{x = 5, y = 7}, 
+        new Coordinate{x = 5, y = 9}, 
+        new Coordinate{x = 7, y = 3}, 
+        new Coordinate{x = 7, y = 5}, 
+        new Coordinate{x = 7, y = 7}, 
+        new Coordinate{x = 9, y = 5}
+    };
+
+    public List<Tile> GameTiles = new List<Tile> 
     {
         new Tile(ResourceType.Red, 1), 
         new Tile(ResourceType.Red, 2), 
@@ -96,8 +130,15 @@ public class GameBoard : MonoBehaviour
         new Tile(ResourceType.Yellow, 1),
         new Tile(ResourceType.Yellow, 2),
         new Tile(ResourceType.Yellow, 3),
-        new Tile(ResourceType.None, 0)
+        new Tile(ResourceType.None, -1)
     };
+
+    public GameBoard()
+    {
+        gameBoard = generateBoard();
+        player1Resources = new int[4] {0, 0, 0, 0};
+        player2Resources = new int[4] {0, 0, 0, 0};
+    }
 
     public int getScore(Player p)
     {
@@ -140,5 +181,70 @@ public class GameBoard : MonoBehaviour
     public bool isValidMove(Move m)
     {
         return true;
+    }
+
+    private GamePiece[,] generateBoard()
+    {
+        GamePiece[,] newBoard = new GamePiece[11, 11];
+
+        //Randomizes order of the tiles
+        List<bool> selectedPieces = new List<bool> {true, true, true, true, true, true, true, true, true, true, true, true, true};
+        List<GamePiece> randomizedGameTiles = new List<GamePiece>();
+        while(selectedPieces.Contains(true))
+        {
+            rnd = Random.Range(0.0f, 13.0f);
+            int newIndex = (int)(Floor(rnd));
+            if(selectedPieces[newIndex])
+            {
+                randomizedGameTiles.Add(GameTiles[newIndex]);
+                selectedPieces[newIndex] = false;
+            }
+
+        }
+
+        //Initialize board by looping over the tile positions and placing the randomized tiles in them
+        //and then surrounding them with new GamePieces
+        PieceType pt;
+        for(int i = 0; i < tileIndexes.Count; ++i)
+        {
+            newBoard[tileIndexes[i].x, tileIndexes[i].y] = randomizedGameTiles[i];
+            newBoard[tileIndexes[i].x, tileIndexes[i].y].coord = tileIndexes[i];
+
+            for(int row = tileIndexes[i].x - 1; row <= tileIndexes[i].x + 1; ++row)
+            {
+                for(int col = tileIndexes[i].y - 1; col <= tileIndexes[i].y + 1; ++col)
+                {
+                    if(newBoard[row,col] == null)
+                    {
+                        if(col % 2 == 0 && row % 2 == 0)
+                        {
+                            pt = PieceType.Node;
+                            newBoard[row,col] = new GamePiece(new Coordinate{x = row, y = col}, pt);
+                        }
+                        else
+                        {
+                            pt = PieceType.Branch;
+                            newBoard[row,col] = new GamePiece(new Coordinate{x = row, y = col}, pt);
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i < 11; ++i)
+        {
+            for(int j = 0; j < 11; ++j)
+            {
+                if(newBoard[i,j] != null){ Debug.Log(newBoard[i,j].pieceType);}
+                else {Debug.Log("0");}
+            }
+        }
+
+        return newBoard;
+    }
+
+    private GamePiece[,] generateBoard(string boardSeed)
+    {
+        return new GamePiece[11, 11];
     }
 }
