@@ -7,6 +7,7 @@ public class GameBoard
 {
 
     private float rnd;
+    const int boardSize = 11;
 
     public void Start()
     {
@@ -41,6 +42,14 @@ public class GameBoard
         Green = 2,
         Yellow = 3,
         None = 4
+    }
+
+    public enum MoveType
+    {
+        EndTurn = 0,
+        Trade = 1,
+        PlaceNode = 2,
+        PlaceBranch = 3
     }
 
     public struct Coordinate
@@ -79,21 +88,15 @@ public class GameBoard
 
     public class Move
     {
-        int[] resourceChange;
-        Player player;
+        public int[] resourceChange;
+        public Player player;
+        public Coordinate coord;
+        public MoveType moveType;
 
-        public Move(int[] rChange, Player p)
+        public Move(int[] rChange, Player p, Coordinate c)
         {
             resourceChange = rChange;
             player = p;
-        }
-    }
-
-    public class PlacePiece : Move
-    {
-        Coordinate coord;
-        public PlacePiece(int[] rChange, Player p, Coordinate c) : base(rChange, p)
-        {
             coord = c;
         }
     }
@@ -147,7 +150,19 @@ public class GameBoard
 
     private int numberOfNodes(Player p)
     {
-        return 0;
+        int playerNodes = 0;
+        for(int row = 0; row < gameBoard.GetLength(0); ++row)
+        {
+            for(int col = 0; col < gameBoard.GetLength(1); ++col)
+            {
+                if(gameBoard[row,col] != null && gameBoard[row,col].pieceType == PieceType.Node && gameBoard[row,col].player == p)
+                {
+                    ++playerNodes;
+                }
+            }
+        }
+
+        return playerNodes;
     }
 
     private int numberCapturedTiles(Player p)
@@ -180,12 +195,42 @@ public class GameBoard
 
     public bool isValidMove(Move m)
     {
-        return true;
+        //Checks if move is placing a piece
+        if(m.moveType == MoveType.PlaceNode || m.moveType == MoveType.PlaceBranch)
+        {
+            //checks if move is in bounds and if the node/branch is unoccupied
+            if(m.coord.x < boardSize && m.coord.x >= 0 && m.coord.y >= 0 && m.coord.y < boardSize 
+                && gameBoard[m.coord.x, m.coord.y] != null && gameBoard[m.coord.x, m.coord.y].player == Player.None)
+            {
+                //checks to ensure branches and node are only placed on appropriate coordinates
+                if((m.moveType == MoveType.PlaceNode && (m.coord.x % 2 == 0 && m.coord.y % 2 == 0)) 
+                    || (m.moveType == MoveType.PlaceBranch && ((m.coord.x % 2 == 0 && m.coord.y % 2 == 1) || (m.coord.x % 2 == 1 && m.coord.y % 2 == 0))))
+                {
+                    //checks if there is an adjacent piece owned by the player
+                    if((m.coord.x - 1 >= 0 && gameBoard[m.coord.x - 1, m.coord.y].player == m.player) 
+                        || (m.coord.x + 1 < gameBoard.GetLength(0) && gameBoard[m.coord.x + 1, m.coord.y].player == m.player)
+                        || (m.coord.y - 1 >= 0 && gameBoard[m.coord.x, m.coord.y - 1].player == m.player)
+                        || (m.coord.y + 1 < gameBoard.GetLength(1) && gameBoard[m.coord.x, m.coord.y + 1].player == m.player))
+                    {
+                        //TODO:checks if player has appropriate resources
+                        if(true)
+                        {
+                            //TODO: check if coord is in a captured area
+                            if(true)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private GamePiece[,] generateBoard()
     {
-        GamePiece[,] newBoard = new GamePiece[11, 11];
+        GamePiece[,] newBoard = new GamePiece[boardSize, boardSize];
 
         //Randomizes order of the tiles
         List<bool> selectedPieces = new List<bool> {true, true, true, true, true, true, true, true, true, true, true, true, true};
