@@ -6,6 +6,8 @@ using System;
 public class MatchmakingManager : MonoBehaviourPunCallbacks {
     [SerializeField]
     private static byte maxPlayersPerRoom = 2;
+    
+    private bool creatingPrivateRoom = false;
 
     private Action onJoinedRoom_Callback;
     private Action onLeftRoom_Callback;
@@ -28,11 +30,15 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     public void CreatePrivateRoom() {
         if (ConnectionManager.IsConnected()) {
+            creatingPrivateRoom = true;
+
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.MaxPlayers = maxPlayersPerRoom;
             roomOptions.IsVisible = false;
 
-            PhotonNetwork.CreateRoom(null, roomOptions);
+            string roomName = RoomNameGenerator.Next();
+
+            PhotonNetwork.CreateRoom(roomName, roomOptions);
         }
     }
 
@@ -43,7 +49,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     public void JoinRoom(string roomName) {
         if (ConnectionManager.IsConnected()) {
-            PhotonNetwork.JoinRoom(roomName);
+            PhotonNetwork.JoinRoom(roomName.ToUpper());
         }
     }
 
@@ -83,6 +89,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedRoom() {
+        creatingPrivateRoom = false;
+
         Action callback = OnJoinedRoom_Callback;
         if (callback != null) callback();
     }
@@ -90,5 +98,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     public override void OnLeftRoom() {
         Action callback = OnLeftRoom_Callback;
         if (callback != null) callback();
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message) {
+        if (creatingPrivateRoom) {
+            CreatePrivateRoom();
+        }
     }
 }
