@@ -52,10 +52,11 @@ public class MenuButton : MonoBehaviour
 	public void OnPointerClick(PointerEventData eventData) // 3
 	{	
 		animator.SetBool("pressed", true);
-		if (name == "New Game")
-        {
-			SceneManager.LoadScene("Game");
-		}
+		//if (name == "New Game")
+  //      {
+		//	yield return new WaitForSeconds(5);
+		//	SceneManager.LoadScene("Game");
+		//}
 	}
 
 
