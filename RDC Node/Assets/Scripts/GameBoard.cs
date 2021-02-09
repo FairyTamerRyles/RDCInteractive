@@ -195,30 +195,130 @@ public class GameBoard
 
     public bool isValidMove(Move m)
     {
-        //Checks if move is placing a piece
-        if(m.moveType == MoveType.PlaceNode || m.moveType == MoveType.PlaceBranch)
+        //checks if move is an EndTurn
+        if(m.moveType == MoveType.EndTurn)
+        {
+            return true;
+        }
+        //checks if move is a trade
+        else if(m.moveType == MoveType.Trade)
+        {
+            //checks if 3 resources are used and one is gained
+            int spent = 0, gained = 0;
+            for(int i = 0; i < player1Resources.Length; ++i)
+            {
+                if(m.resourceChange[i] >= 0)
+                {
+                    gained += m.resourceChange[i];
+                }
+                else
+                {
+                    spent += m.resourceChange[i];
+                }
+            }
+            if(gained == 1 && spent == -3)
+            {
+                //checks if player has enough resources
+                bool enoughResources = true;
+                for(int i = 0; i < player1Resources.Length; ++i)
+                {
+                    if((m.player == Player.Player1 && m.resourceChange[i] + player1Resources[i] < 0) 
+                        || (m.player == Player.Player2 && m.resourceChange[i] + player2Resources[i] < 0))
+                    {
+                        enoughResources = false;
+                    }
+                }
+                if(enoughResources)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        //checks if move is placing a node
+        else if(m.moveType == MoveType.PlaceNode)
         {
             //checks if move is in bounds and if the node/branch is unoccupied
             if(m.coord.x < boardSize && m.coord.x >= 0 && m.coord.y >= 0 && m.coord.y < boardSize 
                 && gameBoard[m.coord.x, m.coord.y] != null && gameBoard[m.coord.x, m.coord.y].player == Player.None)
             {
-                //checks to ensure branches and node are only placed on appropriate coordinates
-                if((m.moveType == MoveType.PlaceNode && (m.coord.x % 2 == 0 && m.coord.y % 2 == 0)) 
-                    || (m.moveType == MoveType.PlaceBranch && ((m.coord.x % 2 == 0 && m.coord.y % 2 == 1) || (m.coord.x % 2 == 1 && m.coord.y % 2 == 0))))
+                //checks to ensure nodes are only placed at appropriate coordinates
+                if(m.coord.x % 2 == 0 && m.coord.y % 2 == 0)
                 {
                     //checks if there is an adjacent piece owned by the player
                     if((m.coord.x - 1 >= 0 && gameBoard[m.coord.x - 1, m.coord.y].player == m.player) 
                         || (m.coord.x + 1 < gameBoard.GetLength(0) && gameBoard[m.coord.x + 1, m.coord.y].player == m.player)
                         || (m.coord.y - 1 >= 0 && gameBoard[m.coord.x, m.coord.y - 1].player == m.player)
                         || (m.coord.y + 1 < gameBoard.GetLength(1) && gameBoard[m.coord.x, m.coord.y + 1].player == m.player))
-                    {
-                        //TODO:checks if player has appropriate resources
-                        if(true)
                         {
-                            //TODO: check if coord is in a captured area
-                            if(true)
+                            //checks if player has appropriate resources - NOTE: This does not currently check if the resources spent for a node or branch is correct
+                            bool enoughResources = true;
+                            for(int i = 0; i < player1Resources.Length; ++i)
                             {
+                                if((m.player == Player.Player1 && m.resourceChange[i] + player1Resources[i] < 0) 
+                                   || (m.player == Player.Player2 && m.resourceChange[i] + player2Resources[i] < 0))
+                                {
+                                    enoughResources = false;
+                                }
+                            }
+
+                            if(enoughResources)
+                            {
+                                //No extra checking required for captured zone. As long as no branches have been illegally placed, 
+                                //a node cannot have been placed in a captured zone
                                 return true;
+                            }
+                        }
+                }
+            }
+            return false;
+        }
+        //Checks if move is placing a branch
+        else if(m.moveType == MoveType.PlaceBranch)
+        {
+            //checks if move is in bounds and if the node/branch is unoccupied
+            if(m.coord.x < boardSize && m.coord.x >= 0 && m.coord.y >= 0 && m.coord.y < boardSize 
+                && gameBoard[m.coord.x, m.coord.y] != null && gameBoard[m.coord.x, m.coord.y].player == Player.None)
+            {
+                //checks to ensure branches and nodes are only placed on appropriate coordinates
+                if((m.coord.x % 2 == 0 && m.coord.y % 2 == 1) || (m.coord.x % 2 == 1 && m.coord.y % 2 == 0))
+                {
+                    //checks if there is an adjacent node or 2-away branch owned by the player
+                    if((m.coord.x % 2 == 1 && ((m.coord.x - 1 >= 0 && gameBoard[m.coord.x - 1, m.coord.y].player == m.player) || (m.coord.x + 1 < gameBoard.GetLength(0) && gameBoard[m.coord.x + 1, m.coord.y].player == m.player) || (m.coord.x - 2 >= 0 && gameBoard[m.coord.x - 2, m.coord.y].player == m.player) || (m.coord.x + 2 < gameBoard.GetLength(0) && gameBoard[m.coord.x + 2, m.coord.y].player == m.player)))
+                        || (m.coord.x % 2 == 0 && ((m.coord.y - 1 >= 0 && gameBoard[m.coord.x, m.coord.y - 1].player == m.player) || (m.coord.y + 1 < gameBoard.GetLength(1) && gameBoard[m.coord.x, m.coord.y + 1].player == m.player) || (m.coord.y - 2 >= 0 && gameBoard[m.coord.x, m.coord.y - 2].player == m.player) || (m.coord.y + 2 < gameBoard.GetLength(1) && gameBoard[m.coord.x, m.coord.y + 2].player == m.player))))
+                    {
+                        //checks if player has appropriate resources - NOTE: This does not currently check if the resources spent for a node or branch is correct
+                        bool enoughResources = true;
+                        for(int i = 0; i < player1Resources.Length; ++i)
+                        {
+                            if((m.player == Player.Player1 && m.resourceChange[i] + player1Resources[i] < 0) 
+                                || (m.player == Player.Player2 && m.resourceChange[i] + player2Resources[i] < 0))
+                            {
+                                enoughResources = false;
+                            }
+                        }
+                        if(enoughResources)
+                        {
+                            //checks if branch is in an area captured by the opponent
+                            if(m.coord.x % 2 == 0)
+                            {
+                                if(m.coord.x - 1 < 0 || gameBoard[m.coord.x - 1, m.coord.y] == null 
+                                || gameBoard[m.coord.x - 1, m.coord.y].player == Player.None || gameBoard[m.coord.x - 1, m.coord.y].player == m.player
+                                || m.coord.x + 1 >= gameBoard.GetLength(0) || gameBoard[m.coord.x + 1, m.coord.y] == null
+                                || gameBoard[m.coord.x + 1, m.coord.y].player == Player.None || gameBoard[m.coord.x + 1, m.coord.y].player == m.player)
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                 if(m.coord.y - 1 < 0 || gameBoard[m.coord.x, m.coord.y - 1] == null 
+                                || gameBoard[m.coord.x, m.coord.y - 1].player == Player.None || gameBoard[m.coord.x, m.coord.y - 1].player == m.player
+                                || m.coord.y + 1 >= gameBoard.GetLength(1) || gameBoard[m.coord.x, m.coord.y + 1] == null
+                                || gameBoard[m.coord.x, m.coord.y + 1].player == Player.None || gameBoard[m.coord.x, m.coord.y + 1].player == m.player)
+                                {
+                                    return true;
+                                }   
                             }
                         }
                     }
