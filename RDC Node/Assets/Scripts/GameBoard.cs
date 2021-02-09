@@ -175,9 +175,39 @@ public class GameBoard
         return 0;
     }
 
-    public void makeMove(Move[] moves)
+    public void makeMove(List<Move> moves)
     {
-        
+        foreach (var move in moves)
+        {
+            if(isValidMove(move))
+            {
+                if(move.moveType == MoveType.EndTurn)
+                {
+                    //TODO: What to do on an end turn - check for win, change currentPlayer, distribute resources, 
+                }
+                else
+                {
+                    //applies resource change
+                    for(int i = 0; i < player1Resources.Length; ++i)
+                    {
+                        if(move.player == Player.Player1)
+                        {
+                            player1Resources[i] += move.resourceChange[i];
+                        }
+                        else
+                        {
+                            player2Resources[i] += move.resourceChange[i];
+                        }
+                    }
+                    
+                    //If the move is placing a piece, it changes the player of its location
+                    if(move.moveType == MoveType.PlaceBranch || move.moveType == MoveType.PlaceNode)
+                    {
+                        gameBoard[move.coord.x, move.coord.y].player = move.player;
+                    }
+                }
+            }
+        }
     }
 
     public Player checkForWin()
