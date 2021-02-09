@@ -14,8 +14,8 @@ public class AI
     
     public struct capTileChecker
     {
-        List<GameBoard.Tile> tileStack;
-        bool isCaptured;
+        public List<GameBoard.Tile> tileStack;
+        public bool isCaptured;
 
         public capTileChecker(List<GameBoard.Tile> tileStack, bool isCaptured)
         {
@@ -119,14 +119,16 @@ public class AI
         {
 
         }
+        //this is broken do not leave it like this
+        return noncapturedTiles;
     }
-    capTileChecker checkIfCaptured(GameBoard.Tile currentTile, capTileChecker checkedTiles, int player)
+    public capTileChecker checkIfCaptured(GameBoard board, GameBoard.Tile currentTile, capTileChecker checkedTiles, GameBoard.Player player)
     {
-        //first Check for any insta fails on the surrounding branches/tiles
-        if ((AIGameBoard.gameBoard[currentTile.coord.x - 1][currentTile.coord.y].player != player && AIGameBoard.gameBoard[currentTile.coord.x - 1][currentTile.coord.y].player != 0) ||
-            (AIGameBoard.gameBoard[currentTile.coord.x + 1][currentTile.coord.y].player != player && AIGameBoard.gameBoard[currentTile.coord.x - 1][currentTile.coord.y].player != 0) ||
-            (AIGameBoard.gameBoard[currentTile.coord.x][currentTile.coord.y - 1].player != player && AIGameBoard.gameBoard[currentTile.coord.x - 1][currentTile.coord.y].player != 0) ||
-            (AIGameBoard.gameBoard[currentTile.coord.x][currentTile.coord.y + 1].player != player && AIGameBoard.gameBoard[currentTile.coord.x - 1][currentTile.coord.y].player != 0))  
+        //first Check for any insta-fails on the surrounding branches/tiles
+        if ((board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player) ||
+            (board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player) ||
+            (board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player) ||
+            (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player))  
         {
             //Opponent branch found. Mission failed.
             if (!checkedTiles.tileStack.Contains(currentTile))
@@ -135,10 +137,10 @@ public class AI
             }
             checkedTiles.isCaptured = false;
             return checkedTiles;
-        } else if ((AIGameBoard.gameBoard[currentTile.coord.x - 1][currentTile.coord.y].player == 0 &&!inBoundsTile(new GameBoard.Coordinate() {x = currentTile.coord.x - 2, y = currentTile.coord.y})) ||
-                    (AIGameBoard.gameBoard[currentTile.coord.x + 1][currentTile.coord.y].player == 0 &&!inBoundsTile(new GameBoard.Coordinate() {x = currentTile.coord.x + 2, y = currentTile.coord.y}))
-                    (AIGameBoard.gameBoard[currentTile.coord.x][currentTile.coord.y - 1].player == 0 &&!inBoundsTile(new GameBoard.Coordinate() {x = currentTile.coord.x, y = currentTile.coord.y - 2}))
-                    (AIGameBoard.gameBoard[currentTile.coord.x][currentTile.coord.y + 1].player == 0 &&!inBoundsTile(new GameBoard.Coordinate() {x = currentTile.coord.x, y = currentTile.coord.y + 2})))
+        } else if ((board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x - 2, y = currentTile.coord.y})) ||
+                    (board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x + 2, y = currentTile.coord.y})) ||
+                    (board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y - 2})) ||
+                    (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y + 2})))
          {
              //The branch is empty and there are no potential tiles in its direction. Mission failed.
              if (!checkedTiles.tileStack.Contains(currentTile))
@@ -147,16 +149,355 @@ public class AI
             }
             checkedTiles.isCaptured = false;
             return checkedTiles;
-         }
-         //we didn't immediately fail. Time to start doing some actual searching
-
+         } 
+         //This is gonna be real painful. The branch is either yours and you just move on or you wait for a recursive return and determine what happens based on the result.
+         else if (isYourBranch(board, currentTile, player, "up"))
+        {
+            if (isYourBranch(board, currentTile, player, "left"))
+            {
+                if (isYourBranch(board, currentTile, player, "right"))
+                {
+                    if(isYourBranch(board, currentTile, player, "down"))
+                    {
+                        //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                        if (!checkedTiles.tileStack.Contains(currentTile))
+                        {
+                            checkedTiles.tileStack.Add(currentTile);
+                        }
+                        checkedTiles.isCaptured = true;
+                        return checkedTiles;
+                    } else
+                    {
+                        //down was empty. Start the recursion
+                        if (!checkedTiles.tileStack.Contains(currentTile))
+                        {
+                            checkedTiles.tileStack.Add(currentTile);
+                        }
+                        capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                        //this is the final case. It doesn't matter if it returns true or false. Whatever the result is will be the result
+                        return recursiveTileResults_Down;
+                    }
+                } else
+                {
+                    //right was empty. Start the recursion.
+                    if (!checkedTiles.tileStack.Contains(currentTile))
+                    {
+                        checkedTiles.tileStack.Add(currentTile);
+                    }
+                    capTileChecker recursiveTileResults_Right = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x, currentTile.coord.y + 2], checkedTiles, player);
+                    if (recursiveTileResults_Right.isCaptured == true)
+                    {
+                        //it passed. Update checkedTiles and move on to next branch;
+                        checkedTiles = recursiveTileResults_Right;
+                        if(isYourBranch(board, currentTile, player, "down"))
+                        {
+                            //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                            if (!checkedTiles.tileStack.Contains(currentTile))
+                            {
+                                checkedTiles.tileStack.Add(currentTile);
+                            }
+                            checkedTiles.isCaptured = true;
+                            return checkedTiles;
+                        } else
+                        {
+                            //down was empty. Start the recursion.
+                            if (!checkedTiles.tileStack.Contains(currentTile))
+                            {
+                                checkedTiles.tileStack.Add(currentTile);
+                            }
+                            capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                            //this is the final case. It doesn't matter if it returns true or false. Whatever the result is the result
+                            return recursiveTileResults_Down;
+                        }
+                    } else
+                    {
+                        //it failed. return the failed recursiveTileResults
+                        return recursiveTileResults_Right;
+                    }
+                }
+            } else
+            {
+                //left was empty. Start the recursion.
+                if (!checkedTiles.tileStack.Contains(currentTile))
+                {
+                    checkedTiles.tileStack.Add(currentTile);
+                }
+                capTileChecker recursiveTileResults_Left = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x, currentTile.coord.y - 2], checkedTiles, player);
+                if (recursiveTileResults_Left.isCaptured == true)
+                {
+                    //it passed. Update checkedTiles and move to the next branch.
+                    checkedTiles = recursiveTileResults_Left;
+                    if (isYourBranch(board, currentTile, player, "right"))
+                    {
+                        if(isYourBranch(board, currentTile, player, "down"))
+                        {
+                            //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                            if (!checkedTiles.tileStack.Contains(currentTile))
+                            {
+                                checkedTiles.tileStack.Add(currentTile);
+                            }
+                            checkedTiles.isCaptured = true;
+                            return checkedTiles;
+                        } else
+                        {
+                            //down was empty. Start the recursion
+                            if (!checkedTiles.tileStack.Contains(currentTile))
+                            {
+                                checkedTiles.tileStack.Add(currentTile);
+                            }
+                            capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                            //this is the final case. It doesn't matter if it returns true or false. Whatever the result is will be the result
+                            return recursiveTileResults_Down;
+                        }
+                    } else
+                    {
+                        //right was empty. Start the recursion.
+                        if (!checkedTiles.tileStack.Contains(currentTile))
+                        {
+                            checkedTiles.tileStack.Add(currentTile);
+                        }
+                        capTileChecker recursiveTileResults_Right = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x, currentTile.coord.y + 2], checkedTiles, player);
+                        if (recursiveTileResults_Right.isCaptured == true)
+                        {
+                            //it passed. Update checkedTiles and move on to next branch;
+                            checkedTiles = recursiveTileResults_Right;
+                            if(isYourBranch(board, currentTile, player, "down"))
+                            {
+                                //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                                if (!checkedTiles.tileStack.Contains(currentTile))
+                                {
+                                    checkedTiles.tileStack.Add(currentTile);
+                                }
+                                checkedTiles.isCaptured = true;
+                                return checkedTiles;
+                            } else
+                            {
+                                //down was empty. Start the recursion.
+                                if (!checkedTiles.tileStack.Contains(currentTile))
+                                {
+                                    checkedTiles.tileStack.Add(currentTile);
+                                }
+                                capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                                //this is the final case. It doesn't matter if it returns true or false. Whatever the result is the result
+                                return recursiveTileResults_Down;
+                            }
+                        } else
+                        {
+                            //it failed. return the failed recursiveTileResults
+                            return recursiveTileResults_Right;
+                        }
+                    }
+                } else
+                {
+                    //it failed. Return the failed recursiveTileResults
+                    return recursiveTileResults_Left;
+                }
+            }
+        } else
+        {
+            //up was empty. Start the recursion.
+            if (!checkedTiles.tileStack.Contains(currentTile))
+            {
+                checkedTiles.tileStack.Add(currentTile);
+            }
+            capTileChecker recursiveTileResults_Up = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x - 2, currentTile.coord.y], checkedTiles, player);
+            if (recursiveTileResults_Up.isCaptured == true)
+            {
+                //it passed. Update checkedTiles and move to the next branch.
+                checkedTiles = recursiveTileResults_Up;
+                if (isYourBranch(board, currentTile, player, "left"))
+                {
+                    if (isYourBranch(board, currentTile, player, "right"))
+                    {
+                        if(isYourBranch(board, currentTile, player, "down"))
+                        {
+                            //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                            if (!checkedTiles.tileStack.Contains(currentTile))
+                            {
+                                checkedTiles.tileStack.Add(currentTile);
+                            }
+                            checkedTiles.isCaptured = true;
+                            return checkedTiles;
+                        } else
+                        {
+                            //down was empty. Start the recursion
+                            if (!checkedTiles.tileStack.Contains(currentTile))
+                            {
+                                checkedTiles.tileStack.Add(currentTile);
+                            }
+                            capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                            //this is the final case. It doesn't matter if it returns true or false. Whatever the result is will be the result
+                            return recursiveTileResults_Down;
+                        }
+                    } else
+                    {
+                        //right was empty. Start the recursion.
+                        if (!checkedTiles.tileStack.Contains(currentTile))
+                        {
+                            checkedTiles.tileStack.Add(currentTile);
+                        }
+                        capTileChecker recursiveTileResults_Right = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x, currentTile.coord.y + 2], checkedTiles, player);
+                        if (recursiveTileResults_Right.isCaptured == true)
+                        {
+                            //it passed. Update checkedTiles and move on to next branch;
+                            checkedTiles = recursiveTileResults_Right;
+                            if(isYourBranch(board, currentTile, player, "down"))
+                            {
+                                //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                                if (!checkedTiles.tileStack.Contains(currentTile))
+                                {
+                                    checkedTiles.tileStack.Add(currentTile);
+                                }
+                                checkedTiles.isCaptured = true;
+                                return checkedTiles;
+                            } else
+                            {
+                                //down was empty. Start the recursion.
+                                if (!checkedTiles.tileStack.Contains(currentTile))
+                                {
+                                    checkedTiles.tileStack.Add(currentTile);
+                                }
+                                capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                                //this is the final case. It doesn't matter if it returns true or false. Whatever the result is the result
+                                return recursiveTileResults_Down;
+                            }
+                        } else
+                        {
+                            //it failed. return the failed recursiveTileResults
+                            return recursiveTileResults_Right;
+                        }
+                    }
+                } else
+                {
+                    //left was empty. Start the recursion.
+                    if (!checkedTiles.tileStack.Contains(currentTile))
+                    {
+                        checkedTiles.tileStack.Add(currentTile);
+                    }
+                    capTileChecker recursiveTileResults_Left = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x, currentTile.coord.y - 2], checkedTiles, player);
+                    if (recursiveTileResults_Left.isCaptured == true)
+                    {
+                        //it passed. Update checkedTiles and move to the next branch.
+                        checkedTiles = recursiveTileResults_Left;
+                        if (isYourBranch(board, currentTile, player, "right"))
+                        {
+                            if(isYourBranch(board, currentTile, player, "down"))
+                            {
+                                //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                                if (!checkedTiles.tileStack.Contains(currentTile))
+                                {
+                                    checkedTiles.tileStack.Add(currentTile);
+                                }
+                                checkedTiles.isCaptured = true;
+                                return checkedTiles;
+                            } else
+                            {
+                                //down was empty. Start the recursion
+                                if (!checkedTiles.tileStack.Contains(currentTile))
+                                {
+                                    checkedTiles.tileStack.Add(currentTile);
+                                }
+                                capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                                //this is the final case. It doesn't matter if it returns true or false. Whatever the result is will be the result
+                                return recursiveTileResults_Down;
+                            }
+                        } else
+                        {
+                            //right was empty. Start the recursion.
+                            if (!checkedTiles.tileStack.Contains(currentTile))
+                            {
+                                checkedTiles.tileStack.Add(currentTile);
+                            }
+                            capTileChecker recursiveTileResults_Right = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x, currentTile.coord.y + 2], checkedTiles, player);
+                            if (recursiveTileResults_Right.isCaptured == true)
+                            {
+                                //it passed. Update checkedTiles and move on to next branch;
+                                checkedTiles = recursiveTileResults_Right;
+                                if(isYourBranch(board, currentTile, player, "down"))
+                                {
+                                    //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
+                                    if (!checkedTiles.tileStack.Contains(currentTile))
+                                    {
+                                        checkedTiles.tileStack.Add(currentTile);
+                                    }
+                                    checkedTiles.isCaptured = true;
+                                    return checkedTiles;
+                                } else
+                                {
+                                    //down was empty. Start the recursion.
+                                    if (!checkedTiles.tileStack.Contains(currentTile))
+                                    {
+                                        checkedTiles.tileStack.Add(currentTile);
+                                    }
+                                    capTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
+                                    //this is the final case. It doesn't matter if it returns true or false. Whatever the result is the result
+                                    return recursiveTileResults_Down;
+                                }
+                            } else
+                            {
+                                //it failed. return the failed recursiveTileResults
+                                return recursiveTileResults_Right;
+                            }
+                        }
+                    } else
+                    {
+                        //it failed. Return the failed recursiveTileResults
+                        return recursiveTileResults_Left;
+                    }
+                }
+            } else
+            {
+                //it failed. return the failed recursiveTileResults
+                return recursiveTileResults_Up;
+            }
+        }
     }
-    bool inBounds (GameBoard.Coordinate c)
+    bool isYourBranch (GameBoard board, GameBoard.Tile currentTile, GameBoard.Player player, string direction) 
+    {
+        switch (direction)
+        {
+            case "up":
+                if (board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player == player) 
+                {
+                    return true;
+                } else 
+                {
+                    return false;
+                }
+            case "down":
+                if (board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player == player)
+                {
+                    return true;
+                } else 
+                {
+                    return false;
+                }
+            case "left":
+                if (board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player == player)
+                {
+                    return true;
+                } else 
+                {
+                    return false;
+                }
+            case "right":
+                if (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player == player)
+                {
+                    return true;
+                } else 
+                {
+                    return false;
+                }
+        }
+        //base case; THIS SHOULD NEVER BE CALLED
+        return false;
+    }
+    bool inBoundsTile (GameBoard board, GameBoard.Coordinate c)
     {
         if (c.x < 0 || c.x > 10 || c.y < 0 || c.y > 10)
         {
             return false;
-        } else if (AIGameBoard.gameBoard[c.x][c.y] == null)
+        } else if (board.gameBoard[c.x, c.y] == null)
         {
             //if this doesn't work try the is operator
             return false;

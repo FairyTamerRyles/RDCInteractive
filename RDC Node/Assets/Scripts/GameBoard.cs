@@ -18,7 +18,7 @@ public class GameBoard
     int[] player1Resources;
     int[] player2Resources;
 
-    GamePiece[,] gameBoard;
+    public GamePiece[,] gameBoard;
 
     public enum Player
     {
@@ -231,14 +231,14 @@ public class GameBoard
             }
         }
 
-        for(int i = 0; i < 11; ++i)
+        /*for(int i = 0; i < 11; ++i)
         {
             for(int j = 0; j < 11; ++j)
             {
                 if(newBoard[i,j] != null){ Debug.Log(newBoard[i,j].pieceType);}
                 else {Debug.Log("0");}
             }
-        }
+        }*/
 
         return newBoard;
     }
