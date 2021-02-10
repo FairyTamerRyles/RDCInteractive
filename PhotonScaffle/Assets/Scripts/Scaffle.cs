@@ -4,7 +4,9 @@ using UnityEngine.UI;
 public class Scaffle : MonoBehaviour {
     public ConnectionManager connectionManager;
     public MatchmakingManager matchmakingManager;
+    public GameNetworkingManager gameNetworkingManager;
     public InputField roomNameField;
+    public InputField messageField;
 
     public void Connect_Callback() {
         Debug.Log("Connected");
@@ -49,5 +51,13 @@ public class Scaffle : MonoBehaviour {
 
     public void LeaveRoom() {
         matchmakingManager.LeaveRoom(LeftRoom_Callback);
+    }
+
+    public void Send() {
+        gameNetworkingManager.Message =  messageField.text;
+    }
+
+    public void Receive() {
+        messageField.text = gameNetworkingManager.Message;
     }
 }
