@@ -8,6 +8,10 @@ public class Scaffle : MonoBehaviour {
     public InputField roomNameField;
     public InputField messageField;
 
+    void Awake() {
+        gameNetworkingManager.OnOpponentMoved_Callback = Receive;
+    }
+
     public void Connect_Callback() {
         Debug.Log("Connected");
     }
