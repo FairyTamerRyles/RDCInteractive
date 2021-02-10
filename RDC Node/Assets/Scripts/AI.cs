@@ -26,7 +26,7 @@ public class AI
 
     private class Vicki
     {
-        private GameBoard[,] GameBoard;
+        private GameBoard tempBoard;
         private bool isExpert;
         private float[] stratChoices;
         private float currentStrat;
@@ -113,18 +113,40 @@ public class AI
 
         //ya
     }
-    List<GameBoard.Tile> setCapturedTiles(List<GameBoard.Tile> noncapturedTiles)
+    public List<GameBoard.Tile> setCapturedTiles(List<GameBoard.Tile> noncapturedTiles, GameBoard.Player player)
     {
-        foreach (GameBoard.Tile tile in noncapturedTiles)
+        while (noncapturedTiles.Any())
         {
-
+            CapTileChecker checkResults = checkIfCaptured (AIGameBoard, noncapturedTiles[0], new CapTileChecker(new List<GameBoard.Tile>(), false), player);
+            if (checkResults.isCaptured)
+            {
+                foreach (GameBoard.Tile tile in checkResults.tileStack)
+                {
+                    tile.player = player;
+                    if(noncapturedTiles.Contains(tile))
+                    {
+                        noncapturedTiles.Remove(tile);
+                        Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been set to captured and removed from the captured list.");
+                    }
+                }
+            } else
+            {
+                foreach (GameBoard.Tile tile in checkResults.tileStack)
+                {
+                    if(noncapturedTiles.Contains(tile))
+                    {
+                        noncapturedTiles.Remove(tile);
+                        Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been removed from the captured list.");
+                    }
+                }
+            }
         }
         //this is broken do not leave it like this
         return noncapturedTiles;
     }
     public CapTileChecker checkIfCaptured(GameBoard board, GameBoard.Tile currentTile, CapTileChecker checkedTiles, GameBoard.Player player)
     {
-        Debug.Log("Now checking Tile: " + currentTile.coord.x + " - " + currentTile.coord.y);
+        //Debug.Log("Now checking Tile: " + currentTile.coord.x + " - " + currentTile.coord.y);
         //first Check for any insta-fails on the surrounding branches/tiles
         if ((board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player) ||
             (board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player != player) ||
@@ -132,7 +154,7 @@ public class AI
             (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player != player))  
         {
             //Opponent branch found. Mission failed.
-            Debug.Log("Opponent Branch found around Tile " + currentTile.coord.x + " - " + currentTile.coord.y);
+            //Debug.Log("Opponent Branch found around Tile " + currentTile.coord.x + " - " + currentTile.coord.y);
             if (!checkedTiles.tileStack.Contains(currentTile))
             {
                 checkedTiles.tileStack.Add(currentTile);
@@ -144,7 +166,7 @@ public class AI
                     (board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y - 2})) ||
                     (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y + 2})))
          {
-             Debug.Log("There was an empty branch with no tile on the other side around Tile " + currentTile.coord.x + " - " + currentTile.coord.y);
+             //Debug.Log("There was an empty branch with no tile on the other side around Tile " + currentTile.coord.x + " - " + currentTile.coord.y);
              //The branch is empty and there are no potential tiles in its direction. Mission failed.
              if (!checkedTiles.tileStack.Contains(currentTile))
             {
@@ -156,16 +178,16 @@ public class AI
          //This is gonna be real painful. The branch is either yours and you just move on or you wait for a recursive return and determine what happens based on the result.
          else if (isYourBranch(board, currentTile, player, "up") || checkedTiles.tileStack.Contains(board.gameBoard[currentTile.coord.x - 2, currentTile.coord.y]))
         {
-            Debug.Log("Up passed");
+            //Debug.Log("Up passed");
             if (isYourBranch(board, currentTile, player, "left") || checkedTiles.tileStack.Contains(board.gameBoard[currentTile.coord.x, currentTile.coord.y - 2]))
             {
-                Debug.Log("Left passed");
+                //Debug.Log("Left passed");
                 if (isYourBranch(board, currentTile, player, "right") || checkedTiles.tileStack.Contains(board.gameBoard[currentTile.coord.x, currentTile.coord.y + 2]))
                 {
-                    Debug.Log("Right passed");
+                    //Debug.Log("Right passed");
                     if(isYourBranch(board, currentTile, player, "down") || checkedTiles.tileStack.Contains(board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y]))
                     {
-                        Debug.Log("Down passed. Tile Captured.");
+                        //Debug.Log("Down passed. Tile Captured.");
                         //down was your branch. The tile is captured. Add yourself to checkedTiles, set it to true, and return it.
                         if (!checkedTiles.tileStack.Contains(currentTile))
                         {
