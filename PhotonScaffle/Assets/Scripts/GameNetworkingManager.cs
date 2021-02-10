@@ -1,19 +1,16 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class GameNetworkingManager : MonoBehaviourPunCallbacks, IPunObservable {
+public class GameNetworkingManager : MonoBehaviour {
     private string message = "";
 
     public string Message {
         get => message;
-        set => message = value;
+        set => PhotonView.Get(this).RPC("MakeMove", RpcTarget.All, value);
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.IsWriting) {
-            stream.SendNext(Message);
-        } else {
-            Message = (string) stream.ReceiveNext();
-        }
+    [PunRPC]
+    void MakeMove(string message) {
+        this.message = message;
     }
 }
