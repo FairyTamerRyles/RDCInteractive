@@ -30,6 +30,9 @@ public class Scaffle : MonoBehaviour {
     }
 
     public void CreatedRoom_Callback() {
+        roomCylinders[0].SetActive(false);
+        roomCylinders[1].SetActive(false);
+        roomCylinders[2].SetActive(true);
         Debug.Log("Joined Room");
         roomNameField.text = matchmakingManager.RoomName;
     }
