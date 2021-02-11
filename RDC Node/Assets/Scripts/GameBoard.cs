@@ -8,18 +8,14 @@ public class GameBoard
 
     private float rnd;
     const int boardSize = 11;
-
-    public void Start()
-    {
-        //Hi
-    }
-
     const int numResources = 4;
 
     int[] player1Resources;
     int[] player2Resources;
 
     GamePiece[,] gameBoard;
+
+    Player currentPlayer;
 
     public enum Player
     {
@@ -141,6 +137,7 @@ public class GameBoard
         gameBoard = generateBoard();
         player1Resources = new int[4] {0, 0, 0, 0};
         player2Resources = new int[4] {0, 0, 0, 0};
+        currentPlayer = Player.Player1;
     }
 
     public int getScore(Player p)
@@ -165,14 +162,173 @@ public class GameBoard
         return playerNodes;
     }
 
+    private void checkForCapturedTiles()
+    {
+        //TODO: This function should find and mark captured tiles
+    }
+
     private int numberCapturedTiles(Player p)
     {
+        int capturedTiles = 0;
+
+        for(int row = 0; row < gameBoard.GetLength(0); ++row)
+        {
+            for(int col = 0; col < gameBoard.GetLength(1); ++col)
+            {
+                if(gameBoard[row,col] != null && gameBoard[row,col].pieceType == PieceType.Tile && gameBoard[row,col].player == p)
+                {
+                    ++capturedTiles;
+                }
+            }
+        }
+
+        return capturedTiles;
+    }
+
+    //This function is slightly nonintuitive. It takes a player and returns 0 or 2 based on 
+    //the number of points they get related to the longest network
+    private int longestNetwork(Player p)
+    {
+        int p1Branches = 0;
+        int p2Branches = 0;
+        Player playerWithLargestNetwork = Player.None;
+
+        Coordinate p1StartCoord = new Coordinate {x = 0, y = 0};
+        Coordinate p2StartCoord = new Coordinate {x = 0, y = 0};
+
+        //counts total branches for each player and gets a coordinate to start spanning from each player
+        for(int row = 0; row < gameBoard.GetLength(0); ++row)
+        {
+            for(int col = 0; col < gameBoard.GetLength(1); ++col)
+            {
+                if(gameBoard[row,col] != null && gameBoard[row,col].pieceType == PieceType.Branch && gameBoard[row,col].player != Player.None)
+                {
+                    if(gameBoard[row,col].player == Player.Player1)
+                    { 
+                        p1Branches++;
+                    }
+                    else
+                    {
+                        p2Branches++;
+                    }
+
+                    if(gameBoard[row,col].player == Player.Player1 && p1StartCoord.x == 0 && p1StartCoord.y == 0)
+                    {
+                        p1StartCoord = new Coordinate {x = row, y = col};
+                    }
+                    else if(gameBoard[row,col].player == Player.Player2 && p2StartCoord.x == 0 && p2StartCoord.y == 0)
+                    {
+                        p2StartCoord = new Coordinate {x = row, y = col};
+                    }
+                }
+            }
+        }
+
+        //For easier algorithm, the nearest node to the branch is used
+        if(p1StartCoord.x % 2 == 0)
+        {
+            p1StartCoord.y--;
+        }
+        else
+        {
+            p1StartCoord.x--;
+        }
+
+        if(p2StartCoord.x % 2 == 0)
+        {
+            p2StartCoord.y--;
+        }
+        else
+        {
+            p2StartCoord.x--;
+        }
+
+        int p1LargestNetwork = networkTraverse(p1StartCoord, Player.Player1);
+        int p2LargestNetwork = networkTraverse(p2StartCoord, Player.Player2);
+
+        if(p1Branches - p1LargestNetwork > p1LargestNetwork)
+        {
+            p1LargestNetwork = p1Branches - p1LargestNetwork;
+        }
+
+        if(p2Branches - p2LargestNetwork > p2LargestNetwork)
+        {
+            p2LargestNetwork = p2Branches - p2LargestNetwork;
+        }
+
+        if(p1LargestNetwork > p2LargestNetwork)
+        {
+            playerWithLargestNetwork = Player.Player1;
+        }
+        else if(p2LargestNetwork > p1LargestNetwork)
+        {
+            playerWithLargestNetwork = Player.Player2;
+        }
+
+        if(p == playerWithLargestNetwork)
+        {
+            return 2;
+        }
         return 0;
     }
 
-    private int longestNetwork(Player p)
+    //This function takes a starting node coordinate and traverses through the branch network, counting up the number of branches
+    private int networkTraverse(Coordinate startCoord, Player p)
     {
-        return 0;
+        Stack<Coordinate> coordStack = new Stack<Coordinate>();
+        bool [,] breadCrumbs = new bool[boardSize, boardSize];
+        Coordinate currentCoord;
+        int networkSize = 0;
+
+        for (int i = 0; i < boardSize; ++i)
+        {
+            for (int j = 0; j < boardSize; ++j)
+            {
+                breadCrumbs [i,j] = false;
+            }
+        }
+
+        coordStack.Push(startCoord);
+
+        while(coordStack.Count != 0)
+        {
+            currentCoord = coordStack.Pop();
+            breadCrumbs[currentCoord.x, currentCoord.y] = true;
+
+            //above
+            if(currentCoord.x - 2 >= 0 && gameBoard[currentCoord.x - 2, currentCoord.y] != null 
+                && gameBoard[currentCoord.x - 1, currentCoord.y].player == p && !breadCrumbs[currentCoord.x - 2, currentCoord.y])
+            {
+                coordStack.Push(new Coordinate{x = currentCoord.x - 2, y = currentCoord.y});
+                ++networkSize;
+            }
+
+            //below
+            if(currentCoord.x + 2 < gameBoard.GetLength(0) && gameBoard[currentCoord.x + 2, currentCoord.y] != null 
+                && gameBoard[currentCoord.x + 1, currentCoord.y].player == p && !breadCrumbs[currentCoord.x + 2, currentCoord.y])
+            {
+                coordStack.Push(new Coordinate{x = currentCoord.x + 2, y = currentCoord.y});
+                ++networkSize;
+            }
+
+            //left
+            if(currentCoord.y - 2 >= 0 && gameBoard[currentCoord.x, currentCoord.y - 2] != null 
+                && gameBoard[currentCoord.x, currentCoord.y - 1].player == p && !breadCrumbs[currentCoord.x, currentCoord.y - 2])
+            {
+                coordStack.Push(new Coordinate{x = currentCoord.x, y = currentCoord.y - 2});
+                ++networkSize;
+            }
+
+            //right
+            if(currentCoord.y + 2 < gameBoard.GetLength(1) && gameBoard[currentCoord.x, currentCoord.y + 2] != null 
+                && gameBoard[currentCoord.x, currentCoord.y + 1].player == p && !breadCrumbs[currentCoord.x, currentCoord.y + 2])
+            {
+                coordStack.Push(new Coordinate{x = currentCoord.x, y = currentCoord.y + 2});
+                ++networkSize;
+            }
+        }
+
+        return networkSize;
     }
 
     public void makeMove(List<Move> moves)
@@ -183,7 +339,7 @@ public class GameBoard
             {
                 if(move.moveType == MoveType.EndTurn)
                 {
-                    //TODO: What to do on an end turn - check for win, change currentPlayer, distribute resources, 
+                    endTurn();
                 }
                 else
                 {
@@ -208,6 +364,33 @@ public class GameBoard
                 }
             }
         }
+    }
+
+    private void endTurn()
+    {
+        checkForCapturedTiles();
+
+        if(checkForWin() != Player.None)
+        {
+            //TODO: Something in case of a win
+        }
+        else
+        {
+            if(currentPlayer == Player.Player1)
+            { 
+                currentPlayer = Player.Player2;
+            }
+            else
+            {
+                 currentPlayer = Player.Player1;
+            }
+            distributeResources(currentPlayer);
+        }
+    }
+
+    private void distributeResources(Player p)
+    {
+        //TODO: write this function
     }
 
     public Player checkForWin()
@@ -420,6 +603,7 @@ public class GameBoard
 
     private GamePiece[,] generateBoard(string boardSeed)
     {
+        //TODO: this function should take a seed and create a board based upon it
         return new GamePiece[11, 11];
     }
 }
