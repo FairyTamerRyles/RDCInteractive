@@ -390,7 +390,68 @@ public class GameBoard
 
     private void distributeResources(Player p)
     {
-        //TODO: write this function
+        int numNodesAroundTile = 0;
+        int numPlayerNodesForTile = 0;
+
+        //goes though each tile and distributes resources to the player
+        for(int i = 0; i < tileIndexes.Count; ++i)
+        {
+            //top left
+            if(gameBoard[tileIndexes[i].x - 1, tileIndexes[i].y - 1].player != Player.None)
+            {
+                numNodesAroundTile++;
+                if(gameBoard[tileIndexes[i].x - 1, tileIndexes[i].y - 1].player == p)
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            //top right
+            if(gameBoard[tileIndexes[i].x - 1, tileIndexes[i].y + 1].player != Player.None)
+            {
+                numNodesAroundTile++;
+                if(gameBoard[tileIndexes[i].x - 1, tileIndexes[i].y + 1].player == p)
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            //bottom right
+            if(gameBoard[tileIndexes[i].x + 1, tileIndexes[i].y - 1].player != Player.None)
+            {
+                numNodesAroundTile++;
+                if(gameBoard[tileIndexes[i].x + 1, tileIndexes[i].y - 1].player == p)
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            //bottom left
+            if(gameBoard[tileIndexes[i].x + 1, tileIndexes[i].y + 1].player != Player.None)
+            {
+                numNodesAroundTile++;
+                if(gameBoard[tileIndexes[i].x + 1, tileIndexes[i].y + 1].player == p)
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            if((gameBoard[tileIndexes[i].x, tileIndexes[i].y].player == Player.None || gameBoard[tileIndexes[i].x, tileIndexes[i].y].player == p) 
+                && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType != ResourceType.None)
+            {
+                if(numNodesAroundTile < ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad || gameBoard[tileIndexes[i].x, tileIndexes[i].y].player == p)
+                {
+                    if(p == Player.Player1)
+                    {
+                        player1Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
+                    }
+                    else
+                    {
+                         player2Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
+                    }
+                }
+            }
+        }
     }
 
     public Player checkForWin()
