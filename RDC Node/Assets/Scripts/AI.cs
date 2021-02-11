@@ -24,23 +24,6 @@ public class AI
         }
     }
 
-    private class Vicki
-    {
-        private GameBoard tempBoard;
-        private bool isExpert;
-        private float[] stratChoices;
-        private float currentStrat;
-
-        public void getStrat()
-        {
-            //stuffs
-        }
-        public void setStrat(float newStrat)
-        {
-            //stuffs
-        }
-    }
-
     public AI()
     {
         AIGameBoard = new GameBoard();
