@@ -45,7 +45,8 @@ public class GameBoard
         EndTurn = 0,
         Trade = 1,
         PlaceNode = 2,
-        PlaceBranch = 3
+        PlaceBranch = 3,
+        StartMove = 4
     }
 
     public struct Coordinate
@@ -89,11 +90,12 @@ public class GameBoard
         public Coordinate coord;
         public MoveType moveType;
 
-        public Move(int[] rChange, Player p, Coordinate c)
+        public Move(int[] rChange, Player p, Coordinate c, MoveType m)
         {
             resourceChange = rChange;
             player = p;
             coord = c;
+            moveType = m;
         }
     }
 
@@ -357,7 +359,8 @@ public class GameBoard
                     }
                     
                     //If the move is placing a piece, it changes the player of its location
-                    if(move.moveType == MoveType.PlaceBranch || move.moveType == MoveType.PlaceNode)
+                    //TODO: handle startMove logic differently
+                    if(move.moveType == MoveType.PlaceBranch || move.moveType == MoveType.PlaceNode || move.moveType == MoveType.StartMove)
                     {
                         gameBoard[move.coord.x, move.coord.y].player = move.player;
                     }
@@ -439,7 +442,7 @@ public class GameBoard
             if((gameBoard[tileIndexes[i].x, tileIndexes[i].y].player == Player.None || gameBoard[tileIndexes[i].x, tileIndexes[i].y].player == p) 
                 && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType != ResourceType.None)
             {
-                if(numNodesAroundTile < ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad || gameBoard[tileIndexes[i].x, tileIndexes[i].y].player == p)
+                if(numNodesAroundTile <= ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad || gameBoard[tileIndexes[i].x, tileIndexes[i].y].player == p)
                 {
                     if(p == Player.Player1)
                     {
@@ -451,6 +454,9 @@ public class GameBoard
                     }
                 }
             }
+
+            numNodesAroundTile = 0;
+            numPlayerNodesForTile = 0;
         }
     }
 
@@ -473,6 +479,15 @@ public class GameBoard
         if(m.moveType == MoveType.EndTurn)
         {
             return true;
+        }
+        else if(m.moveType == MoveType.StartMove)
+        {
+            //TODO: Have start moves in proper order, can currently be placed on tiles
+            if(m.coord.x < boardSize && m.coord.x >= 0 && m.coord.y >= 0 && m.coord.y < boardSize 
+                && gameBoard[m.coord.x, m.coord.y] != null && gameBoard[m.coord.x, m.coord.y].player == Player.None)
+            {
+                return true;
+            }
         }
         //checks if move is a trade
         else if(m.moveType == MoveType.Trade)
@@ -558,6 +573,7 @@ public class GameBoard
                 if((m.coord.x % 2 == 0 && m.coord.y % 2 == 1) || (m.coord.x % 2 == 1 && m.coord.y % 2 == 0))
                 {
                     //checks if there is an adjacent node or 2-away branch owned by the player
+                    //TODO: Be able to place branches in L-shape
                     if((m.coord.x % 2 == 1 && ((m.coord.x - 1 >= 0 && gameBoard[m.coord.x - 1, m.coord.y].player == m.player) || (m.coord.x + 1 < gameBoard.GetLength(0) && gameBoard[m.coord.x + 1, m.coord.y].player == m.player) || (m.coord.x - 2 >= 0 && gameBoard[m.coord.x - 2, m.coord.y].player == m.player) || (m.coord.x + 2 < gameBoard.GetLength(0) && gameBoard[m.coord.x + 2, m.coord.y].player == m.player)))
                         || (m.coord.x % 2 == 0 && ((m.coord.y - 1 >= 0 && gameBoard[m.coord.x, m.coord.y - 1].player == m.player) || (m.coord.y + 1 < gameBoard.GetLength(1) && gameBoard[m.coord.x, m.coord.y + 1].player == m.player) || (m.coord.y - 2 >= 0 && gameBoard[m.coord.x, m.coord.y - 2].player == m.player) || (m.coord.y + 2 < gameBoard.GetLength(1) && gameBoard[m.coord.x, m.coord.y + 2].player == m.player))))
                     {
@@ -650,14 +666,14 @@ public class GameBoard
             }
         }
 
-        for(int i = 0; i < 11; ++i)
-        {
-            for(int j = 0; j < 11; ++j)
-            {
-                if(newBoard[i,j] != null){ Debug.Log(newBoard[i,j].pieceType);}
-                else {Debug.Log("0");}
-            }
-        }
+        //for(int i = 0; i < 11; ++i)
+        //{
+            //for(int j = 0; j < 11; ++j)
+            //{
+                //if(newBoard[i,j] != null){ Debug.Log(newBoard[i,j].pieceType);}
+                //else {Debug.Log("0");}
+            //}
+        //}
 
         return newBoard;
     }
@@ -666,5 +682,111 @@ public class GameBoard
     {
         //TODO: this function should take a seed and create a board based upon it
         return new GamePiece[11, 11];
+    }
+
+    public void logGameBoard()
+    {
+        for(int i = 0; i < gameBoard.GetLength(0); ++i)
+        {
+            string newLine = "";
+            for(int j = 0; j < gameBoard.GetLength(1); ++j)
+            {
+                if(gameBoard[i,j] == null)
+                {
+                    newLine += "0    ";
+                }
+                else 
+                {
+                    switch (gameBoard[i,j].pieceType)
+                    {
+                        case PieceType.Node:
+                        {
+                            newLine += "N";
+                            break;
+                        }
+
+                        case PieceType.Branch:
+                        {
+                            newLine += "B";
+                            break;
+                        }
+
+                        case PieceType.Tile:
+                        {
+                            newLine += "T";
+                            break;
+                        }
+                    }
+
+                    switch (gameBoard[i,j].player)
+                    {
+                        case Player.Player1:
+                        {
+                            newLine += "1";
+                            break;
+                        }
+
+                        case Player.Player2:
+                        {
+                            newLine += "2";
+                            break;
+                        }
+
+                        case Player.None:
+                        {
+                            newLine += "N";
+                            break;
+                        }
+                    }
+
+                    if(gameBoard[i,j].pieceType == PieceType.Tile)
+                    {
+                        switch(((Tile)gameBoard[i,j]).ResourceType)
+                        {
+                            case ResourceType.Red:
+                            {
+                                newLine += "R";
+                                break;
+                            }
+
+                            case ResourceType.Blue:
+                            {
+                                newLine += "B";
+                                break;
+                            }
+
+                            case ResourceType.Green:
+                            {
+                                newLine += "G";
+                                break;
+                            }
+
+                            case ResourceType.Yellow:
+                            {
+                                newLine += "Y";
+                                break;
+                            }
+
+                            case ResourceType.None:
+                            {
+                                newLine += "N";
+                                break;
+                            }
+                        }
+                        newLine += ((Tile)gameBoard[i,j]).maxLoad;
+                        newLine += " ";
+                    }
+                    else
+                    {
+                        newLine += "   ";
+                    }
+                }
+            }
+            Debug.Log(newLine);
+        }
+        Debug.Log(player1Resources[0] + player1Resources[1] + player1Resources[2] + player1Resources[3]);
+        Debug.Log(player2Resources[0] + player2Resources[1] + player2Resources[2] + player2Resources[3]);
+        Debug.Log(getScore(Player.Player1));
+        Debug.Log(getScore(Player.Player2));
     }
 }
