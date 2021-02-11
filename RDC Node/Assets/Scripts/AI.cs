@@ -1,4 +1,4 @@
-
+//Code written by Riley Judd
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -460,7 +460,7 @@ public class AI
                                     }
                                     CapTileChecker recursiveTileResults_Down = checkIfCaptured(board, (GameBoard.Tile)board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], checkedTiles, player);
                                     //this is the final case. It doesn't matter if it returns true or false. Whatever the result is the result
-                                    return recursiveTileResults_Down;
+                                    return recursiveTileResults_Down; 
                                 }
                             } else
                             {
