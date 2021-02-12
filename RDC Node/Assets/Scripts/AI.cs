@@ -81,6 +81,10 @@ public class AI
         result[0] = gameBoard;
         return result;
     }
+    void getPossibleTrades()
+    {
+        
+    }
     void getPossibleNodes()
     {
 
