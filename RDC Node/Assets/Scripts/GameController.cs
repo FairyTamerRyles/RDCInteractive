@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
 
         GameBoard.Move m3 = new GameBoard.Move(new int[]{0,0,0,0}, GameBoard.Player.Player2, new GameBoard.Coordinate{x = 0, y = 6}, GameBoard.MoveType.StartMove);
         GameBoard.Move m4 = new GameBoard.Move(new int[]{0,0,0,0}, GameBoard.Player.Player2, new GameBoard.Coordinate{x = 1, y = 6}, GameBoard.MoveType.StartMove);
-        GameBoard.Move m5 = new GameBoard.Move(new int[]{0, 0,0,0}, GameBoard.Player.Player2, new GameBoard.Coordinate{x = 3, y = 6}, GameBoard.MoveType.PlaceBranch);
+        GameBoard.Move m5 = new GameBoard.Move(new int[]{0, 0,0,0}, GameBoard.Player.Player2, new GameBoard.Coordinate{x = 2, y = 5}, GameBoard.MoveType.PlaceBranch);
         GameBoard.Move m6 = new GameBoard.Move(new int[]{-1, -1,0,0}, GameBoard.Player.Player2, new GameBoard.Coordinate{x = 3, y = 6}, GameBoard.MoveType.EndTurn);
 
         List<GameBoard.Move> moves = new List<GameBoard.Move>();
