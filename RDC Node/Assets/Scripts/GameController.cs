@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -85,7 +86,7 @@ public class GameController : MonoBehaviour
         testFullEnclosure[5, 6].player = GameBoard.Player.Player1;
         testFullEnclosure[6, 5].player = GameBoard.Player.Player1;
 
-        testAI.setCapturedTiles(testAI.AIGameBoard.GameTiles, GameBoard.Player.Player1);
+        //testAI.setCapturedTiles(testAI.AIGameBoard.GameTiles, GameBoard.Player.Player1);
 
         /*foreach (GameBoard.Tile tile in test1.tileStack)
         {
