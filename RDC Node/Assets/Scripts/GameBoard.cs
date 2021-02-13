@@ -7,15 +7,15 @@ public class GameBoard
 {
 
     private float rnd;
-    const int boardSize = 11;
-    const int numResources = 4;
+    private const int boardSize = 11;
+    private const int numResources = 4;
 
     private int[] player1Resources;
     private int[] player2Resources;
 
     private GamePiece[,] gameBoard;
 
-    public Player currentPlayer;
+    private Player currentPlayer;
 
     public enum Player
     {
@@ -145,6 +145,46 @@ public class GameBoard
     public int getScore(Player p)
     {
         return numberOfNodes(p) + numberCapturedTiles(p) + longestNetwork(p);
+    }
+
+    public int[] getResources(Player p)
+    {
+        if(p == Player.Player1)
+        {
+            return player1Resources;
+        }
+        else if(p == Player.Player2)
+        {
+            return player2Resources;
+        }
+        return null;
+    }
+
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
+
+    public GamePiece[,] getGameBoard()
+    {
+        return gameBoard;
+    }
+
+    //TODO: more efficient way to do this
+    public Player playerWithLargestNetwork()
+    {
+        if(longestNetwork(Player.Player1) == 2)
+        {
+            return Player.Player1;
+        }
+        else if(longestNetwork(Player.Player2) == 2)
+        {
+            return Player.Player2;
+        }
+        else
+        {
+            return Player.None;
+        }
     }
 
     private int numberOfNodes(Player p)
