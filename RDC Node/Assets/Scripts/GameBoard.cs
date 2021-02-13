@@ -15,7 +15,7 @@ public class GameBoard
     private int[] player1Resources;
     private int[] player2Resources;
 
-    private GamePiece[,] gameBoard;
+    public GamePiece[,] gameBoard;
 
     private Player currentPlayer;
 
@@ -103,27 +103,27 @@ public class GameBoard
     }
 
     //TODO: Try to make this const later
-    private List<Coordinate> tileIndexes = new List<Coordinate> 
+    private List<Coordinate> tileIndexes = new List<Coordinate>
     {
-        new Coordinate{x = 1, y = 5}, 
-        new Coordinate{x = 3, y = 3}, 
-        new Coordinate{x = 3, y = 5}, 
-        new Coordinate{x = 3, y = 7}, 
-        new Coordinate{x = 5, y = 1}, 
-        new Coordinate{x = 5, y = 3}, 
-        new Coordinate{x = 5, y = 5}, 
-        new Coordinate{x = 5, y = 7}, 
-        new Coordinate{x = 5, y = 9}, 
-        new Coordinate{x = 7, y = 3}, 
-        new Coordinate{x = 7, y = 5}, 
-        new Coordinate{x = 7, y = 7}, 
+        new Coordinate{x = 1, y = 5},
+        new Coordinate{x = 3, y = 3},
+        new Coordinate{x = 3, y = 5},
+        new Coordinate{x = 3, y = 7},
+        new Coordinate{x = 5, y = 1},
+        new Coordinate{x = 5, y = 3},
+        new Coordinate{x = 5, y = 5},
+        new Coordinate{x = 5, y = 7},
+        new Coordinate{x = 5, y = 9},
+        new Coordinate{x = 7, y = 3},
+        new Coordinate{x = 7, y = 5},
+        new Coordinate{x = 7, y = 7},
         new Coordinate{x = 9, y = 5}
     };
 
-    public List<Tile> GameTiles = new List<Tile> 
+    public List<Tile> GameTiles = new List<Tile>
     {
-        new Tile(ResourceType.Red, 1), 
-        new Tile(ResourceType.Red, 2), 
+        new Tile(ResourceType.Red, 1),
+        new Tile(ResourceType.Red, 2),
         new Tile(ResourceType.Red, 3),
         new Tile(ResourceType.Blue, 1),
         new Tile(ResourceType.Blue, 2),
@@ -239,7 +239,7 @@ public class GameBoard
         else
         {
             if(currentPlayer == Player.Player1)
-            { 
+            {
                 currentPlayer = Player.Player2;
             }
             else
@@ -298,8 +298,8 @@ public class GameBoard
                 }
             }
 
-            if((pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], Player.None) 
-                || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p)) 
+            if((pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], Player.None)
+                || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p))
                 && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType != ResourceType.None)
             {
                 if(numNodesAroundTile <= ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p))
@@ -379,7 +379,7 @@ public class GameBoard
                 if(isNode(m.coord))
                 {
                     //checks if there is an adjacent piece owned by the player
-                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, m.player) 
+                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, m.player)
                         || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, m.player)
                         || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, m.player)
                         || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, m.player))
@@ -387,7 +387,7 @@ public class GameBoard
                             //checks if player has necessary resources
                             if(playerHasResources(m.resourceChange, m.player))
                             {
-                                //No extra checking required for captured zone. As long as no branches have been illegally placed, 
+                                //No extra checking required for captured zone. As long as no branches have been illegally placed,
                                 //a node cannot have been placed in a captured zone
                                 return true;
                             }
@@ -406,14 +406,14 @@ public class GameBoard
                 if(isHorizontalBranch(m.coord) || isVerticalBranch(m.coord))
                 {
                     //checks if there is an adjacent branch owned by the player
-                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y - 1}, m.player) 
+                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y - 1}, m.player)
                     || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y + 1}, m.player)
-                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y - 1}, m.player) 
+                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y - 1}, m.player)
                     || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y + 1}, m.player)
-                    || (isHorizontalBranch(m.coord) 
+                    || (isHorizontalBranch(m.coord)
                             && (pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 2}, m.player)
                             || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 2}, m.player)))
-                    || (isVerticalBranch(m.coord) 
+                    || (isVerticalBranch(m.coord)
                             && (pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 2, y = m.coord.y}, m.player)
                             || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 2, y = m.coord.y}, m.player))))
                     {
@@ -424,9 +424,9 @@ public class GameBoard
                             if(isHorizontalBranch(m.coord))
                             {
                                 //Checks if tile above or below belongs to opponent
-                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None) 
+                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None)
                                 || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, m.player)
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None) 
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None)
                                 || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, m.player))
                                 {
                                     return true;
@@ -435,13 +435,13 @@ public class GameBoard
                             else
                             {
                                 //checks if tile left or right belongs to opponent
-                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None) 
+                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None)
                                 || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, m.player)
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None) 
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None)
                                 || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, m.player))
                                 {
                                     return true;
-                                } 
+                                }
                             }
                         }
                     }
@@ -494,7 +494,7 @@ public class GameBoard
         return capturedTiles;
     }
 
-    //This function is slightly nonintuitive. It takes a player and returns 0 or 2 based on 
+    //This function is slightly nonintuitive. It takes a player and returns 0 or 2 based on
     //the number of points they get related to the longest network
     private int longestNetwork(Player p)
     {
@@ -626,10 +626,10 @@ public class GameBoard
             currentCoord = coordStack.Pop();
             breadCrumbs[currentCoord.x, currentCoord.y] = true;
 
-            
+
             //above
-            if(isInBounds(new Coordinate{x = currentCoord.x - 2, y = currentCoord.y}) 
-                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x - 1, y = currentCoord.y}, p) 
+            if(isInBounds(new Coordinate{x = currentCoord.x - 2, y = currentCoord.y})
+                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x - 1, y = currentCoord.y}, p)
                 && !breadCrumbs[currentCoord.x - 2, currentCoord.y])
             {
                 coordStack.Push(new Coordinate{x = currentCoord.x - 2, y = currentCoord.y});
@@ -637,8 +637,8 @@ public class GameBoard
             }
 
             //below
-            if(isInBounds(new Coordinate{x = currentCoord.x + 2, y = currentCoord.y}) 
-                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x + 1, y = currentCoord.y}, p) 
+            if(isInBounds(new Coordinate{x = currentCoord.x + 2, y = currentCoord.y})
+                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x + 1, y = currentCoord.y}, p)
                 && !breadCrumbs[currentCoord.x + 2, currentCoord.y])
             {
                 coordStack.Push(new Coordinate{x = currentCoord.x + 2, y = currentCoord.y});
@@ -646,8 +646,8 @@ public class GameBoard
             }
 
             //left
-            if(isInBounds(new Coordinate{x = currentCoord.x, y = currentCoord.y - 2}) 
-                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x, y = currentCoord.y - 1}, p) 
+            if(isInBounds(new Coordinate{x = currentCoord.x, y = currentCoord.y - 2})
+                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x, y = currentCoord.y - 1}, p)
                 && !breadCrumbs[currentCoord.x, currentCoord.y - 2])
             {
                 coordStack.Push(new Coordinate{x = currentCoord.x, y = currentCoord.y - 2});
@@ -655,8 +655,8 @@ public class GameBoard
             }
 
             //right
-            if(isInBounds(new Coordinate{x = currentCoord.x, y = currentCoord.y + 2}) 
-                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x, y = currentCoord.y + 1}, p) 
+            if(isInBounds(new Coordinate{x = currentCoord.x, y = currentCoord.y + 2})
+                && pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = currentCoord.x, y = currentCoord.y + 1}, p)
                 && !breadCrumbs[currentCoord.x, currentCoord.y + 2])
             {
                 coordStack.Push(new Coordinate{x = currentCoord.x, y = currentCoord.y + 2});
@@ -745,10 +745,10 @@ public class GameBoard
 
     //checks if player has enough resources to make a move
     private bool playerHasResources(int[] moveCost, Player p)
-    {       
+    {
         for(int i = 0; i < player1Resources.Length; ++i)
         {
-            if((p == Player.Player1 && moveCost[i] + player1Resources[i] < 0) 
+            if((p == Player.Player1 && moveCost[i] + player1Resources[i] < 0)
                 || (p == Player.Player2 && moveCost[i] + player2Resources[i] < 0))
             {
                 return false;
@@ -795,7 +795,7 @@ public class GameBoard
                 {
                     newLine += "0    ";
                 }
-                else 
+                else
                 {
                     switch (gameBoard[i,j].pieceType)
                     {
