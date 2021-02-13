@@ -10,12 +10,16 @@ public class GameBoard
     private const int boardSize = 11;
     private const int numResources = 4;
 
+    private bool tradeMadeThisTurn = false;
+
     private int[] player1Resources;
     private int[] player2Resources;
 
     private GamePiece[,] gameBoard;
 
     private Player currentPlayer;
+
+    private List<Move> moveQueue;
 
     public enum Player
     {
@@ -42,7 +46,6 @@ public class GameBoard
 
     public enum MoveType
     {
-        EndTurn = 0,
         Trade = 1,
         PlaceNode = 2,
         PlaceBranch = 3,
@@ -140,6 +143,7 @@ public class GameBoard
         player1Resources = new int[4] {0, 0, 0, 0};
         player2Resources = new int[4] {0, 0, 0, 0};
         currentPlayer = Player.Player1;
+        moveQueue = new List<Move>();
     }
 
     public int getScore(Player p)
@@ -170,7 +174,7 @@ public class GameBoard
         return gameBoard;
     }
 
-    //TODO: more efficient way to do this
+    //could find a more efficient way to do this
     public Player playerWithLargestNetwork()
     {
         if(longestNetwork(Player.Player1) == 2)
@@ -185,6 +189,266 @@ public class GameBoard
         {
             return Player.None;
         }
+    }
+
+    public void placeNode(Coordinate coord)
+    {
+        Move m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
+        makeMove(m);
+    }
+
+    public void placeBranch(Coordinate coord)
+    {
+        Move m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
+        makeMove(m);
+    }
+
+    public void makeTrade(int[] resourceChange)
+    {
+        Move m = new Move(resourceChange, currentPlayer, new Coordinate{x = 0, y = 0}, MoveType.Trade);
+        makeMove(m);
+    }
+
+    private void makeMove(Move m)
+    {
+        if(isValidMove(m))
+        {
+            applyResourceChange(m);
+            moveQueue.Add(m);
+            if(m.moveType != MoveType.Trade)
+            {
+                gameBoard[m.coord.x, m.coord.y].player = m.player;
+            }
+            else if(m.moveType == MoveType.Trade && !tradeMadeThisTurn)
+            {
+                tradeMadeThisTurn = true;
+            }
+        }
+    }
+
+    public void endTurn()
+    {
+        checkForCapturedTiles();
+        moveQueue.Clear();
+        tradeMadeThisTurn = false;
+
+        if(checkForWin() != Player.None)
+        {
+            //TODO: Something in case of a win
+        }
+        else
+        {
+            if(currentPlayer == Player.Player1)
+            { 
+                currentPlayer = Player.Player2;
+            }
+            else
+            {
+                 currentPlayer = Player.Player1;
+            }
+            distributeResources(currentPlayer);
+        }
+    }
+
+    private void distributeResources(Player p)
+    {
+        int numNodesAroundTile = 0;
+        int numPlayerNodesForTile = 0;
+
+        //goes though each tile and distributes resources to the player
+        for(int i = 0; i < tileIndexes.Count; ++i)
+        {
+            //top left
+            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y - 1}, Player.None))
+            {
+                numNodesAroundTile++;
+                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y - 1}, p))
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            //top right
+            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y + 1}, Player.None))
+            {
+                numNodesAroundTile++;
+                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y + 1}, p))
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            //bottom right
+            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y - 1}, Player.None))
+            {
+                numNodesAroundTile++;
+                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y - 1}, p))
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            //bottom left
+            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y + 1}, Player.None))
+            {
+                numNodesAroundTile++;
+                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y + 1}, p))
+                {
+                    numPlayerNodesForTile++;
+                }
+            }
+
+            if((pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], Player.None) 
+                || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p)) 
+                && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType != ResourceType.None)
+            {
+                if(numNodesAroundTile <= ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p))
+                {
+                    if(p == Player.Player1)
+                    {
+                        player1Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
+                    }
+                    else
+                    {
+                         player2Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
+                    }
+                }
+            }
+
+            numNodesAroundTile = 0;
+            numPlayerNodesForTile = 0;
+        }
+    }
+
+    public Player checkForWin()
+    {
+        if(getScore(Player.Player1) >= 10)
+        {
+            return Player.Player1;
+        }
+        else if (getScore(Player.Player2) >= 10)
+        {
+            return Player.Player1;
+        }
+        return Player.None;
+    }
+
+    public bool isValidMove(Move m)
+    {
+        if(m.moveType == MoveType.StartMove)
+        {
+            //TODO: Have start moves in proper order, can currently be placed on tiles
+            if(pieceAtCoordinateIsOwnedByPlayer(m.coord, Player.None))
+            {
+                return true;
+            }
+        }
+        //checks if move is a trade
+        else if(m.moveType == MoveType.Trade)
+        {
+            //checks if 3 resources are used and one is gained
+            int spent = 0, gained = 0;
+            for(int i = 0; i < player1Resources.Length; ++i)
+            {
+                if(m.resourceChange[i] >= 0)
+                {
+                    gained += m.resourceChange[i];
+                }
+                else
+                {
+                    spent += m.resourceChange[i];
+                }
+            }
+            if(gained == 1 && spent == -3)
+            {
+                //checks if player has enough resources and no trade has been made yet
+                if(!tradeMadeThisTurn && playerHasResources(m.resourceChange, m.player))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        //checks if move is placing a node
+        else if(m.moveType == MoveType.PlaceNode)
+        {
+            //checks if move is in bounds and if the node/branch is unoccupied
+            if(pieceAtCoordinateIsOwnedByPlayer(m.coord, Player.None))
+            {
+                //checks to ensure nodes are only placed at appropriate coordinates
+                if(isNode(m.coord))
+                {
+                    //checks if there is an adjacent piece owned by the player
+                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, m.player) 
+                        || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, m.player)
+                        || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, m.player)
+                        || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, m.player))
+                        {
+                            //checks if player has necessary resources
+                            if(playerHasResources(m.resourceChange, m.player))
+                            {
+                                //No extra checking required for captured zone. As long as no branches have been illegally placed, 
+                                //a node cannot have been placed in a captured zone
+                                return true;
+                            }
+                        }
+                }
+            }
+            return false;
+        }
+        //Checks if move is placing a branch
+        else if(m.moveType == MoveType.PlaceBranch)
+        {
+            //checks if move is in bounds and if the node/branch is unoccupied
+            if(pieceAtCoordinateIsOwnedByPlayer(m.coord, Player.None))
+            {
+                //checks to ensure branches are only placed on appropriate coordinates
+                if(isHorizontalBranch(m.coord) || isVerticalBranch(m.coord))
+                {
+                    //checks if there is an adjacent branch owned by the player
+                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y - 1}, m.player) 
+                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y + 1}, m.player)
+                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y - 1}, m.player) 
+                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y + 1}, m.player)
+                    || (isHorizontalBranch(m.coord) 
+                            && (pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 2}, m.player)
+                            || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 2}, m.player)))
+                    || (isVerticalBranch(m.coord) 
+                            && (pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 2, y = m.coord.y}, m.player)
+                            || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 2, y = m.coord.y}, m.player))))
+                    {
+                        //checks if player has appropriate resources - NOTE: This does not currently check if the resources spent for a node or branch is correct
+                        if(playerHasResources(m.resourceChange, m.player))
+                        {
+                            //checks if branch is in an area captured by the opponent
+                            if(isHorizontalBranch(m.coord))
+                            {
+                                //Checks if tile above or below belongs to opponent
+                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None) 
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, m.player)
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None) 
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, m.player))
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                //checks if tile left or right belongs to opponent
+                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None) 
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, m.player)
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None) 
+                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, m.player))
+                                {
+                                    return true;
+                                } 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private int numberOfNodes(Player p)
@@ -321,6 +585,21 @@ public class GameBoard
         return 0;
     }
 
+    private void applyResourceChange(Move m)
+    {
+        for(int i = 0; i < numResources; ++i)
+        {
+            if(m.player == Player.Player1)
+            {
+                player1Resources[i] += m.resourceChange[i];
+            }
+            else
+            {
+                player2Resources[i] += m.resourceChange[i];
+            }
+        }
+    }
+
     //This function takes a starting node coordinate and traverses through the branch network, counting up the number of branches
     private int networkTraverse(Coordinate startCoord, Player p)
     {
@@ -386,270 +665,6 @@ public class GameBoard
         }
 
         return networkSize;
-    }
-
-    public void makeMove(List<Move> moves)
-    {
-        foreach (var move in moves)
-        {
-            if(isValidMove(move))
-            {
-                if(move.moveType == MoveType.EndTurn)
-                {
-                    endTurn();
-                }
-                else
-                {
-                    //applies resource change
-                    for(int i = 0; i < player1Resources.Length; ++i)
-                    {
-                        if(move.player == Player.Player1)
-                        {
-                            player1Resources[i] += move.resourceChange[i];
-                        }
-                        else
-                        {
-                            player2Resources[i] += move.resourceChange[i];
-                        }
-                    }
-                    
-                    //If the move is placing a piece, it changes the player of its location
-                    //TODO: handle startMove logic differently
-                    if(move.moveType == MoveType.PlaceBranch || move.moveType == MoveType.PlaceNode || move.moveType == MoveType.StartMove)
-                    {
-                        gameBoard[move.coord.x, move.coord.y].player = move.player;
-                    }
-                }
-            }
-        }
-    }
-
-    private void endTurn()
-    {
-        checkForCapturedTiles();
-
-        if(checkForWin() != Player.None)
-        {
-            //TODO: Something in case of a win
-        }
-        else
-        {
-            if(currentPlayer == Player.Player1)
-            { 
-                currentPlayer = Player.Player2;
-            }
-            else
-            {
-                 currentPlayer = Player.Player1;
-            }
-            distributeResources(currentPlayer);
-        }
-    }
-
-    private void distributeResources(Player p)
-    {
-        int numNodesAroundTile = 0;
-        int numPlayerNodesForTile = 0;
-
-        //goes though each tile and distributes resources to the player
-        for(int i = 0; i < tileIndexes.Count; ++i)
-        {
-            //top left
-            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y - 1}, Player.None))
-            {
-                numNodesAroundTile++;
-                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y - 1}, p))
-                {
-                    numPlayerNodesForTile++;
-                }
-            }
-
-            //top right
-            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y + 1}, Player.None))
-            {
-                numNodesAroundTile++;
-                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y + 1}, p))
-                {
-                    numPlayerNodesForTile++;
-                }
-            }
-
-            //bottom right
-            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y - 1}, Player.None))
-            {
-                numNodesAroundTile++;
-                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y - 1}, p))
-                {
-                    numPlayerNodesForTile++;
-                }
-            }
-
-            //bottom left
-            if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y + 1}, Player.None))
-            {
-                numNodesAroundTile++;
-                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x + 1, y = tileIndexes[i].y + 1}, p))
-                {
-                    numPlayerNodesForTile++;
-                }
-            }
-
-            if((pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], Player.None) 
-                || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p)) 
-                && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType != ResourceType.None)
-            {
-                if(numNodesAroundTile <= ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p))
-                {
-                    if(p == Player.Player1)
-                    {
-                        player1Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
-                    }
-                    else
-                    {
-                         player2Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
-                    }
-                }
-            }
-
-            numNodesAroundTile = 0;
-            numPlayerNodesForTile = 0;
-        }
-    }
-
-    public Player checkForWin()
-    {
-        if(getScore(Player.Player1) >= 10)
-        {
-            return Player.Player1;
-        }
-        else if (getScore(Player.Player2) >= 10)
-        {
-            return Player.Player1;
-        }
-        return Player.None;
-    }
-
-    public bool isValidMove(Move m)
-    {
-        //checks if move is an EndTurn
-        if(m.moveType == MoveType.EndTurn)
-        {
-            return true;
-        }
-        else if(m.moveType == MoveType.StartMove)
-        {
-            //TODO: Have start moves in proper order, can currently be placed on tiles
-            if(pieceAtCoordinateIsOwnedByPlayer(m.coord, Player.None))
-            {
-                return true;
-            }
-        }
-        //checks if move is a trade
-        else if(m.moveType == MoveType.Trade)
-        {
-            //checks if 3 resources are used and one is gained
-            int spent = 0, gained = 0;
-            for(int i = 0; i < player1Resources.Length; ++i)
-            {
-                if(m.resourceChange[i] >= 0)
-                {
-                    gained += m.resourceChange[i];
-                }
-                else
-                {
-                    spent += m.resourceChange[i];
-                }
-            }
-            if(gained == 1 && spent == -3)
-            {
-                //checks if player has enough resources
-                if(playerHasResources(m.resourceChange, m.player))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        //checks if move is placing a node
-        else if(m.moveType == MoveType.PlaceNode)
-        {
-            //checks if move is in bounds and if the node/branch is unoccupied
-            if(pieceAtCoordinateIsOwnedByPlayer(m.coord, Player.None))
-            {
-                //checks to ensure nodes are only placed at appropriate coordinates
-                if(isNode(m.coord))
-                {
-                    //checks if there is an adjacent piece owned by the player
-                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, m.player) 
-                        || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, m.player)
-                        || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, m.player)
-                        || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, m.player))
-                        {
-                            //checks if player has necessary resources
-                            if(playerHasResources(m.resourceChange, m.player))
-                            {
-                                //No extra checking required for captured zone. As long as no branches have been illegally placed, 
-                                //a node cannot have been placed in a captured zone
-                                return true;
-                            }
-                        }
-                }
-            }
-            return false;
-        }
-        //Checks if move is placing a branch
-        else if(m.moveType == MoveType.PlaceBranch)
-        {
-            //checks if move is in bounds and if the node/branch is unoccupied
-            if(pieceAtCoordinateIsOwnedByPlayer(m.coord, Player.None))
-            {
-                //checks to ensure branches are only placed on appropriate coordinates
-                if(isHorizontalBranch(m.coord) || isVerticalBranch(m.coord))
-                {
-                    //checks if there is an adjacent branch owned by the player
-                    if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y - 1}, m.player) 
-                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y + 1}, m.player)
-                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y - 1}, m.player) 
-                    || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y + 1}, m.player)
-                    || (isHorizontalBranch(m.coord) 
-                            && (pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 2}, m.player)
-                            || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 2}, m.player)))
-                    || (isVerticalBranch(m.coord) 
-                            && (pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 2, y = m.coord.y}, m.player)
-                            || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 2, y = m.coord.y}, m.player))))
-                    {
-                        //checks if player has appropriate resources - NOTE: This does not currently check if the resources spent for a node or branch is correct
-                        if(playerHasResources(m.resourceChange, m.player))
-                        {
-                            //checks if branch is in an area captured by the opponent
-                            if(isHorizontalBranch(m.coord))
-                            {
-                                //Checks if tile above or below belongs to opponent
-                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None) 
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, m.player)
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None) 
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, m.player))
-                                {
-                                    return true;
-                                }
-                            }
-                            else
-                            {
-                                //checks if tile left or right belongs to opponent
-                                if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None) 
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, m.player)
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None) 
-                                || pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, m.player))
-                                {
-                                    return true;
-                                } 
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     private GamePiece[,] generateBoard()
