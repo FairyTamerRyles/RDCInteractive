@@ -24,14 +24,19 @@ public class AI
         }
     }
 
-    public AI()
+    public AI(GameBoard newBoard)
     {
-        AIGameBoard = new GameBoard();
+        AIGameBoard = newBoard;
     }
 
     public class AIMove
     {
         //IDK Man
+    }
+
+    void calculateMove(GameBoard newBoard)
+    {
+        AIGameBoard = newBoard;
     }
 
     //based on the pseudoCode found in the negamax Wikipedia
