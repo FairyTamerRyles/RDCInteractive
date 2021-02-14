@@ -22,24 +22,7 @@ public class AI
             this.tileStack = tileStack;
             this.isCaptured = isCaptured;
         }
-    }
-
-    private class Vicki
-    {
-        private GameBoard tempBoard;
-        private bool isExpert;
-        private float[] stratChoices;
-        private float currentStrat;
-
-        public void getStrat()
-        {
-            //stuffs
-        }
-        public void setStrat(float newStrat)
-        {
-            //stuffs
-        }
-    }
+    
 
     public AI()
     {
@@ -51,35 +34,6 @@ public class AI
         //IDK Man
     }
 
-    //based on the pseudoCode found in the negamax Wikipedia
-    //currently only returns the value, MUST RETURN THE BOARD AS WELL
-    float negamax(GameBoard position, float depth, float alpha, float beta, float player)
-    {
-        //first check if the game is over so you don't call all the heuristic searches
-        float hvalue = gameOver() * player;
-        if (hvalue == WIN || hvalue == LOSE)
-        {
-            return hvalue; //also need board position
-        } 
-        else if (depth == 0)
-        {
-            hvalue = heuristic() * player;
-            return hvalue; //also need board position
-        }
-        float evaluation = 0;
-        GameBoard[] legalMoves = getPossibleMoves(position, player);
-        float baseValue = -Mathf.Infinity; //negative infinity
-        foreach (GameBoard childBoard in legalMoves)
-        {
-            evaluation = Mathf.Max(baseValue, -negamax(childBoard, depth - 1, -beta, -alpha, -player));
-            alpha = Mathf.Max(alpha, baseValue);
-            if (alpha >= beta)
-            {
-                break;
-            }
-        }
-        return evaluation;
-    }
     public float gameOver()
     {
         float end = 0;
@@ -104,11 +58,6 @@ public class AI
         //ya
     }
     void getPossibleBranches()
-    {
-
-        //ya
-    }
-    void getPossibleCapturedTiles()
     {
 
         //ya
