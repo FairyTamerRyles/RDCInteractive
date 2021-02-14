@@ -113,7 +113,7 @@ public class AI
 
         //ya
     }
-    public List<GameBoard.Tile> setCapturedTiles(List<GameBoard.Tile> noncapturedTiles, GameBoard.Player player)
+    public void setCapturedTiles(List<GameBoard.Tile> noncapturedTiles, GameBoard.Player player)
     {
         while (noncapturedTiles.Any())
         {
@@ -141,8 +141,6 @@ public class AI
                 }
             }
         }
-        //this is broken do not leave it like this
-        return noncapturedTiles;
     }
     public CapTileChecker checkIfCaptured(GameBoard board, GameBoard.Tile currentTile, CapTileChecker checkedTiles, GameBoard.Player player)
     {
