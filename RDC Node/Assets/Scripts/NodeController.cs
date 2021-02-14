@@ -7,14 +7,24 @@ public class NodeController : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject orangeSlime;
+    public GameObject purpleSlime;
+    public int random;
     public void SpawnSlime()
     {
-        Instantiate(orangeSlime, new Vector3(gameObject.transform.position.x + .19f, gameObject.transform.position.y + .2f, -1f* .1f), Quaternion.identity);
-        gameObject.GetComponent<Button>().interactable = false;
+        if(random == 1)
+        {
+            Instantiate(orangeSlime, new Vector3(gameObject.transform.position.x + .19f, gameObject.transform.position.y + .2f, -1f* .1f), Quaternion.identity);
+            gameObject.GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            Instantiate(purpleSlime, new Vector3(gameObject.transform.position.x + .19f, gameObject.transform.position.y + .2f, -1f* .1f), Quaternion.identity);
+            gameObject.GetComponent<Button>().interactable = false;
+        }
     }
     void Start()
     {
-
+        random = Random.Range(1, 3);
     }
 
     // Update is called once per frame

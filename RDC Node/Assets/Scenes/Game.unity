@@ -389,6 +389,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &17157902
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,6 +739,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &54187754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &210579846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1795,6 +1801,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &226016856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,6 +2069,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &230848830
 GameObject:
   m_ObjectHideFlags: 0
@@ -3453,6 +3463,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &460830264
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,6 +3852,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7247,6 +7261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &999706507
 GameObject:
   m_ObjectHideFlags: 0
@@ -8032,6 +8048,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1131469652
 GameObject:
   m_ObjectHideFlags: 0
@@ -8178,6 +8196,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1139533388
 GameObject:
   m_ObjectHideFlags: 0
@@ -8324,6 +8344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1190446883
 GameObject:
   m_ObjectHideFlags: 0
@@ -8669,6 +8691,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1255366016
 GameObject:
   m_ObjectHideFlags: 0
@@ -9754,6 +9778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1357508547
 GameObject:
   m_ObjectHideFlags: 0
@@ -9943,6 +9969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1364001269
 GameObject:
   m_ObjectHideFlags: 0
@@ -11007,6 +11035,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1456161033
 GameObject:
   m_ObjectHideFlags: 0
@@ -11232,6 +11262,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1462527141
 GameObject:
   m_ObjectHideFlags: 0
@@ -11532,6 +11564,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1481391317
 GameObject:
   m_ObjectHideFlags: 0
@@ -13757,6 +13791,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1733323738
 GameObject:
   m_ObjectHideFlags: 0
@@ -14225,6 +14261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1773277871
 GameObject:
   m_ObjectHideFlags: 0
@@ -14787,6 +14825,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1823521196
 GameObject:
   m_ObjectHideFlags: 0
@@ -15211,6 +15251,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1833448987
 GameObject:
   m_ObjectHideFlags: 0
@@ -16136,6 +16178,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &1989119271
 GameObject:
   m_ObjectHideFlags: 0
@@ -16478,6 +16522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1 &2030546884
 GameObject:
   m_ObjectHideFlags: 0
@@ -17479,6 +17525,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
+  purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
+  random: 0
 --- !u!1001 &6532730018919349808
 PrefabInstance:
   m_ObjectHideFlags: 0
