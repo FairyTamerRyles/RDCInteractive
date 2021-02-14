@@ -13,7 +13,7 @@ TagManager:
   - Water
   - UI
   - Graphics
-  - 
+  - Menus
   - 
   - 
   - 
@@ -44,4 +44,10 @@ TagManager:
     locked: 0
   - name: Sprites
     uniqueID: 3871213809
+    locked: 0
+  - name: Blocker
+    uniqueID: 1985870721
+    locked: 0
+  - name: Menus
+    uniqueID: 4237421675
     locked: 0
