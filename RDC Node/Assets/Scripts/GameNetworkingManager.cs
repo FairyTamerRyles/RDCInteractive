@@ -20,15 +20,15 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    private string message = "";
+    private GameBoard board;
 
     private Action onOpponentMoved_Callback;
     private Action onRoomFull_Callback;
 
-    public string Message {
-        get => message;
+    public GameBoard Board {
+        get => board;
         set {
-            message = value;
+            board = value;
             PhotonView.Get(this).RPC("MakeMove", RpcTarget.Others, value);
         }
     }
@@ -44,8 +44,8 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
     }
 
     [PunRPC]
-    private void MakeMove(string message) {
-        this.message = message;
+    private void MakeMove(GameBoard board) {
+        this.board = board;
         OnOpponentMoved();
     }
 

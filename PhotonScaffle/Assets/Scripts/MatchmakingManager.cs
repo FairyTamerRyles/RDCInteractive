@@ -141,6 +141,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
             CreatePrivateRoom();
         } else if (creatingPrivateRoom) {
             Action callback = OnCreatePrivateRoomFailed_Callback;
+            ConnectionManager.Disconnect();
             if (callback != null) callback();
         } else {
             Action callback = OnJoinRandomFailed_Callback;
@@ -151,5 +152,9 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     public override void OnJoinRoomFailed(short returnCode, string message) {
         Action callback = onJoinRoomFailed_Callback;
         if (callback != null) callback();
+    }
+
+    public override void OnConnectedToMaster() {
+        createRoomAttempts = 0;
     }
 }
