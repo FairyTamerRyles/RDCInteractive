@@ -955,7 +955,8 @@ public class GameBoard
 
     public void setCapturedTiles(List<GameBoard.Tile> noncapturedTiles, GameBoard.Player player)
     {
-        while (noncapturedTiles.Any())
+        //make sure that the tile is not owned. If it is owned, there is no need to search it.
+        if (noncapturedTiles[0].player == GameBoard.Player.None && !noncapturedTiles[0].quartered)
         {
             CapTileChecker checkResults = checkIfCaptured (noncapturedTiles[0], new CapTileChecker(new List<GameBoard.Tile>(), false), player);
             if (checkResults.isCaptured)
@@ -981,13 +982,27 @@ public class GameBoard
                 }
             }
         }
+        else
+        {
+            noncapturedTiles.Remove(noncapturedTiles[0]);
+        }
     }
 
     public CapTileChecker checkIfCaptured(GameBoard.Tile currentTile, CapTileChecker checkedTiles, GameBoard.Player player)
     {
         //Debug.Log("Now checking Tile: " + currentTile.coord.x + " - " + currentTile.coord.y);
         //first Check for any insta-fails on the surrounding branches/tiles
-        if ((gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != GameBoard.Player.None && gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player) ||
+        if (currentTile.quartered)
+        {
+            //the tile is dead, and impossible to capture. Mission failed.
+            if(!checkedTiles.tileStack.Contains(currentTile))
+            {
+                checkedTiles.tileStack.Add(currentTile);
+            }
+            checkedTiles.isCaptured = false;
+            return checkedTiles;
+        }
+        else if ((gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != GameBoard.Player.None && gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player) ||
             (gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player != GameBoard.Player.None && gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player != player) ||
             (gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player != GameBoard.Player.None && gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player != player) ||
             (gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player != GameBoard.Player.None && gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player != player))  
@@ -1001,10 +1016,14 @@ public class GameBoard
             checkedTiles.isCaptured = false;
             return checkedTiles;
         } 
-        else if ((gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player == GameBoard.Player.None && !isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x - 2, y = currentTile.coord.y})) ||
-                    (gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player == GameBoard.Player.None && !isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x + 2, y = currentTile.coord.y})) ||
-                    (gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player == GameBoard.Player.None && !isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y - 2})) ||
-                    (gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player == GameBoard.Player.None && !isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y + 2})))
+        else if ((gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player == GameBoard.Player.None && 
+                (!isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x - 2, y = currentTile.coord.y}) || isOpponents(gameBoard[currentTile.coord.x - 2, currentTile.coord.y], player))) ||
+                (gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player == GameBoard.Player.None && 
+                (!isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x + 2, y = currentTile.coord.y}) || isOpponents(gameBoard[currentTile.coord.x + 2, currentTile.coord.y], player))) ||
+                (gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player == GameBoard.Player.None &&
+                (!isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y - 2}) || isOpponents(gameBoard[currentTile.coord.x, currentTile.coord.y - 2], player))) ||
+                (gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player == GameBoard.Player.None &&
+                (!isInBounds(new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y + 2}) || isOpponents(gameBoard[currentTile.coord.x, currentTile.coord.y + 2], player))))
          {
              //Debug.Log("There was an empty branch with no tile on the other side around Tile " + currentTile.coord.x + " - " + currentTile.coord.y);
              //The branch is empty and there are no potential tiles in its direction. Mission failed.
@@ -1340,6 +1359,19 @@ public class GameBoard
                 //it failed. return the failed recursiveTileResults
                 return recursiveTileResults_Up;
             }
+        }
+    }
+
+    //takes a GamePiece object and returns true if it is owned by the opposing player
+    bool isOpponents (GameBoard.GamePiece piece, GameBoard.Player player)
+    {
+        if (piece.player == player || piece.player == GameBoard.Player.None)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 

@@ -109,28 +109,36 @@ public class AI
     {
         while (noncapturedTiles.Any())
         {
-            CapTileChecker checkResults = checkIfCaptured (AIGameBoard, noncapturedTiles[0], new CapTileChecker(new List<GameBoard.Tile>(), false), player);
-            if (checkResults.isCaptured)
+            //make sure that the tile is not owned. If it is owned, there is no need to search it.
+            if (noncapturedTiles[0].player == GameBoard.Player.None && !noncapturedTiles[0].quartered)
             {
-                foreach (GameBoard.Tile tile in checkResults.tileStack)
+                CapTileChecker checkResults = checkIfCaptured (AIGameBoard, noncapturedTiles[0], new CapTileChecker(new List<GameBoard.Tile>(), false), player);
+                if (checkResults.isCaptured)
                 {
-                    tile.player = player;
-                    if(noncapturedTiles.Contains(tile))
+                    foreach (GameBoard.Tile tile in checkResults.tileStack)
                     {
-                        noncapturedTiles.Remove(tile);
-                        Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been set to captured and removed from the captured list.");
+                        tile.player = player;
+                        if(noncapturedTiles.Contains(tile))
+                        {
+                            noncapturedTiles.Remove(tile);
+                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been set to captured and removed from the captured list.");
+                        }
+                    }
+                } else
+                {
+                    foreach (GameBoard.Tile tile in checkResults.tileStack)
+                    {
+                        if(noncapturedTiles.Contains(tile))
+                        {
+                            noncapturedTiles.Remove(tile);
+                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been removed from the captured list.");
+                        }
                     }
                 }
-            } else
+            }
+            else
             {
-                foreach (GameBoard.Tile tile in checkResults.tileStack)
-                {
-                    if(noncapturedTiles.Contains(tile))
-                    {
-                        noncapturedTiles.Remove(tile);
-                        Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been removed from the captured list.");
-                    }
-                }
+                noncapturedTiles.Remove(noncapturedTiles[0]);
             }
         }
     }
@@ -138,10 +146,18 @@ public class AI
     {
         //Debug.Log("Now checking Tile: " + currentTile.coord.x + " - " + currentTile.coord.y);
         //first Check for any insta-fails on the surrounding branches/tiles
-        if ((board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player != player) ||
-            (board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player != player) ||
-            (board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player != player) ||
-            (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player != GameBoard.Player.None && board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player != player))  
+        if (currentTile.quartered)
+        {
+            //the tile is dead, and impossible to capture. Mission failed.
+            if(!checkedTiles.tileStack.Contains(currentTile))
+            {
+                checkedTiles.tileStack.Add(currentTile);
+            }
+            checkedTiles.isCaptured = false;
+            return checkedTiles;
+        }
+        else if (isOpponents(board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y], player) || isOpponents(board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y], player) ||
+                isOpponents(board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1], player) || isOpponents(board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1], player))
         {
             //Opponent branch found. Mission failed.
             //Debug.Log("Opponent Branch found around Tile " + currentTile.coord.x + " - " + currentTile.coord.y);
@@ -151,10 +167,15 @@ public class AI
             }
             checkedTiles.isCaptured = false;
             return checkedTiles;
-        } else if ((board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x - 2, y = currentTile.coord.y})) ||
-                    (board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x + 2, y = currentTile.coord.y})) ||
-                    (board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y - 2})) ||
-                    (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player == GameBoard.Player.None && !inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y + 2})))
+        }
+        else if ((board.gameBoard[currentTile.coord.x - 1, currentTile.coord.y].player == GameBoard.Player.None && 
+                (!inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x - 2, y = currentTile.coord.y}) || isOpponents(board.gameBoard[currentTile.coord.x - 2, currentTile.coord.y], player))) ||
+                (board.gameBoard[currentTile.coord.x + 1, currentTile.coord.y].player == GameBoard.Player.None && 
+                (!inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x + 2, y = currentTile.coord.y}) || isOpponents(board.gameBoard[currentTile.coord.x + 2, currentTile.coord.y], player))) ||
+                (board.gameBoard[currentTile.coord.x, currentTile.coord.y - 1].player == GameBoard.Player.None &&
+                (!inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y - 2}) || isOpponents(board.gameBoard[currentTile.coord.x, currentTile.coord.y - 2], player))) ||
+                (board.gameBoard[currentTile.coord.x, currentTile.coord.y + 1].player == GameBoard.Player.None &&
+                (!inBoundsTile(board, new GameBoard.Coordinate{x = currentTile.coord.x, y = currentTile.coord.y + 2}) || isOpponents(board.gameBoard[currentTile.coord.x, currentTile.coord.y + 2], player))))
          {
              //Debug.Log("There was an empty branch with no tile on the other side around Tile " + currentTile.coord.x + " - " + currentTile.coord.y);
              //The branch is empty and there are no potential tiles in its direction. Mission failed.
@@ -469,6 +490,17 @@ public class AI
                 //it failed. return the failed recursiveTileResults
                 return recursiveTileResults_Up;
             }
+        }
+    }
+    bool isOpponents (GameBoard.GamePiece piece, GameBoard.Player player)
+    {
+        if (piece.player == player || piece.player == GameBoard.Player.None)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
     bool isYourBranch (GameBoard board, GameBoard.Tile currentTile, GameBoard.Player player, string direction) 
