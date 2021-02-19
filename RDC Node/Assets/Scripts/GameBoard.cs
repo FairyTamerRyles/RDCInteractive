@@ -237,6 +237,18 @@ public class GameBoard
         makeMove(m);
     }
 
+    public void placePiece(Coordinate coord)
+    {
+        if(isNode(coord))
+        {
+            placeNode(coord);
+        }
+        else
+        {
+            placeBranch(coord);
+        }
+    }
+
     public void makeTrade(int[] resourceChange)
     {
         Move m = new Move(resourceChange, currentPlayer, new Coordinate{x = 0, y = 0}, MoveType.Trade);
