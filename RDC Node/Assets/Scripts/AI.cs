@@ -13,6 +13,8 @@ public class AI
     public GameBoard AIGameBoard;
     
     public struct CapTileChecker
+    //derp
+    private class Vicki
     {
         public List<GameBoard.Tile> tileStack;
         public bool isCaptured;
