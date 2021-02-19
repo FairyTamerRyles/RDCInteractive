@@ -11,7 +11,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         gameBoard = new GameBoard();
-        testAI = new AI(gameBoard);
+        testAI = new AI();
+        testAI.AIGameBoard = gameBoard;
 
         GameBoard.GamePiece[,] testFullEnclosure = {{null, null, null, null, new GameBoard.GamePiece(new GameBoard.Coordinate{x = 0, y = 4}, GameBoard.PieceType.Node),  new GameBoard.GamePiece(new GameBoard.Coordinate{x = 0, y = 5}, GameBoard.PieceType.Branch), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 0, y = 6}, GameBoard.PieceType.Node), null, null, null, null},
                                                     {null, null, null, null, new GameBoard.GamePiece(new GameBoard.Coordinate{x = 1, y = 4}, GameBoard.PieceType.Branch), new GameBoard.Tile(GameBoard.ResourceType.Red, 1), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 1, y = 6}, GameBoard.PieceType.Branch), null, null, null, null},
