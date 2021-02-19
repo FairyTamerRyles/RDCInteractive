@@ -243,6 +243,36 @@ public class GameBoard
         makeMove(m);
     }
 
+    public bool isValidMove(Coordinate coord)
+    {
+        Move m;
+        if(isNode(coord))
+        {
+            if(setupCounter <= 4)
+            {
+                m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
+            }
+            else
+            {
+                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+            }
+            return isValidMove(m);
+        }
+        else if(isHorizontalBranch(coord) || isVerticalBranch(coord))
+        {
+            if(setupCounter <= 4)
+            {
+                m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
+            }
+            else
+            {
+                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+            }
+            return isValidMove(m);
+        }
+        return false;
+    }
+
     public void endTurn()
     {
         if(setupCounter > 4)
@@ -365,7 +395,7 @@ public class GameBoard
         return Player.None;
     }
 
-    public bool isValidMove(Move m)
+    private bool isValidMove(Move m)
     {
         if(setupCounter < 4)
         {
