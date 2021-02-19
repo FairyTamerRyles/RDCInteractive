@@ -277,6 +277,22 @@ public class GameBoard
         }
     }
 
+    public void undo()
+    {
+        Move lastMove = moveQueue[moveQueue.Count - 1];
+        for(int i = 0; i < numResources; ++i)
+        {
+            lastMove.resourceChange[i] *= -1;
+        }
+        applyResourceChange(lastMove);
+        if(lastMove.moveType != MoveType.Trade)
+        {
+            gameBoard[lastMove.coord.x, lastMove.coord.y].player = Player.None;
+        }
+
+        moveQueue.RemoveAt(moveQueue.Count - 1);
+    }
+
     //used to make a move when receiving from AI or Network
     public void makeMove(GamePiece[,] newGameBoard, int[] newP1Resources, int[] newP2Resources)
     {
