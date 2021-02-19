@@ -13,12 +13,12 @@ public class NodeController : MonoBehaviour
     {
         if(random == 1)
         {
-            Instantiate(orangeSlime, new Vector3(gameObject.transform.position.x + .19f, gameObject.transform.position.y + .2f, -1f* .1f), Quaternion.identity);
+            Instantiate(orangeSlime, new Vector3(gameObject.transform.position.x + .25f, gameObject.transform.position.y + .25f, -1f* .1f), Quaternion.identity);
             gameObject.GetComponent<Button>().interactable = false;
         }
         else
         {
-            Instantiate(purpleSlime, new Vector3(gameObject.transform.position.x + .19f, gameObject.transform.position.y + .2f, -1f* .1f), Quaternion.identity);
+            Instantiate(purpleSlime, new Vector3(gameObject.transform.position.x + .25f, gameObject.transform.position.y + .25f, -1f* .1f), Quaternion.identity);
             gameObject.GetComponent<Button>().interactable = false;
         }
     }

@@ -22,16 +22,69 @@ public class AI
             this.tileStack = tileStack;
             this.isCaptured = isCaptured;
         }
-    
+    }
+
+    public class GameState : AI
+    {
+        GameBoard boardResourceState;
+        GameBoard.Player largestNetworkOwner;
+        int P1Score;
+        int P2Score;
+    }
+
+    public class TreeNode
+    {
+        GameState state;
+        int plays;
+        int wins;
+        TreeNode parentTreeNode;
+        List<TreeNode> childrenTreeNodes;
+    }
+
+    public class MonteCarloTree
+    {
+        TreeNode root;
+        TreeNode searchTree()
+        {
+            while(true) //certain amount of time left
+            {
+                TreeNode leafToSimulate = findLeafToSimulate(root);
+                TreeNode rolloutResult = rollout(leafToSimulate);
+                backPropagate(leafToSimulate, rolloutResult);
+            }
+            return Bestchild();
+        }
+
+        TreeNode findLeafToSimulate(TreeNode root)
+        {
+
+            return new TreeNode();
+        }
+        TreeNode uctResult()
+        {
+            return new TreeNode();
+        }
+        TreeNode rollout(TreeNode node)
+        {
+            return new TreeNode();
+        }
+        TreeNode rolloutStrat()
+        {
+            return new TreeNode();
+        }
+        void backPropagate(TreeNode leaf, TreeNode rolloutResult)
+        {
+
+        }
+        TreeNode Bestchild()
+        {
+            return new TreeNode();
+        }
+    }
 
     public AI()
     {
         AIGameBoard = new GameBoard();
-    }
-
-    public class AIMove
-    {
-        //IDK Man
     }
 
     public float gameOver()
@@ -487,6 +540,10 @@ public class AI
     void getResourceSpread()
     {
 
+    }
+    GameState makeRandomMove()
+    {
+        return new GameState();
     }
 
 
