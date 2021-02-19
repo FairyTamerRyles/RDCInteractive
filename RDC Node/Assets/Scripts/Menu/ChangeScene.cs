@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class ChangeScene : MonoBehaviour
 {
+    public Animator transition;
+    public float transtionTime = 1f;
+    
     // Start is called before the first frame update 
     public void loadlevel(string level)
     {
-        //yield return new WaitForSeconds(5);
-        StartCoroutine(Action());
-        //Invoke("Action", 2.0f);
-        SceneManager.LoadScene(level);
-
+        if (level == "Quit")
+        {
+            Application.Quit();
+        }
+        else
+        {
+            StartCoroutine(LoadLevel(level));
+        }
+        
     }
-
-    public IEnumerator Action()
+     
+    IEnumerator LoadLevel(string level)
     {
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Game");
+        //transition.setTrigger("Start");
+        yield return new WaitForSeconds(transtionTime);
+        SceneManager.LoadScene(level);
     }
 }
