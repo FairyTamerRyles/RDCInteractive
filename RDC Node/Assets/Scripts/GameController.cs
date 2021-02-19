@@ -11,8 +11,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         gameBoard = new GameBoard();
-        testAI = new AI();
-        
+        testAI = new AI(gameBoard);
+
         GameBoard.GamePiece[,] testFullEnclosure = {{null, null, null, null, new GameBoard.GamePiece(new GameBoard.Coordinate{x = 0, y = 4}, GameBoard.PieceType.Node),  new GameBoard.GamePiece(new GameBoard.Coordinate{x = 0, y = 5}, GameBoard.PieceType.Branch), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 0, y = 6}, GameBoard.PieceType.Node), null, null, null, null},
                                                     {null, null, null, null, new GameBoard.GamePiece(new GameBoard.Coordinate{x = 1, y = 4}, GameBoard.PieceType.Branch), new GameBoard.Tile(GameBoard.ResourceType.Red, 1), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 1, y = 6}, GameBoard.PieceType.Branch), null, null, null, null},
                                                     {null, null, new GameBoard.GamePiece(new GameBoard.Coordinate{x = 2, y = 2}, GameBoard.PieceType.Node),  new GameBoard.GamePiece(new GameBoard.Coordinate{x = 2, y = 3}, GameBoard.PieceType.Branch), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 2, y = 4}, GameBoard.PieceType.Node), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 2, y = 5}, GameBoard.PieceType.Branch), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 2, y = 6}, GameBoard.PieceType.Node), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 2, y = 7}, GameBoard.PieceType.Branch), new GameBoard.GamePiece(new GameBoard.Coordinate{x = 2, y = 8}, GameBoard.PieceType.Node), null, null},
@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
         testFullEnclosure[9, 5].coord.y = 5;
 
         testAI.AIGameBoard.gameBoard = testFullEnclosure;
-        
+
         //branches around 5 - 1
         testFullEnclosure[5, 0].player = GameBoard.Player.Player1;
         testFullEnclosure[4, 1].player = GameBoard.Player.Player1;
@@ -93,5 +93,10 @@ public class GameController : MonoBehaviour
             Debug.Log(tile.coord.x + " - " + tile.coord.y);
         }
         Debug.Log(test1.isCaptured);*/
+    }
+
+    public void endTurn()
+    {
+        gameBoard.endTurn();
     }
 }
