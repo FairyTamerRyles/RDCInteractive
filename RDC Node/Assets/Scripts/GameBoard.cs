@@ -209,28 +209,80 @@ public class GameBoard
         }
     }
 
-    public void startingMove(Coordinate coord)
-    {
-        Move m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
-        makeMove(m);
-    }
-
     public void placeNode(Coordinate coord)
     {
-        Move m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
+        Move m;
+        if(setupCounter <= 4)
+        {
+            m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
+        }
+        else
+        {
+            m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+        }
         makeMove(m);
     }
 
     public void placeBranch(Coordinate coord)
     {
-        Move m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
+        Move m;
+        if(setupCounter <= 4)
+        {
+            m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
+        }
+        else
+        {
+            m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+        }
         makeMove(m);
+    }
+
+    public void placePiece(Coordinate coord)
+    {
+        if(isNode(coord))
+        {
+            placeNode(coord);
+        }
+        else
+        {
+            placeBranch(coord);
+        }
     }
 
     public void makeTrade(int[] resourceChange)
     {
         Move m = new Move(resourceChange, currentPlayer, new Coordinate{x = 0, y = 0}, MoveType.Trade);
         makeMove(m);
+    }
+
+    public bool isValidMove(Coordinate coord)
+    {
+        Move m;
+        if(isNode(coord))
+        {
+            if(setupCounter <= 4)
+            {
+                m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
+            }
+            else
+            {
+                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+            }
+            return isValidMove(m);
+        }
+        else if(isHorizontalBranch(coord) || isVerticalBranch(coord))
+        {
+            if(setupCounter <= 4)
+            {
+                m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
+            }
+            else
+            {
+                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+            }
+            return isValidMove(m);
+        }
+        return false;
     }
 
     public void endTurn()
@@ -355,7 +407,7 @@ public class GameBoard
         return Player.None;
     }
 
-    public bool isValidMove(Move m)
+    private bool isValidMove(Move m)
     {
         if(setupCounter < 4)
         {
