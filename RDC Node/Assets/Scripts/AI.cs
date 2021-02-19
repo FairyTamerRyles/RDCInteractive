@@ -13,7 +13,7 @@ public class AI : MonoBehaviour
     //TODO: Make Gamepiece class; most likely in GameCore
     public GameBoard AIGameBoard;
     
-
+    //derp
     private class Vicki
     {
         private GameBoard[,] GameBoard;
