@@ -89,13 +89,13 @@ public class GameBoard
 
     public class Tile : GamePiece
     {
-        public ResourceType ResourceType;
+        public ResourceType resourceType;
         public int maxLoad;
         public bool quartered;
 
         public Tile(ResourceType r, int max): base(new Coordinate() {x = 0, y = 0}, PieceType.Tile)
         {
-            ResourceType = r;
+            resourceType = r;
             maxLoad = max;
             player = Player.None;
             quartered = false;
@@ -618,17 +618,17 @@ public class GameBoard
 
             if((pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], Player.None)
                 || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p))
-                && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType != ResourceType.None)
+                && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).resourceType != ResourceType.None)
             {
                 if(numNodesAroundTile <= ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad || pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], p))
                 {
                     if(p == Player.Player1)
                     {
-                        player1Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
+                        player1Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).resourceType] += numPlayerNodesForTile;
                     }
                     else
                     {
-                         player2Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).ResourceType] += numPlayerNodesForTile;
+                         player2Resources[(int)((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).resourceType] += numPlayerNodesForTile;
                     }
                 }
             }
@@ -1023,7 +1023,7 @@ public class GameBoard
 
                     if(gameBoard[i,j].pieceType == PieceType.Tile)
                     {
-                        switch(((Tile)gameBoard[i,j]).ResourceType)
+                        switch(((Tile)gameBoard[i,j]).resourceType)
                         {
                             case ResourceType.Red:
                             {
