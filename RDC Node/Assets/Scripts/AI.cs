@@ -11,7 +11,18 @@ public class AI
     const float LOSE = -1000000f;
     //TODO: Make Gamepiece class; most likely in GameCore
     public GameBoard AIGameBoard;
-    
+    public struct moveResult
+    {
+        public GameBoard.GamePiece[,] board;
+        public int[] Player1Pieces;
+        public int[] Player2Pieces;
+        public moveResult(GameBoard gb)
+        {
+            board = gb.gameBoard;
+            Player1Pieces = gb.getResources(GameBoard.Player.Player1);
+            Player2Pieces = gb.getResources(GameBoard.Player.Player2);
+        }
+    }
     public struct CapTileChecker
     {
         public List<GameBoard.Tile> tileStack;
@@ -98,12 +109,70 @@ public class AI
         float heuristicResult = 0;
         return heuristicResult;
     }
-    GameBoard[] getPossibleMoves(GameBoard board, float player)
+    /*GameBoard[] getPossibleMoves(GameBoard board, float player)
     {
         GameBoard gameBoard = new GameBoard();
         GameBoard[] result = new GameBoard[5];
         result[0] = gameBoard;
         return result;
+    }*/
+    public GameBoard getPossibleMoves(GameBoard gBoard)
+    {
+        AIGameBoard = gBoard;
+        while(true)
+        {
+            List<List<GameBoard.Coordinate>> possiblePiecePlacements = new List<List<GameBoard.Coordinate>>();
+            List<int[]> possibleTrades = new List<int[]>();
+            possibleTrades.Add(new int[]{0,0,0,0}); //might not be needed
+            //finds all possible trades and stores them in possibleTrades
+            for(int selectedResource = 0; selectedResource < 4; ++selectedResource)
+            {
+                for(int r1 = 0; r1 <= 3; ++r1)
+                {
+                    for(int r2 = 0; r2 <= 3 - r1; ++r2)
+                    {
+                        int r3 = 3 - r1 - r2;
+                        int[] resourcesToSpend = new int[]{r1, r2, r3};
+                        int[] testTrade = new int[4];
+                        int resourcesToSpendIndex = 0;
+                        for(int i = 0; i < testTrade.Length; ++i)
+                        {
+                            if(i == selectedResource)
+                            {
+                                testTrade[i] = 1;
+                            }
+                            else
+                            {
+                                testTrade[i] = resourcesToSpend[resourcesToSpendIndex] * -1;
+                                ++resourcesToSpendIndex;
+                            }
+                        }
+                        if(AIGameBoard.isValidTrade(testTrade))
+                        {
+                            possibleTrades.Add(testTrade);
+                        }
+                    }
+                }
+            }
+            
+            //finds all possible piece placements for each trade option and stores them in possiblePiecePlacements
+            foreach (int[] tradePossibility in possibleTrades)
+            {
+                GameBoard tradedBoard = new GameBoard();
+                
+                for(int i = 0; i < GameBoard.boardSize; ++i)
+                {
+                    for(int j = 0; j < GameBoard.boardSize; ++j)
+                    {
+                        GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = i, y = j};
+                        if(AIGameBoard.isValidMove(testMove))
+                        {
+                            //possiblePiecePlacements.Add(testMove);
+                        }
+                    }
+                }
+            }
+        }
     }
     void getPossibleTrades()
     {

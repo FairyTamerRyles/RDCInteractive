@@ -99,11 +99,11 @@ public class GameController : MonoBehaviour
                 case "N": 
                     if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                     {
-                        newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
+                        newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .26f, 1), Quaternion.identity);
                     }
                     else
                     {
-                        newGameObject = Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
+                        newGameObject = Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .26f, 1), Quaternion.identity);
                     }
                     break;
 
