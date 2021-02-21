@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour
     private GameBoard gameBoard;
     private AI testAI;
     private List<GameObject> piecesPlacedThisTurn;
+    public GameBoard.Player humanPlayer;
+    public GameType gameType;
 
     public Button[] nodeButtons;
     public Button[] branchButtons;
@@ -42,23 +44,7 @@ public class GameController : MonoBehaviour
         AI = 1,
         Network = 2
     }
-    
-    //make setGameControllerReference
-    // Start is called before the first frame update
-    public void onHover(Button nodeGameObject)
-    {
-        string tag = nodeGameObject.tag;
-        string[] coordinates = tag.Split(',');
-        GameBoard.Coordinate buttonCoord = new GameBoard.Coordinate{x = int.Parse(coordinates[0]), y = int.Parse(coordinates[1])};
-        if(gameBoard.isValidMove(buttonCoord))
-        {
-            Debug.Log("It Works!");
-        }
-        else
-        {
-            Debug.Log("I want death");
-        }
-    }
+
     void Start()
     {
         gameBoard = new GameBoard();
