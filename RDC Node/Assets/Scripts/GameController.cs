@@ -359,6 +359,14 @@ public class GameController : MonoBehaviour
 
     public void updateExhaustedTiles()
     {
-        //TODO:update exhausted tile graphics
+        List<GameBoard.Tile> overloadedTiles = gameBoard.overloadedTiles();
+        Debug.Log(overloadedTiles.Count);
+        foreach (GameBoard.Tile tile in overloadedTiles) 
+        {
+            string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+            GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
+            List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+            Instantiate(tilePrefab[1], new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+        }
     }
 }
