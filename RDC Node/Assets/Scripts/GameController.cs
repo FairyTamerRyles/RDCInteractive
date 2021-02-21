@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     private GameBoard gameBoard;
     private AI testAI;
     private List<GameObject> piecesPlacedThisTurn;
+    private AdamRandomAI randomAI;
     public GameBoard.Player humanPlayer;
     public GameType gameType;
 
@@ -47,8 +48,12 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        gameType = GameType.AI;
+        humanPlayer = GameBoard.Player.Player1;
+
         gameBoard = new GameBoard();
         testAI = new AI();
+        randomAI = new AdamRandomAI(gameBoard);
         piecesPlacedThisTurn = new List<GameObject>();
         testAI.AIGameBoard = gameBoard;
         foreach (GameBoard.Tile tile in gameBoard.GameTiles) 
@@ -64,69 +69,69 @@ public class GameController : MonoBehaviour
 
     public void onBranchNodeClick(Button button)
     {
-        GameBoard.Coordinate gamePieceCoord = parseTag(button);
-        if(gameBoard.isValidMove(gamePieceCoord))
+        if(gameBoard.getCurrentPlayer() == humanPlayer || gameType == GameType.Local)
         {
-            Debug.Log("valid move");
-            gameBoard.placePiece(gamePieceCoord);
-            if(gameBoard.numMovesMadeThisTurn() == 2)
+            GameBoard.Coordinate gamePieceCoord = parseTag(button);
+            if(gameBoard.isValidMove(gamePieceCoord))
             {
-                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
-            }
-            else if (gameBoard.getTurnCounter() <= 4)
-            {
-                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
-            }
+                gameBoard.placePiece(gamePieceCoord);
+                if(gameBoard.numMovesMadeThisTurn() == 2)
+                {
+                    GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
+                }
+                else if (gameBoard.getTurnCounter() <= 4)
+                {
+                    GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
+                }
 
-            GameObject newGameObject = new GameObject();
-            string pieceType = button.name.Substring(0, 1);
-            switch(pieceType)
-            {
-                case "N": 
-                    if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
-                    {
-                        newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .26f, 1), Quaternion.identity);
-                    }
-                    else
-                    {
-                        newGameObject = Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .26f, 1), Quaternion.identity);
-                    }
-                    break;
-
-                case "B":
-                    if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
-                    {
-                        if(gameBoard.isHorizontalBranch(gamePieceCoord))
+                GameObject newGameObject = new GameObject();
+                string pieceType = button.name.Substring(0, 1);
+                switch(pieceType)
+                {
+                    case "N": 
+                        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                         {
-                            newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
                         }
                         else
                         {
-                            newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                            newGameObject = Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
                         }
-                    }
-                    else
-                    {
-                        if(gameBoard.isHorizontalBranch(gamePieceCoord))
+                        break;
+
+                    case "B":
+                        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                         {
-                            newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            if(gameBoard.isHorizontalBranch(gamePieceCoord))
+                            {
+                                newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            }
+                            else
+                            {
+                                newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                            }
                         }
                         else
                         {
-                            newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                            if(gameBoard.isHorizontalBranch(gamePieceCoord))
+                            {
+                                newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            }
+                            else
+                            {
+                                newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
+                piecesPlacedThisTurn.Add(newGameObject);
+                GameObject.Find("UndoButton").GetComponent<Button>().interactable = true;
+                updateResourceCounters();
             }
-            piecesPlacedThisTurn.Add(newGameObject);
-            GameObject.Find("UndoButton").GetComponent<Button>().interactable = true;
-            updateResourceCounters();
-            gameBoard.logGameBoard();
-
-        }
-        else
-        {
-            Debug.Log("invalid move");
+            else
+            {
+                Debug.Log("invalid move");
+            }
         }
     }
 
@@ -147,6 +152,7 @@ public class GameController : MonoBehaviour
         {
             updateResourceCounters();
             updateCurrentPlayer();
+            updateExhaustedTiles();
             //Not end of game          
             if(gameBoard.getTurnCounter() <= 4)
             {
@@ -157,6 +163,17 @@ public class GameController : MonoBehaviour
                 GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
                 updateScore();
                 updateLargestNetwork();
+            }
+
+            if(gameType == GameType.AI && gameBoard.getCurrentPlayer() != humanPlayer)
+            {
+                blockPlayerFromPlaying();
+                GameBoard boardAfterAIMove = randomAI.makeRandomAIMove(new GameBoard(gameBoard));
+                updateBoardGraphic(boardAfterAIMove);
+                gameBoard = new GameBoard(boardAfterAIMove);
+                updateResourceCounters();
+                endTurn();
+                enablePlayerPlaying();
             }
         }
     }
@@ -190,6 +207,11 @@ public class GameController : MonoBehaviour
         string[] coordinates = tag.Split(',');
         GameBoard.Coordinate buttonCoord = new GameBoard.Coordinate{x = int.Parse(coordinates[0]), y = int.Parse(coordinates[1])};
         return buttonCoord;
+    }
+
+    private Button findGameObject(GameBoard.Coordinate Coord)
+    {
+        return GameObject.FindGameObjectWithTag(Coord.x.ToString() + "," + Coord.y.ToString()).GetComponent<Button>();
     }
 
     private void updateResourceCounters()
@@ -249,7 +271,6 @@ public class GameController : MonoBehaviour
 
     public void undo()
     {
-        Debug.Log("Undo called");
         if(gameBoard.getTurnCounter() <= 4)
         {
             GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
@@ -273,5 +294,71 @@ public class GameController : MonoBehaviour
         }
 
         updateResourceCounters();
+    }
+
+    public void blockPlayerFromPlaying()
+    {
+        //TODO: prevent player from playing whil AI/Network is making move
+    }
+
+    public void updateBoardGraphic(GameBoard newBoard)
+    {
+        for(int i = 0; i < GameBoard.boardSize; ++i)
+        {
+            for(int j = 0; j < GameBoard.boardSize; ++j)
+            {
+                if(gameBoard.getGameBoard()[i,j] != null)
+                {
+                    if(gameBoard.getGameBoard()[i,j].player != newBoard.getGameBoard()[i,j].player)
+                    {
+                        //TODO: Figure out pieceType and player and spawn in new graphic
+                        Button buttonToUpdate = findGameObject(gameBoard.getGameBoard()[i,j].coord);
+                        if(gameBoard.isNode(gameBoard.getGameBoard()[i,j].coord))
+                        {
+                            if(newBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+                            {
+                                Instantiate(orangeSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
+                            }
+                            else
+                            {
+                                Instantiate(purpleSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
+                            }
+                        }
+                        else if(gameBoard.isVerticalBranch(gameBoard.getGameBoard()[i,j].coord))
+                        {
+                            if(newBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+                            {
+                                Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
+                            }
+                            else
+                            {
+                                Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
+                            }
+                        }
+                        else if(gameBoard.isHorizontalBranch(gameBoard.getGameBoard()[i,j].coord))
+                        {
+                            if(newBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+                            {
+                                Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            }
+                            else
+                            {
+                                Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void enablePlayerPlaying()
+    {
+        //TODO:Reallow player to play
+    }
+
+    public void updateExhaustedTiles()
+    {
+        //TODO:update exhausted tile graphics
     }
 }
