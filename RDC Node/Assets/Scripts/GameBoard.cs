@@ -85,6 +85,13 @@ public class GameBoard
             coord = c;
             pieceType = pt;
         }
+
+        public GamePiece(GamePiece g)
+        {
+            coord = new Coordinate {x = g.coord.x, y = g.coord.y};
+            player = g.player;
+            pieceType = g.pieceType;
+        }
     }
 
     public class Tile : GamePiece
@@ -93,12 +100,20 @@ public class GameBoard
         public int maxLoad;
         public bool quartered;
 
-        public Tile(ResourceType r, int max): base(new Coordinate() {x = 0, y = 0}, PieceType.Tile)
+        public Tile(ResourceType r, int max): base(new Coordinate{x = 0, y = 0}, PieceType.Tile)
         {
             resourceType = r;
             maxLoad = max;
             player = Player.None;
             quartered = false;
+        }
+
+        public Tile(Tile t): base(new Coordinate{x = t.coord.x, y = t.coord.y}, t.pieceType)
+        {
+            resourceType = t.resourceType;
+            maxLoad = t.maxLoad;
+            player = t.player;
+            quartered = t.quartered;
         }
     }
 
@@ -115,6 +130,19 @@ public class GameBoard
             player = p;
             coord = c;
             moveType = m;
+        }
+
+        public Move(Move m)
+        {
+            resourceChange = new int[4];
+            for(int i = 0; i < numResources; ++i)
+            {
+                resourceChange[i] = m.resourceChange[i];
+            }
+
+            player = m.player;
+            coord = new Coordinate{x = m.coord.x, y = m.coord.y};
+            moveType = m.moveType;
         }
     }
 
@@ -172,6 +200,43 @@ public class GameBoard
         moveQueue = new List<Move>();
         setupCounter = 1;
         tradeMadeThisTurn = true;
+    }
+
+    public GameBoard(GameBoard g)
+    {
+        currentPlayer = g.getCurrentPlayer();
+        setupCounter = g.getTurnCounter();
+        tradeMadeThisTurn = g.tradeMadeThisTurn;
+
+        for(int i = 0; i < numResources; ++i)
+        {
+            player1Resources[i] = g.player1Resources[i];
+            player2Resources[i] = g.player2Resources[i];
+        }
+
+        for(int i = 0; i < g.moveQueue.Count; ++i)
+        {
+            moveQueue.Add(new Move(g.moveQueue[i]));
+        }
+
+        for(int i = 0; i < boardSize; ++i)
+        {
+            for(int j = 0; j < boardSize; ++j)
+            {
+                if(g.gameBoard[i,j] == null)
+                {
+                    gameBoard[i,j] = null;
+                }
+                else if(g.gameBoard[i,j].pieceType == PieceType.Tile)
+                {
+                    gameBoard[i,j] = new Tile((Tile)g.gameBoard[i,j]);
+                }
+                else
+                {
+                    gameBoard[i,j] = new GamePiece(g.gameBoard[i,j]);
+                }
+            }
+        }
     }
 
     public int getScore(Player p)
