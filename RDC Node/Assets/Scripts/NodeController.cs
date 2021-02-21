@@ -9,6 +9,7 @@ public class NodeController : MonoBehaviour
     public GameObject orangeSlime;
     public GameObject purpleSlime;
     public int random;
+    private GameObject gameController;
     public void SpawnSlime()
     {
         if(random == 1)
@@ -24,6 +25,7 @@ public class NodeController : MonoBehaviour
     }
     void Start()
     {
+        gameController = GameObject.Find("GameControllerObject");
         random = Random.Range(1, 3);
     }
 

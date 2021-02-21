@@ -8,8 +8,8 @@ public class GameBoard
 {
 
     private float rnd;
-    private const int boardSize = 11;
-    private const int numResources = 4;
+    public const int boardSize = 11;
+    public const int numResources = 4;
     private int setupCounter;
 
     private bool tradeMadeThisTurn = false;
@@ -153,6 +153,16 @@ public class GameBoard
         new Tile(ResourceType.None, -1)
     };
 
+    public List<Tile> getGameTiles()
+    {
+        List<Tile> copyTiles = new List<Tile>();
+        for(int i = 0; i < tileIndexes.Count; ++i)
+        {
+            copyTiles.Add((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]);
+        }
+        return copyTiles;
+    }
+
     public GameBoard()
     {
         gameBoard = generateBoard();
@@ -180,6 +190,16 @@ public class GameBoard
             return player2Resources;
         }
         return null;
+    }
+
+    public int getTurnCounter()
+    {
+        return setupCounter;
+    }
+
+    public int numMovesMadeThisTurn()
+    {
+        return moveQueue.Count;
     }
 
     public Player getCurrentPlayer()
@@ -214,11 +234,11 @@ public class GameBoard
         Move m;
         if(setupCounter <= 4)
         {
-            m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
+            m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
         }
         else
         {
-            m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+            m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
         }
         makeMove(m);
     }
@@ -228,11 +248,11 @@ public class GameBoard
         Move m;
         if(setupCounter <= 4)
         {
-            m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
+            m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
         }
         else
         {
-            m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+            m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
         }
         makeMove(m);
     }
@@ -262,11 +282,12 @@ public class GameBoard
         {
             if(setupCounter <= 4)
             {
-                m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
+                Debug.Log("Made a start move");
+                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
             }
             else
             {
-                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+                m = new Move(new int[]{0,0,-2,-2}, currentPlayer, coord, MoveType.PlaceNode);
             }
             return isValidMove(m);
         }
@@ -274,23 +295,30 @@ public class GameBoard
         {
             if(setupCounter <= 4)
             {
-                m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
+                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
             }
             else
             {
-                m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
+                m = new Move(new int[]{-1,-1,0,0}, currentPlayer, coord, MoveType.PlaceBranch);
             }
             return isValidMove(m);
         }
         return false;
     }
 
+    public bool isValidTrade(int[] rChange)
+    {
+        Move m = new Move(rChange, currentPlayer, new Coordinate{x = 0, y = 0}, MoveType.Trade);
+        return isValidMove(m);
+    }
+
     public void endTurn()
     {
-        if(setupCounter > 4)
+        if(setupCounter >= 4)
         {
-            setCapturedTiles(GameTiles, Player.Player1);
-            setCapturedTiles(GameTiles, Player.Player2);
+            setupCounter++;
+            setCapturedTiles(getGameTiles(), Player.Player1);
+            setCapturedTiles(getGameTiles(), Player.Player2);
             moveQueue.Clear();
             tradeMadeThisTurn = false;
 
@@ -314,17 +342,20 @@ public class GameBoard
         }
         else
         {
-            setupCounter++;
-            moveQueue.Clear();
-            tradeMadeThisTurn = true;
+            if(moveQueue.Count == 2)
+            {
+                setupCounter++;
+                moveQueue.Clear();
+                tradeMadeThisTurn = true;
 
-            if(setupCounter == 1 || setupCounter == 4)
-            {
-                currentPlayer = Player.Player1;
-            }
-            else
-            {
-                currentPlayer = Player.Player2;
+                if(setupCounter == 1 || setupCounter == 4)
+                {
+                    currentPlayer = Player.Player1;
+                }
+                else
+                {
+                    currentPlayer = Player.Player2;
+                }
             }
         }
     }
@@ -409,7 +440,7 @@ public class GameBoard
 
     private bool isValidMove(Move m)
     {
-        if(setupCounter < 4)
+        if(setupCounter <= 4)
         {
             //makes sure move is a startMove
             if(m.moveType == MoveType.StartMove)
@@ -939,7 +970,7 @@ public class GameBoard
         return true;
     }
 
-    private bool isHorizontalBranch(Coordinate c)
+    public bool isHorizontalBranch(Coordinate c)
     {
         if(isInBounds(c) && c.x % 2 == 0 && c.y % 2 == 1)
         {
@@ -948,7 +979,7 @@ public class GameBoard
         return false;
     }
 
-    private bool isVerticalBranch(Coordinate c)
+    public bool isVerticalBranch(Coordinate c)
     {
         if(isInBounds(c) && c.x % 2 == 1 && c.y % 2 == 0)
         {
@@ -957,7 +988,7 @@ public class GameBoard
         return false;
     }
 
-    private bool isNode(Coordinate c)
+    public bool isNode(Coordinate c)
     {
         if(isInBounds(c) && c.x % 2 == 0 && c.y % 2 == 0)
         {
@@ -1072,38 +1103,42 @@ public class GameBoard
         Debug.Log(getScore(Player.Player2));
     }
 
-    public void setCapturedTiles(List<GameBoard.Tile> noncapturedTiles, GameBoard.Player player)
+    public void setCapturedTiles(List<GameBoard.Tile> gameboardTiles, GameBoard.Player player)
     {
         //make sure that the tile is not owned. If it is owned, there is no need to search it.
-        if (noncapturedTiles[0].player == GameBoard.Player.None && !noncapturedTiles[0].quartered)
+        List<GameBoard.Tile> nonCapturedTiles = getGameTiles();
+        while (gameboardTiles.Any())
         {
-            CapTileChecker checkResults = checkIfCaptured (noncapturedTiles[0], new CapTileChecker(new List<GameBoard.Tile>(), false), player);
-            if (checkResults.isCaptured)
+            if (gameboardTiles[0].player == GameBoard.Player.None && !gameboardTiles[0].quartered)
             {
-                foreach (GameBoard.Tile tile in checkResults.tileStack)
+                CapTileChecker checkResults = checkIfCaptured (gameboardTiles[0], new CapTileChecker(new List<GameBoard.Tile>(), false), player);
+                if (checkResults.isCaptured)
                 {
-                    tile.player = player;
-                    if(noncapturedTiles.Contains(tile))
+                    foreach (GameBoard.Tile tile in checkResults.tileStack)
                     {
-                        noncapturedTiles.Remove(tile);
-                        Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been set to captured and removed from the captured list.");
+                        tile.player = player;
+                        if(gameboardTiles.Contains(tile))
+                        {
+                            gameboardTiles.Remove(tile);
+                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been set to captured and removed from the captured list.");
+                        }
                     }
-                }
-            } else
-            {
-                foreach (GameBoard.Tile tile in checkResults.tileStack)
+                } else
                 {
-                    if(noncapturedTiles.Contains(tile))
+                    foreach (GameBoard.Tile tile in checkResults.tileStack)
                     {
-                        noncapturedTiles.Remove(tile);
-                        Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been removed from the captured list.");
+                        if(gameboardTiles.Contains(tile))
+                        {
+                            gameboardTiles.Remove(tile);
+                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been removed from the captured list.");
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            noncapturedTiles.Remove(noncapturedTiles[0]);
+            else
+            {
+                gameboardTiles.Remove(gameboardTiles[0]);
+            }
         }
     }
 
@@ -1513,7 +1548,7 @@ public class GameBoard
 
     bool areAdjacent(Coordinate c1, Coordinate c2)
     {
-        if((c1.x == c2.x && c1.y - 1 == c2.y) || (c1.x == c2.x && c1.y + 1 == c2.y) || (c1.x - 1 == c2.x && c1.y == c2.y) || (c1.x - 1 == c2.x && c1.y == c2.y))
+        if((c1.x == c2.x && c1.y - 1 == c2.y) || (c1.x == c2.x && c1.y + 1 == c2.y) || (c1.x - 1 == c2.x && c1.y == c2.y) || (c1.x + 1 == c2.x && c1.y == c2.y))
         {
             return true;
         }

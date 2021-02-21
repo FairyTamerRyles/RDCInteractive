@@ -92,6 +92,34 @@ TagManager:
   - 3.3
   - 4.0
   - 4.-1
+  - RedResource
+  - BlueResource
+  - GreenResource
+  - YellowResource
+  - RedIncrement
+  - RedDecrement
+  - BlueIncrement
+  - BlueDecrement
+  - GreenIncrement
+  - GreenDecrement
+  - YellowIncrement
+  - YellowDecrement
+  - P1_0
+  - P1_1
+  - P1_2
+  - P1_3
+  - P2_0
+  - P2_1
+  - P2_2
+  - P2_3
+  - +B
+  - -B
+  - +R
+  - -R
+  - +G
+  - -G
+  - +Y
+  - -Y
   layers:
   - Default
   - TransparentFX
