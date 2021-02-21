@@ -361,7 +361,6 @@ public class GameBoard
         {
             if(setupCounter <= 4)
             {
-                Debug.Log("Made a start move");
                 m = new Move(new int[]{0,0,0,0}, currentPlayer, coord, MoveType.StartMove);
             }
             else
@@ -442,12 +441,10 @@ public class GameBoard
     public void undo()
     {
         Move lastMove = moveQueue[moveQueue.Count - 1];
-        Debug.Log(lastMove.resourceChange[0].ToString() + "," + lastMove.resourceChange[1].ToString() + "," + lastMove.resourceChange[2].ToString() + "," + lastMove.resourceChange[3].ToString());
         for(int i = 0; i < numResources; ++i)
         {
             lastMove.resourceChange[i] *= -1;
         }
-        Debug.Log(lastMove.resourceChange[0].ToString() + "," + lastMove.resourceChange[1].ToString() + "," + lastMove.resourceChange[2].ToString() + "," + lastMove.resourceChange[3].ToString());
         applyResourceChange(lastMove);
         if(lastMove.moveType != MoveType.Trade)
         {
@@ -881,7 +878,7 @@ public class GameBoard
 
     private void applyResourceChange(Move m)
     {
-        Debug.Log(m.resourceChange[0].ToString() + "," + m.resourceChange[1].ToString() + "," + m.resourceChange[2].ToString() + "," + m.resourceChange[3].ToString());
+        //Debug.Log(m.resourceChange[0].ToString() + "," + m.resourceChange[1].ToString() + "," + m.resourceChange[2].ToString() + "," + m.resourceChange[3].ToString());
         for(int i = 0; i < numResources; ++i)
         {
             if(m.player == Player.Player1)
@@ -1202,7 +1199,6 @@ public class GameBoard
                         if(gameboardTiles.Contains(tile))
                         {
                             gameboardTiles.Remove(tile);
-                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been set to captured and removed from the captured list.");
                         }
                     }
                 } else
@@ -1212,7 +1208,6 @@ public class GameBoard
                         if(gameboardTiles.Contains(tile))
                         {
                             gameboardTiles.Remove(tile);
-                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been removed from the captured list.");
                         }
                     }
                 }
