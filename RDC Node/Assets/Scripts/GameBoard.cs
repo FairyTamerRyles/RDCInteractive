@@ -207,6 +207,10 @@ public class GameBoard
         currentPlayer = g.getCurrentPlayer();
         setupCounter = g.getTurnCounter();
         tradeMadeThisTurn = g.tradeMadeThisTurn;
+        player1Resources = new int[4];
+        player2Resources = new int[4];
+        gameBoard = new GamePiece[boardSize, boardSize];
+        moveQueue = new List<Move>();
 
         for(int i = 0; i < numResources; ++i)
         {
