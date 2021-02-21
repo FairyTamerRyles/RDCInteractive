@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
     public GameObject orangeSlime;
     public GameObject purpleVertical;
     public GameObject orangeVertical;
+    public GameObject gameOver;
     
     //make setGameControllerReference
     // Start is called before the first frame update
@@ -132,15 +133,26 @@ public class GameController : MonoBehaviour
     public void endTurn()
     {
         gameBoard.endTurn();
-        updateResourceCounters();
-        updateScore();
-        if(gameBoard.getTurnCounter() <= 4)
+        if(gameBoard.checkForWin() != GameBoard.Player.None)
         {
-            GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
+            updateScore();
+            Instantiate(gameOver, new Vector3(0, 0, 1), Quaternion.identity);
+            GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
+            //TODO: Give them the option to leave
         }
         else
         {
-            GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
+            updateResourceCounters();
+            
+            if(gameBoard.getTurnCounter() <= 4)
+            {
+                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
+                updateScore();
+            }
         }
     }
 
