@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour
         randomAI = new AdamRandomAI(gameBoard);
         piecesPlacedThisTurn = new List<GameObject>();
         testAI.AIGameBoard = gameBoard;
-        foreach (GameBoard.Tile tile in gameBoard.GameTiles) 
+        foreach (GameBoard.Tile tile in gameBoard.GameTiles)
         {
             string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
             GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
@@ -88,7 +88,7 @@ public class GameController : MonoBehaviour
                 string pieceType = button.name.Substring(0, 1);
                 switch(pieceType)
                 {
-                    case "N": 
+                    case "N":
                         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                         {
                             newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
@@ -153,7 +153,7 @@ public class GameController : MonoBehaviour
             updateResourceCounters();
             updateCurrentPlayer();
             updateExhaustedTiles();
-            //Not end of game          
+            //Not end of game
             if(gameBoard.getTurnCounter() <= 4)
             {
                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
