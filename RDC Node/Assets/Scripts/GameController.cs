@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
 
 public class GameController : MonoBehaviour
 {
@@ -56,7 +57,7 @@ public class GameController : MonoBehaviour
         randomAI = new AdamRandomAI(gameBoard);
         piecesPlacedThisTurn = new List<GameObject>();
         testAI.AIGameBoard = gameBoard;
-        foreach (GameBoard.Tile tile in gameBoard.GameTiles) 
+        foreach (GameBoard.Tile tile in gameBoard.GameTiles)
         {
             string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
             GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
@@ -88,7 +89,7 @@ public class GameController : MonoBehaviour
                 string pieceType = button.name.Substring(0, 1);
                 switch(pieceType)
                 {
-                    case "N": 
+                    case "N":
                         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                         {
                             newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
@@ -135,6 +136,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private IEnumerator makeAIMove()
+    {
+        yield return new WaitForSeconds(2);
+        GameBoard boardAfterAIMove = randomAI.makeRandomAIMove(new GameBoard(gameBoard));
+        updateBoardGraphic(boardAfterAIMove);
+        gameBoard = new GameBoard(boardAfterAIMove);
+        updateResourceCounters();
+        endTurn();
+        enablePlayerPlaying();
+    }
+
     public void endTurn()
     {
         gameBoard.endTurn();
@@ -153,7 +165,7 @@ public class GameController : MonoBehaviour
             updateResourceCounters();
             updateCurrentPlayer();
             updateExhaustedTiles();
-            //Not end of game          
+            //Not end of game
             if(gameBoard.getTurnCounter() <= 4)
             {
                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
@@ -165,17 +177,18 @@ public class GameController : MonoBehaviour
                 updateLargestNetwork();
             }
 
+            //Let AI make a move
             if(gameType == GameType.AI && gameBoard.getCurrentPlayer() != humanPlayer)
             {
                 blockPlayerFromPlaying();
-                GameBoard boardAfterAIMove = randomAI.makeRandomAIMove(new GameBoard(gameBoard));
-                updateBoardGraphic(boardAfterAIMove);
-                gameBoard = new GameBoard(boardAfterAIMove);
-                updateResourceCounters();
-                endTurn();
+                StartCoroutine(makeAIMove());
+            }
+            else
+            {
                 enablePlayerPlaying();
             }
         }
+        
     }
 
     public void makeTrade(int[] rChange)
@@ -298,7 +311,7 @@ public class GameController : MonoBehaviour
 
     public void blockPlayerFromPlaying()
     {
-        //TODO: prevent player from playing whil AI/Network is making move
+        GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
     }
 
     public void updateBoardGraphic(GameBoard newBoard)
@@ -354,7 +367,12 @@ public class GameController : MonoBehaviour
 
     public void enablePlayerPlaying()
     {
-        //TODO:Reallow player to play
+        GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = true;
+    }
+
+    private IEnumerator WaitForSomeTime(int time)
+    {
+        yield return new WaitForSeconds(time);
     }
 
     public void updateExhaustedTiles()
