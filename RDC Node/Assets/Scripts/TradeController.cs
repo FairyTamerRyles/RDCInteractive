@@ -315,8 +315,11 @@ public class TradeController : MonoBehaviour
         BlueCounter.GetComponent<Text>().enabled = false;
         GreenCounter.GetComponent<Text>().enabled = false;
         YellowCounter.GetComponent<Text>().enabled = false;
-        disabledIncrement.interactable = true;
-        disabledDecrement.interactable = true;
+        if(disabledDecrement)
+        {
+            disabledIncrement.interactable = true;
+            disabledDecrement.interactable = true;
+        }
         disabledDecrement = null;
         disabledIncrement = null;
         selectedResource = -1;

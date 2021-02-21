@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public GameBoard gameBoard;
+    private GameBoard gameBoard;
     private AI testAI;
+    private List<GameObject> piecesPlacedThisTurn;
 
     public Button[] nodeButtons;
     public Button[] branchButtons;
@@ -34,6 +35,13 @@ public class GameController : MonoBehaviour
     public GameObject purpleVertical;
     public GameObject orangeVertical;
     public GameObject gameOver;
+
+    public enum GameType
+    {
+        Local = 0,
+        AI = 1,
+        Network = 2
+    }
     
     //make setGameControllerReference
     // Start is called before the first frame update
@@ -55,6 +63,7 @@ public class GameController : MonoBehaviour
     {
         gameBoard = new GameBoard();
         testAI = new AI();
+        piecesPlacedThisTurn = new List<GameObject>();
         testAI.AIGameBoard = gameBoard;
         foreach (GameBoard.Tile tile in gameBoard.GameTiles) 
         {
@@ -63,6 +72,8 @@ public class GameController : MonoBehaviour
             List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
             Instantiate(tilePrefab[0], new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
         }
+        updateCurrentPlayer();
+        GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
     }
 
     public void onBranchNodeClick(Button button)
@@ -81,17 +92,18 @@ public class GameController : MonoBehaviour
                  GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
             }
 
+            GameObject newGameObject = new GameObject();
             string pieceType = button.name.Substring(0, 1);
             switch(pieceType)
             {
                 case "N": 
                     if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                     {
-                        Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
+                        newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
                     }
                     else
                     {
-                        Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
+                        newGameObject = Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
                     }
                     break;
 
@@ -100,26 +112,28 @@ public class GameController : MonoBehaviour
                     {
                         if(gameBoard.isHorizontalBranch(gamePieceCoord))
                         {
-                            Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
                         }
                         else
                         {
-                            Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                            newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
                         }
                     }
                     else
                     {
                         if(gameBoard.isHorizontalBranch(gamePieceCoord))
                         {
-                            Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                            newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
                         }
                         else
                         {
-                            Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                            newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
                         }
                     }
                     break;
             }
+            piecesPlacedThisTurn.Add(newGameObject);
+            GameObject.Find("UndoButton").GetComponent<Button>().interactable = true;
             updateResourceCounters();
             gameBoard.logGameBoard();
 
@@ -133,6 +147,9 @@ public class GameController : MonoBehaviour
     public void endTurn()
     {
         gameBoard.endTurn();
+        piecesPlacedThisTurn.Clear();
+        GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
+        //End of game
         if(gameBoard.checkForWin() != GameBoard.Player.None)
         {
             updateScore();
@@ -143,7 +160,8 @@ public class GameController : MonoBehaviour
         else
         {
             updateResourceCounters();
-            
+            updateCurrentPlayer();
+            //Not end of game          
             if(gameBoard.getTurnCounter() <= 4)
             {
                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
@@ -152,6 +170,7 @@ public class GameController : MonoBehaviour
             {
                 GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
                 updateScore();
+                updateLargestNetwork();
             }
         }
     }
@@ -163,6 +182,7 @@ public class GameController : MonoBehaviour
             gameBoard.makeTrade(rChange);
             updateResourceCounters();
             GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = false;
+            GameObject.Find("UndoButton").GetComponent<Button>().interactable = true;
         }
     }
 
@@ -202,9 +222,70 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void updateLargestNetwork()
+    {
+        if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.Player1)
+        {
+            GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -4, GameObject.Find("FickleOrange").transform.position.z);
+            GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 10, GameObject.Find("FicklePurple").transform.position.z);
+        }
+        else if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.Player2)
+        {
+            GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -10, GameObject.Find("FickleOrange").transform.position.z);
+            GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 4, GameObject.Find("FicklePurple").transform.position.z);
+        }
+        else if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.None)
+        {
+            GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -10, GameObject.Find("FickleOrange").transform.position.z);
+            GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 10, GameObject.Find("FicklePurple").transform.position.z);
+        }
+    }
+
+    public void updateCurrentPlayer()
+    {
+        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+        {
+            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -4, GameObject.Find("OrangePlayer").transform.position.z);
+            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 10, GameObject.Find("PurplePlayer").transform.position.z);
+        }
+        else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
+        {
+            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -10, GameObject.Find("OrangePlayer").transform.position.z);
+            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 4, GameObject.Find("PurplePlayer").transform.position.z);
+        }
+    }
+
     private void updateScore()
     {
         GameObject.Find("Player1_ScoreText").GetComponent<Text>().text = "Player 1\nScore: " + gameBoard.getScore(GameBoard.Player.Player1).ToString();
         GameObject.Find("Player2_ScoreText").GetComponent<Text>().text = "Player 2\nScore: " + gameBoard.getScore(GameBoard.Player.Player2).ToString();
+    }
+
+    public void undo()
+    {
+        Debug.Log("Undo called");
+        if(gameBoard.getTurnCounter() <= 4)
+        {
+            GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
+        }
+
+        if(gameBoard.mostRecentMove().moveType != GameBoard.MoveType.Trade)
+        {
+            GameObject toBeDestroyed = piecesPlacedThisTurn[piecesPlacedThisTurn.Count - 1];
+            piecesPlacedThisTurn.RemoveAt(piecesPlacedThisTurn.Count - 1);
+            Destroy(toBeDestroyed);
+        }
+        else
+        {
+            GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
+        }
+        gameBoard.undo();
+
+        if(gameBoard.mostRecentMove() == null)
+        {
+            GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
+        }
+
+        updateResourceCounters();
     }
 }

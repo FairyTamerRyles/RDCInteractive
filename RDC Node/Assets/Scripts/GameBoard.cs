@@ -207,6 +207,15 @@ public class GameBoard
         return currentPlayer;
     }
 
+    public Move mostRecentMove()
+    {
+        if(moveQueue.Count > 0)
+        {
+            return moveQueue[moveQueue.Count - 1];
+        }
+        return null;
+    }
+
     public GamePiece[,] getGameBoard()
     {
         return gameBoard;
@@ -271,7 +280,8 @@ public class GameBoard
 
     public void makeTrade(int[] resourceChange)
     {
-        Move m = new Move(resourceChange, currentPlayer, new Coordinate{x = 0, y = 0}, MoveType.Trade);
+        int[] newrChange = resourceChange.ToArray<int>();
+        Move m = new Move(newrChange, currentPlayer, new Coordinate{x = 0, y = 0}, MoveType.Trade);
         makeMove(m);
     }
 
@@ -363,10 +373,12 @@ public class GameBoard
     public void undo()
     {
         Move lastMove = moveQueue[moveQueue.Count - 1];
+        Debug.Log(lastMove.resourceChange[0].ToString() + "," + lastMove.resourceChange[1].ToString() + "," + lastMove.resourceChange[2].ToString() + "," + lastMove.resourceChange[3].ToString());
         for(int i = 0; i < numResources; ++i)
         {
             lastMove.resourceChange[i] *= -1;
         }
+        Debug.Log(lastMove.resourceChange[0].ToString() + "," + lastMove.resourceChange[1].ToString() + "," + lastMove.resourceChange[2].ToString() + "," + lastMove.resourceChange[3].ToString());
         applyResourceChange(lastMove);
         if(lastMove.moveType != MoveType.Trade)
         {
@@ -800,6 +812,7 @@ public class GameBoard
 
     private void applyResourceChange(Move m)
     {
+        Debug.Log(m.resourceChange[0].ToString() + "," + m.resourceChange[1].ToString() + "," + m.resourceChange[2].ToString() + "," + m.resourceChange[3].ToString());
         for(int i = 0; i < numResources; ++i)
         {
             if(m.player == Player.Player1)

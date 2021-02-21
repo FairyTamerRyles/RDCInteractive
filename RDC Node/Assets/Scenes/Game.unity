@@ -7800,7 +7800,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 902887248}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1357508548}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: undo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &902887248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7988,7 +8000,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: 'Button
+
+'
 --- !u!222 &939013067
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13837,7 +13851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5183651392710140310, guid: 7ceeef6832cc9064ba4842a40fcd1a42, type: 3}
       propertyPath: m_Name
-      value: OrangePalyer
+      value: OrangePlayer
       objectReference: {fileID: 0}
     - target: {fileID: 6017126203705527002, guid: 7ceeef6832cc9064ba4842a40fcd1a42, type: 3}
       propertyPath: m_RootOrder
@@ -16352,7 +16366,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Undo
 --- !u!222 &1726270686
 CanvasRenderer:
   m_ObjectHideFlags: 0
