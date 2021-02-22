@@ -12492,6 +12492,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.44591188
       objectReference: {fileID: 0}
+    - target: {fileID: 3718857174589120977, guid: 7ceeef6832cc9064ba4842a40fcd1a42, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183651392710140310, guid: 7ceeef6832cc9064ba4842a40fcd1a42, type: 3}
       propertyPath: m_Name
       value: PurplePlayer
@@ -17630,6 +17634,32 @@ MonoBehaviour:
   green2X: {fileID: 7152642986780297455, guid: d3a39be764fdfa14983e819ffd56047a, type: 3}
   green3X: {fileID: 3464067337296211546, guid: 033289f7e2b8bde4c98521ecfaf86e3e, type: 3}
   voidTile: {fileID: 2376091138575734495, guid: 15e9e475a430d434f97dae922246fbcf, type: 3}
+  red1CP1: {fileID: 2239286181937856272, guid: 90f803a47fdc9404fa8e36a59c3d7e5d, type: 3}
+  red2CP1: {fileID: 5050048940714721929, guid: fb6945be1d8d56a4491cf3eba61a7c97, type: 3}
+  red3CP1: {fileID: 7154302105893666571, guid: d0a92c6f7fe6d1e40854f798b916b202, type: 3}
+  blue1CP1: {fileID: 842546791118526198, guid: 4ef9308795d68f44d9bd7168dfdbdffa, type: 3}
+  blue2CP1: {fileID: 619200734326160915, guid: 86029888e27f64045b9658efc294e8f1, type: 3}
+  blue3CP1: {fileID: 275393295300396293, guid: a22e873b0eb4b834f879cc7049bd9a56, type: 3}
+  yellow1CP1: {fileID: 6355935787638991185, guid: 060de560e2c2bc841aaaa222487f9d9a, type: 3}
+  yellow2CP1: {fileID: 7657610411880594518, guid: 626cdf11d10ebd44b8dfa88f60299b60, type: 3}
+  yellow3CP1: {fileID: 4163714241056937653, guid: a352075e990a88a4fa7a3e5332cdd310, type: 3}
+  green1CP1: {fileID: 7711643128130694130, guid: e943065fd425e9346923155f66b1c170, type: 3}
+  green2CP1: {fileID: 2870728767554782854, guid: cdf847e80447b9a4c928b54bfd19923f, type: 3}
+  green3CP1: {fileID: 4394018719074324047, guid: 4beb854ec6287d74e918605974b5b416, type: 3}
+  voidTileCP1: {fileID: 2239286181937856272, guid: 90f803a47fdc9404fa8e36a59c3d7e5d, type: 3}
+  red1CP2: {fileID: 4817584093595366827, guid: e9e070fd1acab3b47931c9cacb22567c, type: 3}
+  red2CP2: {fileID: 3917504895018932834, guid: 7c460c8c41406384490e195a8b515a90, type: 3}
+  red3CP2: {fileID: 7306758565949892622, guid: c621a9747dac2f34a88ca29b59f05481, type: 3}
+  blue1CP2: {fileID: 7154941133014147404, guid: 6761b17fffe30a74f8802db7657b38b9, type: 3}
+  blue2CP2: {fileID: 4847154907140109404, guid: f83ed93a24caaa944a8b54480fb7c96f, type: 3}
+  blue3CP2: {fileID: 3712582708713797693, guid: 6e7b1211339dd3749ad71d99895f4550, type: 3}
+  yellow1CP2: {fileID: 2429880780535486308, guid: 942a678808cc7604087ba3a164d4dc5d, type: 3}
+  yellow2CP2: {fileID: 7711534922934606738, guid: 4c45d94087a23204b9410cc15ecc49a9, type: 3}
+  yellow3CP2: {fileID: 7749147503285919937, guid: 86b414b857a0fae4ea642a1ad32b37c5, type: 3}
+  green1CP2: {fileID: 2965815308561048997, guid: 11542ca7df1362a4e96ca6a8f0d980c4, type: 3}
+  green2CP2: {fileID: 3543343028069085349, guid: 16b455da47a2bfa48b3d34457513838f, type: 3}
+  green3CP2: {fileID: 234790772878139762, guid: 830af5ea1976b4b498c4d36cf083a68e, type: 3}
+  voidTileCP2: {fileID: 8550245629956576564, guid: e1ce8b11b076ca249b64437253c4084b, type: 3}
   purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
   purpleVertical: {fileID: 4479259704391619016, guid: a3510a61a47f8fe489eabae02383619c, type: 3}
@@ -19432,7 +19462,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 967318257}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431345402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
