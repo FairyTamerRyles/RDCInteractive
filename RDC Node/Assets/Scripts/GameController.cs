@@ -177,6 +177,7 @@ public class GameController : MonoBehaviour
             updateResourceCounters();
             updateCurrentPlayer();
             updateExhaustedTiles();
+            updateCapturedTiles();
             //Not end of game
             if(gameBoard.getTurnCounter() <= 4)
             {
@@ -405,6 +406,45 @@ public class GameController : MonoBehaviour
                 }
             }
             Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+        }
+    }
+    public void updateCapturedTiles()
+    {
+        List<GameBoard.Tile> tiles = gameBoard.getGameTiles();
+        foreach (GameBoard.Tile tile in tiles) 
+        {
+            if(tile.player == GameBoard.Player.Player1)
+            {
+                string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
+                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject exhaustedTile = new GameObject();
+                foreach (GameObject o in tilePrefab)
+                {
+                    if(o.name.IndexOf("CP1") != -1)
+                    {
+                        exhaustedTile = o;
+                        Debug.Log(o + "is the exhausted tile");
+                    }
+                }
+                //Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            }
+            else if (tile.player == GameBoard.Player.Player2)
+            {
+                string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
+                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject exhaustedTile = new GameObject();
+                foreach (GameObject o in tilePrefab)
+                {
+                    if(o.name.IndexOf("CP2") != -1)
+                    {
+                        exhaustedTile = o;
+                        Debug.Log(o + "is the exhausted tile");
+                    }
+                }
+                //Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            }
         }
     }
 }
