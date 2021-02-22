@@ -279,13 +279,13 @@ public class GameController : MonoBehaviour
     {
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
         {
-            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -4, GameObject.Find("OrangePlayer").transform.position.z);
+            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -3.75f, GameObject.Find("OrangePlayer").transform.position.z);
             GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 10, GameObject.Find("PurplePlayer").transform.position.z);
         }
         else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
             GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -10, GameObject.Find("OrangePlayer").transform.position.z);
-            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 4, GameObject.Find("PurplePlayer").transform.position.z);
+            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 3.75f, GameObject.Find("PurplePlayer").transform.position.z);
         }
     }
 
