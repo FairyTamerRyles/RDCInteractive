@@ -469,7 +469,7 @@ public class GameBoard
 
         for(int i = 0; i < tileIndexes.Count; ++i)
         {
-            if(pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], Player.None))
+            if(pieceAtCoordinateIsOwnedByPlayer(tileIndexes[i], Player.None) && ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).resourceType != ResourceType.None)
             {
                 if(!pieceAtCoordinateIsOwnedByPlayer(new Coordinate { x = tileIndexes[i].x - 1, y = tileIndexes[i].y - 1}, Player.None))
                 {
@@ -493,11 +493,11 @@ public class GameBoard
                 {
                     numNodesAroundTile++;
                 }
-
                 if(numNodesAroundTile > ((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]).maxLoad)
                 {
                     overloadTiles.Add((Tile)gameBoard[tileIndexes[i].x, tileIndexes[i].y]);
                 }
+                numNodesAroundTile = 0;
             }
         }
         return overloadTiles;
