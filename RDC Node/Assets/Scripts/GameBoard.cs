@@ -202,6 +202,17 @@ public class GameBoard
         tradeMadeThisTurn = true;
     }
 
+    public GameBoard(string boardSeed)
+    {
+        gameBoard = generateBoard(boardSeed);
+        player1Resources = new int[4] {0, 0, 0, 0};
+        player2Resources = new int[4] {0, 0, 0, 0};
+        currentPlayer = Player.Player1;
+        moveQueue = new List<Move>();
+        setupCounter = 1;
+        tradeMadeThisTurn = true;
+    }
+
     public GameBoard(GameBoard g)
     {
         currentPlayer = g.getCurrentPlayer();
@@ -963,6 +974,70 @@ public class GameBoard
         return networkSize;
     }
 
+    private GamePiece[,] generateBoard(string boardSeed)
+    {
+        if(boardSeed.Length != 26)
+        {
+            return generateBoard();
+        }
+        GamePiece[,] newBoard = new GamePiece[boardSize, boardSize];
+
+        Dictionary<string, int> tileMap = new Dictionary<string, int>();
+        tileMap.Add("R1", 0);
+        tileMap.Add("R2", 1);
+        tileMap.Add("R3", 2);
+        tileMap.Add("B1", 3);
+        tileMap.Add("B2", 4);
+        tileMap.Add("B3", 5);
+        tileMap.Add("G1", 6);
+        tileMap.Add("G2", 7);
+        tileMap.Add("G3", 8);
+        tileMap.Add("Y1", 9);
+        tileMap.Add("Y2", 10);
+        tileMap.Add("Y3", 11);
+        tileMap.Add("N0", 12);
+
+        for(int i = 0; i < tileIndexes.Count; ++i)
+        {
+            if(tileMap.ContainsKey(boardSeed.Substring(i * 2, 2)))
+            {
+                newBoard[tileIndexes[i].x, tileIndexes[i].y] = GameTiles[tileMap[boardSeed.Substring(i * 2, 2)]];
+                tileMap.Remove(boardSeed.Substring(i * 2, 2));
+            }
+            else
+            {
+                return generateBoard();
+            }
+        }
+
+        //Initialize board by looping over the tile positions and surrounding them with new GamePieces
+        PieceType pt;
+        for(int i = 0; i < tileIndexes.Count; ++i)
+        {
+            newBoard[tileIndexes[i].x, tileIndexes[i].y].coord = tileIndexes[i];
+            for(int row = tileIndexes[i].x - 1; row <= tileIndexes[i].x + 1; ++row)
+            {
+                for(int col = tileIndexes[i].y - 1; col <= tileIndexes[i].y + 1; ++col)
+                {
+                    if(newBoard[row,col] == null)
+                    {
+                        if(col % 2 == 0 && row % 2 == 0)
+                        {
+                            pt = PieceType.Node;
+                            newBoard[row,col] = new GamePiece(new Coordinate{x = row, y = col}, pt);
+                        }
+                        else
+                        {
+                            pt = PieceType.Branch;
+                            newBoard[row,col] = new GamePiece(new Coordinate{x = row, y = col}, pt);
+                        }
+                    }
+                }
+            }
+        }
+        return newBoard;
+    }
+
     private GamePiece[,] generateBoard()
     {
         GamePiece[,] newBoard = new GamePiece[boardSize, boardSize];
@@ -1011,12 +1086,6 @@ public class GameBoard
             }
         }
         return newBoard;
-    }
-
-    private GamePiece[,] generateBoard(string boardSeed)
-    {
-        //TODO: this function should take a seed and create a board based upon it
-        return new GamePiece[11, 11];
     }
 
     //checks if a given coordinate is a valid coordinate with a GamePiece on the board

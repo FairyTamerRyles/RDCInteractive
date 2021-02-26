@@ -104,6 +104,11 @@ public class GameController : MonoBehaviour
         }
         updateCurrentPlayer();
         GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
+        if(gameBoard.getCurrentPlayer() != humanPlayer)
+        {
+            blockPlayerFromPlaying();
+            StartCoroutine(makeAIMove());
+        }
     }
 
     public void onBranchNodeClick(Button button)
@@ -212,6 +217,7 @@ public class GameController : MonoBehaviour
             else
             {
                 GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
+                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
                 updateScore();
                 updateLargestNetwork();
             }
