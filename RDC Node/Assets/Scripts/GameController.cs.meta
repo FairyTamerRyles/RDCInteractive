@@ -3,7 +3,65 @@ guid: 196d0776530159245b0d4e77f901c814
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - p1Score: {instanceID: 0}
+  - p2Score: {instanceID: 0}
+  - red1: {fileID: 4010321404179697298, guid: e564c4c12fc91944594790f3aa7b04ff, type: 3}
+  - red2: {fileID: 4102887280017176510, guid: 670e5a1e6c855d540b2642e50e1def39, type: 3}
+  - red3: {fileID: 3269155979770300630, guid: 25a2ab1b32caffc4188e7370baccc9e4, type: 3}
+  - blue1: {fileID: 2881667151509846118, guid: 1f80b7386480c76459551d536a78d6d0, type: 3}
+  - blue2: {fileID: 8899069597823342269, guid: 4973dfcb58083ca45aac657bfb1545bf, type: 3}
+  - blue3: {fileID: 6459509032194853709, guid: e4592586bf953504e965e88cbe30e59a, type: 3}
+  - yellow1: {fileID: 3544630870927146418, guid: a2f7ea4acd4903f4dbe3a2aad039d180, type: 3}
+  - yellow2: {instanceID: 0}
+  - yellow3: {instanceID: 0}
+  - green1: {instanceID: 0}
+  - green2: {instanceID: 0}
+  - green3: {instanceID: 0}
+  - red1X: {instanceID: 0}
+  - red2X: {instanceID: 0}
+  - red3X: {instanceID: 0}
+  - blue1X: {instanceID: 0}
+  - blue2X: {instanceID: 0}
+  - blue3X: {instanceID: 0}
+  - yellow1X: {instanceID: 0}
+  - yellow2X: {instanceID: 0}
+  - yellow3X: {instanceID: 0}
+  - green1X: {instanceID: 0}
+  - green2X: {instanceID: 0}
+  - green3X: {instanceID: 0}
+  - voidTile: {instanceID: 0}
+  - red1CP1: {instanceID: 0}
+  - red2CP1: {instanceID: 0}
+  - red3CP1: {instanceID: 0}
+  - blue1CP1: {instanceID: 0}
+  - blue2CP1: {instanceID: 0}
+  - blue3CP1: {instanceID: 0}
+  - yellow1CP1: {instanceID: 0}
+  - yellow2CP1: {instanceID: 0}
+  - yellow3CP1: {instanceID: 0}
+  - green1CP1: {instanceID: 0}
+  - green2CP1: {instanceID: 0}
+  - green3CP1: {instanceID: 0}
+  - voidTileCP1: {instanceID: 0}
+  - red1CP2: {instanceID: 0}
+  - red2CP2: {instanceID: 0}
+  - red3CP2: {instanceID: 0}
+  - blue1CP2: {instanceID: 0}
+  - blue2CP2: {instanceID: 0}
+  - blue3CP2: {instanceID: 0}
+  - yellow1CP2: {instanceID: 0}
+  - yellow2CP2: {instanceID: 0}
+  - yellow3CP2: {instanceID: 0}
+  - green1CP2: {instanceID: 0}
+  - green2CP2: {instanceID: 0}
+  - green3CP2: {instanceID: 0}
+  - voidTileCP2: {instanceID: 0}
+  - purpleSlime: {instanceID: 0}
+  - orangeSlime: {instanceID: 0}
+  - purpleVertical: {instanceID: 0}
+  - orangeVertical: {instanceID: 0}
+  - gameOver: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

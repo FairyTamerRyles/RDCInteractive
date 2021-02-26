@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
     public GameObject green1;
     public GameObject green2;
     public GameObject green3;
-     public GameObject red1X;
+    public GameObject red1X;
     public GameObject red2X;
     public GameObject red3X;
     public GameObject blue1X;
@@ -46,6 +46,32 @@ public class GameController : MonoBehaviour
     public GameObject green2X;
     public GameObject green3X;
     public GameObject voidTile;
+    public GameObject red1CP1;
+    public GameObject red2CP1;
+    public GameObject red3CP1;
+    public GameObject blue1CP1;
+    public GameObject blue2CP1;
+    public GameObject blue3CP1;
+    public GameObject yellow1CP1;
+    public GameObject yellow2CP1;
+    public GameObject yellow3CP1;
+    public GameObject green1CP1;
+    public GameObject green2CP1;
+    public GameObject green3CP1;
+    public GameObject voidTileCP1;
+    public GameObject red1CP2;
+    public GameObject red2CP2;
+    public GameObject red3CP2;
+    public GameObject blue1CP2;
+    public GameObject blue2CP2;
+    public GameObject blue3CP2;
+    public GameObject yellow1CP2;
+    public GameObject yellow2CP2;
+    public GameObject yellow3CP2;
+    public GameObject green1CP2;
+    public GameObject green2CP2;
+    public GameObject green3CP2;
+    public GameObject voidTileCP2;
     public GameObject purpleSlime;
     public GameObject orangeSlime;
     public GameObject purpleVertical;
@@ -177,6 +203,7 @@ public class GameController : MonoBehaviour
             updateResourceCounters();
             updateCurrentPlayer();
             updateExhaustedTiles();
+            updateCapturedTiles();
             //Not end of game
             if(gameBoard.getTurnCounter() <= 4)
             {
@@ -278,13 +305,13 @@ public class GameController : MonoBehaviour
     {
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
         {
-            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -4, GameObject.Find("OrangePlayer").transform.position.z);
+            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -3.75f, GameObject.Find("OrangePlayer").transform.position.z);
             GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 10, GameObject.Find("PurplePlayer").transform.position.z);
         }
         else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
             GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -10, GameObject.Find("OrangePlayer").transform.position.z);
-            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 4, GameObject.Find("PurplePlayer").transform.position.z);
+            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 3.75f, GameObject.Find("PurplePlayer").transform.position.z);
         }
     }
 
@@ -405,6 +432,47 @@ public class GameController : MonoBehaviour
                 }
             }
             Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+        }
+    }
+    public void updateCapturedTiles()
+    {
+        List<GameBoard.Tile> tiles = gameBoard.getGameTiles();
+        foreach (GameBoard.Tile tile in tiles) 
+        {
+            if(tile.player == GameBoard.Player.Player1)
+            {
+                string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
+                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject capturedTile = new GameObject();
+                foreach (GameObject o in tilePrefab)
+                {
+                    Debug.Log(o);
+                    if(o.name.IndexOf("CP2") != -1)
+                    {
+                        capturedTile = o;
+                        Debug.Log(o + "is the captured tile");
+                    }
+                }
+                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);
+            }
+            else if (tile.player == GameBoard.Player.Player2)
+            {
+                string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
+                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject capturedTile = new GameObject();
+                foreach (GameObject o in tilePrefab)
+                {
+                    Debug.Log(o);
+                    if(o.name.IndexOf("CP1") != -1)
+                    {
+                        capturedTile = o;
+                        Debug.Log(o + "is the captured tile");
+                    }
+                }
+                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);
+            }
         }
     }
 }

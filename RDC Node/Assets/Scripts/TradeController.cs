@@ -26,11 +26,20 @@ public class TradeController : MonoBehaviour
         BlueResource.interactable = false;
         GreenResource.interactable = false;
         YellowResource.interactable = false;
+
         switch(resourceChosen)
         {
             case "RedResource":
                 if (selectedResource != 0)
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = true;
                     if (selectedResource != -1)
                     {
                         disabledDecrement.interactable = true;
@@ -42,12 +51,21 @@ public class TradeController : MonoBehaviour
                     selectedResource = 0;
                     disabledIncrement.interactable = false;
                     disabledDecrement.interactable = false;
+                    RedCounter.GetComponent<Text>().enabled = false;
                     BlueCounter.GetComponent<Text>().enabled = true;
                     GreenCounter.GetComponent<Text>().enabled = true;
                     YellowCounter.GetComponent<Text>().enabled = true;
                 }
                 else
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
                     resourceTradeCount[0]++;
                     disabledDecrement.interactable = true;
                     disabledIncrement.interactable = true;
@@ -64,6 +82,14 @@ public class TradeController : MonoBehaviour
             case "BlueResource":
                 if (selectedResource != 1)
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = true;
                     if (selectedResource != -1)
                     {
                         disabledDecrement.interactable = true;
@@ -76,11 +102,20 @@ public class TradeController : MonoBehaviour
                     disabledIncrement.interactable = false;
                     disabledDecrement.interactable = false;
                     RedCounter.GetComponent<Text>().enabled = true;
+                    BlueCounter.GetComponent<Text>().enabled = false;
                     GreenCounter.GetComponent<Text>().enabled = true;
                     YellowCounter.GetComponent<Text>().enabled = true;
                 }
                 else
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
                     resourceTradeCount[1]++;
                     disabledDecrement.interactable = true;
                     disabledIncrement.interactable = true;
@@ -97,6 +132,14 @@ public class TradeController : MonoBehaviour
             case "GreenResource":
                 if (selectedResource != 2)
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = true;
                     if (selectedResource != -1)
                     {
                         disabledDecrement.interactable = true;
@@ -110,10 +153,19 @@ public class TradeController : MonoBehaviour
                     disabledDecrement.interactable = false;
                     RedCounter.GetComponent<Text>().enabled = true;
                     BlueCounter.GetComponent<Text>().enabled = true;
+                    GreenCounter.GetComponent<Text>().enabled = false;
                     YellowCounter.GetComponent<Text>().enabled = true;
                 }
                 else
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
                     resourceTradeCount[2]++;
                     disabledDecrement.interactable = true;
                     disabledIncrement.interactable = true;
@@ -130,6 +182,14 @@ public class TradeController : MonoBehaviour
             case "YellowResource":
                 if (selectedResource != 3)
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = true;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = true;
                     if (selectedResource != -1)
                     {
                         disabledDecrement.interactable = true;
@@ -144,9 +204,18 @@ public class TradeController : MonoBehaviour
                     RedCounter.GetComponent<Text>().enabled = true;
                     BlueCounter.GetComponent<Text>().enabled = true;
                     GreenCounter.GetComponent<Text>().enabled = true;
+                    YellowCounter.GetComponent<Text>().enabled = false;
                 }
                 else
                 {
+                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
+                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
                     resourceTradeCount[3]++;
                     disabledDecrement.interactable = true;
                     disabledIncrement.interactable = true;

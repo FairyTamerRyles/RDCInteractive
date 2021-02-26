@@ -450,6 +450,10 @@ public class GameBoard
         {
             gameBoard[lastMove.coord.x, lastMove.coord.y].player = Player.None;
         }
+        else
+        {
+            tradeMadeThisTurn = false;
+        }
 
         moveQueue.RemoveAt(moveQueue.Count - 1);
     }
