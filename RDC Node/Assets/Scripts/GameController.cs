@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour
         humanPlayer = GameBoard.Player.Player1;
 
         gameBoard = new GameBoard();
-        testAI = new AI();
+        testAI = new AI(humanPlayer, gameBoard);
         randomAI = new AdamRandomAI(gameBoard);
         piecesPlacedThisTurn = new List<GameObject>();
         testAI.AIGameBoard = gameBoard;
@@ -100,7 +100,15 @@ public class GameController : MonoBehaviour
             string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
             GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
             List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
-            Instantiate(tilePrefab[0], new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            GameObject startTile = new GameObject();
+            foreach (GameObject o in tilePrefab)
+            {
+                if(o.name.IndexOf('S') != -1)
+                {
+                    startTile = o;
+                }
+            }
+            Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
         }
         updateCurrentPlayer();
         GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
@@ -176,8 +184,8 @@ public class GameController : MonoBehaviour
 
     private IEnumerator makeAIMove()
     {
-        yield return new WaitForSeconds(2);
-        GameBoard boardAfterAIMove = randomAI.makeRandomAIMove(new GameBoard(gameBoard));
+        yield return WaitForSomeTime(5);
+        GameBoard boardAfterAIMove = testAI.makeMove(new GameBoard(gameBoard));
         updateBoardGraphic(boardAfterAIMove);
         gameBoard = new GameBoard(boardAfterAIMove);
         updateResourceCounters();
