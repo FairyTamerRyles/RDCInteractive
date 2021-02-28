@@ -403,7 +403,7 @@ public class GameBoard
             if(checkForWin() != Player.None)
             {
                 //TODO: Something in case of a win
-                Debug.Log("Game is Over");
+                //Debug.Log("Game is Over");
             }
             else
             {
@@ -1634,6 +1634,11 @@ public class GameBoard
             return true;
         }
         return false;
+    }
+
+    public int getSetupCounter()
+    {
+        return setupCounter;
     }
 }
 

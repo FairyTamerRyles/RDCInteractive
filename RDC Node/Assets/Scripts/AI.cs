@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using static System.Math;
-using static System.DateTime;
 
 //All functions will default to void. Go back and fix as more information presents itself
 public class AI
@@ -39,16 +38,18 @@ public class AI
         }
     }
 
-    public class GameState : AI
+    public class GameState
     {
         public GameBoard unendedState;
         public GameBoard actualState;
         public GameBoard.Player largestNetworkOwner;
         public int P1Score;
         public int P2Score;
+        public GameBoard.Player opponent;
 
-        public GameState(GameBoard board)
+        public GameState(GameBoard board, GameBoard.Player o)
         {
+            opponent = o;
             unendedState = board;
             GameBoard newBoard = new GameBoard(board);
             newBoard.endTurn();
@@ -92,7 +93,7 @@ public class AI
         }
         public TreeNode getRandomChildTreeNode()
         {
-            int randomIndex = (int)Round(Random.Range(0.0f, (float)childrenTreeNodes.Count));
+            int randomIndex = (int)Round(Random.Range(0.0f, (float)childrenTreeNodes.Count - 1));
             return childrenTreeNodes[randomIndex];
         }
     }
@@ -103,9 +104,123 @@ public class AI
         int level;
         GameBoard.Player opponent;
 
+        private List<GameBoard.Coordinate> branchIndexes = new List<GameBoard.Coordinate>
+        {
+            new GameBoard.Coordinate{x = 0, y = 5},
+            new GameBoard.Coordinate{x = 1, y = 4},
+            new GameBoard.Coordinate{x = 1, y = 6},
+            new GameBoard.Coordinate{x = 2, y = 3},
+            new GameBoard.Coordinate{x = 2, y = 5},
+            new GameBoard.Coordinate{x = 2, y = 7},
+            new GameBoard.Coordinate{x = 3, y = 2},
+            new GameBoard.Coordinate{x = 3, y = 4},
+            new GameBoard.Coordinate{x = 3, y = 6},
+            new GameBoard.Coordinate{x = 3, y = 8},
+            new GameBoard.Coordinate{x = 4, y = 1},
+            new GameBoard.Coordinate{x = 4, y = 3},
+            new GameBoard.Coordinate{x = 4, y = 5},
+            new GameBoard.Coordinate{x = 4, y = 7},
+            new GameBoard.Coordinate{x = 4, y = 9},
+            new GameBoard.Coordinate{x = 5, y = 0},
+            new GameBoard.Coordinate{x = 5, y = 2},
+            new GameBoard.Coordinate{x = 5, y = 4},
+            new GameBoard.Coordinate{x = 5, y = 6},
+            new GameBoard.Coordinate{x = 5, y = 8},
+            new GameBoard.Coordinate{x = 5, y = 10},
+            new GameBoard.Coordinate{x = 6, y = 1},
+            new GameBoard.Coordinate{x = 6, y = 3},
+            new GameBoard.Coordinate{x = 6, y = 5},
+            new GameBoard.Coordinate{x = 6, y = 7},
+            new GameBoard.Coordinate{x = 6, y = 9},
+            new GameBoard.Coordinate{x = 7, y = 2},
+            new GameBoard.Coordinate{x = 7, y = 4},
+            new GameBoard.Coordinate{x = 7, y = 6},
+            new GameBoard.Coordinate{x = 7, y = 8},
+            new GameBoard.Coordinate{x = 8, y = 3},
+            new GameBoard.Coordinate{x = 8, y = 5},
+            new GameBoard.Coordinate{x = 8, y = 7},
+            new GameBoard.Coordinate{x = 9, y = 4},
+            new GameBoard.Coordinate{x = 9, y = 6},
+            new GameBoard.Coordinate{x = 10, y = 5}
+        };
+
+        private List<GameBoard.Coordinate> nodeIndexes = new List<GameBoard.Coordinate>
+        {
+            new GameBoard.Coordinate{x = 0, y = 4},
+            new GameBoard.Coordinate{x = 0, y = 6},
+            new GameBoard.Coordinate{x = 2, y = 2},
+            new GameBoard.Coordinate{x = 2, y = 4},
+            new GameBoard.Coordinate{x = 2, y = 6},
+            new GameBoard.Coordinate{x = 2, y = 8},
+            new GameBoard.Coordinate{x = 4, y = 0},
+            new GameBoard.Coordinate{x = 4, y = 2},
+            new GameBoard.Coordinate{x = 4, y = 4},
+            new GameBoard.Coordinate{x = 4, y = 6},
+            new GameBoard.Coordinate{x = 4, y = 8},
+            new GameBoard.Coordinate{x = 4, y = 10},
+            new GameBoard.Coordinate{x = 6, y = 0},
+            new GameBoard.Coordinate{x = 6, y = 2},
+            new GameBoard.Coordinate{x = 6, y = 4},
+            new GameBoard.Coordinate{x = 6, y = 6},
+            new GameBoard.Coordinate{x = 6, y = 8},
+            new GameBoard.Coordinate{x = 6, y = 10},
+            new GameBoard.Coordinate{x = 8, y = 2},
+            new GameBoard.Coordinate{x = 8, y = 4},
+            new GameBoard.Coordinate{x = 8, y = 6},
+            new GameBoard.Coordinate{x = 8, y = 8},
+            new GameBoard.Coordinate{x = 10, y = 4},
+            new GameBoard.Coordinate{x = 10, y = 6}
+        };
+
+        public List<GameBoard.Coordinate> copyBranchCoords(List<GameBoard.Coordinate> listToCopy)
+        {
+            List<GameBoard.Coordinate> copyList = new List<GameBoard.Coordinate>();
+            foreach (GameBoard.Coordinate c in listToCopy)
+            {
+                copyList.Add(new GameBoard.Coordinate {x = c.x, y = c.y});
+            }
+            return copyList;
+        }
+
+        public List<GameBoard.Coordinate> copyBranchCoords(List<GameBoard.Coordinate> listToCopy, GameBoard.Coordinate coordToIgnore)
+        {
+            List<GameBoard.Coordinate> copyList = new List<GameBoard.Coordinate>();
+            foreach (GameBoard.Coordinate c in listToCopy)
+            {
+                if(c.x != coordToIgnore.x && c.y != coordToIgnore.y)
+                {
+                    copyList.Add(new GameBoard.Coordinate{x = c.x, y = c.y});
+                }
+            }
+            return copyList;
+        }
+
+        public List<GameBoard.Coordinate> copyNodeCoords(List<GameBoard.Coordinate> listToCopy)
+        {
+            List<GameBoard.Coordinate> copyList = new List<GameBoard.Coordinate>();
+            foreach (GameBoard.Coordinate c in listToCopy)
+            {
+                copyList.Add(new GameBoard.Coordinate{x = c.x, y = c.y});
+            }
+            return copyList;
+        }
+
+        public List<GameBoard.Coordinate> copyNodeCoords(List<GameBoard.Coordinate> listToCopy, GameBoard.Coordinate coordToIgnore)
+        {
+            List<GameBoard.Coordinate> copyList = new List<GameBoard.Coordinate>();
+            foreach (GameBoard.Coordinate c in listToCopy)
+            {
+                if(c.x != coordToIgnore.x && c.y != coordToIgnore.y)
+                {
+                    copyList.Add(new GameBoard.Coordinate{x = c.x, y = c.y});
+                }
+            }
+            return copyList;
+        }
+
         public MonteCarloTree(GameBoard.Player o, GameBoard firstBoard)
         {
-            GameState rootState = new GameState(firstBoard);
+            GameState rootState = new GameState(firstBoard, o);
             root = new TreeNode(rootState);
             expandTree(root);
             level = 1;
@@ -113,16 +228,17 @@ public class AI
         }
         public bool updateRoot(GameBoard gBoard)
         {
+            System.DateTime time = System.DateTime.Now;
             foreach (TreeNode child in root.childrenTreeNodes)
             {
                 bool isNewRoot = true;
                 TreeNode newRoot = child;
-                Debug.Log("About to test for the new root. newRoot's state is");
-                Debug.Log(newRoot.state);
-                if (child.state.P1Score == gBoard.getScore(GameBoard.Player.Player1) &&
+                if (child.state.actualState.getCurrentPlayer() == gBoard.getCurrentPlayer() &&
+                    child.state.P1Score == gBoard.getScore(GameBoard.Player.Player1) &&
                     child.state.P2Score == gBoard.getScore(GameBoard.Player.Player2) &&
                     child.state.largestNetworkOwner == gBoard.playerWithLargestNetwork())
                 {
+                    //Debug.Log("Player and Score");
                     int[] actualP1Resources = gBoard.getResources(GameBoard.Player.Player1);
                     int[] childP1Resources = child.state.actualState.getResources(GameBoard.Player.Player1);
                     for (int i = 0; i < actualP1Resources.Length; i++)
@@ -134,6 +250,7 @@ public class AI
                     }
                     if (isNewRoot)
                     {
+                        //Debug.Log("Player1 resource");
                         int[] actualP2Resources = gBoard.getResources(GameBoard.Player.Player2);
                         int[] childP2Resources = child.state.actualState.getResources(GameBoard.Player.Player2);
                         for (int i = 0; i < actualP2Resources.Length; i++)
@@ -143,8 +260,25 @@ public class AI
                                 isNewRoot = false;
                             }
                         }
+                        if(isNewRoot)
+                        {
+                            //Debug.Log("Player2 resource");
+                            for(int i = 0; i < 11; i++)
+                            {
+                                for(int j = 0; j < 11; j++)
+                                {
+                                    if(gBoard.gameBoard[i,j] != null)
+                                    {
+                                        if (gBoard.gameBoard[i,j].player != child.state.actualState.gameBoard[i,j].player ||
+                                            gBoard.gameBoard[i,j].pieceType != child.state.actualState.gameBoard[i,j].pieceType)
+                                        {
+                                            isNewRoot = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    Debug.Log("All Tests Passed");
                 }
                 else
                 {
@@ -152,50 +286,75 @@ public class AI
                 }
                 if (isNewRoot)
                 {
+                    //Debug.Log("Board matched");
                     root = newRoot;
-                    Debug.Log("New Root Selected: ");
-                    Debug.Log(newRoot.state);
+                    if (root.childrenTreeNodes.Count == 0 && root.state.actualState.checkForWin() == GameBoard.Player.None)
+                    {
+                        expandTree(root);
+                    }
+                    root.parentTreeNode = null;
+                    Debug.Log("Update Root time: " + (System.DateTime.Now - time));
                     return true;
                 }
             }
             Debug.Log("No newRoot was found");
+            if (root.childrenTreeNodes.Count == 0 && root.state.actualState.checkForWin() == GameBoard.Player.None)
+            {
+                expandTree(root);
+            }
+            root.parentTreeNode = null;
+            Debug.Log("Update Root time: " + (System.DateTime.Now - time));
             return false;
         }
 
         public TreeNode selectMove()
         {
             int timePassed = 0;
-            while(timePassed < 5)
+            System.DateTime selectTime = System.DateTime.Now;
+            while(timePassed < 3)
             {
-                Debug.Log("selectedMove Root:");
-                Debug.Log(root.state);
-                TreeNode leafToSimulate = findLeafToSimulate(root);
-                if(leafToSimulate.state.actualState.checkForWin() != GameBoard.Player.None) // node isn't a root node
+                //Debug.Log("Root currently has " + root.childrenTreeNodes.Count + " before finding leaf");
+                TreeNode leafToSimulate = findLeafToSimulate(root, 0);
+                Debug.Log("LeafSelection took " + (System.DateTime.Now - selectTime));
+                selectTime = System.DateTime.Now;
+                if(leafToSimulate.state.actualState.checkForWin() == GameBoard.Player.None && leafToSimulate.childrenTreeNodes.Count == 0) // node isn't a root node
                 {
+                    //Debug.Log("did expand leaf");
                     expandTree(leafToSimulate);
+                    Debug.Log("ExpandTree took " + (System.DateTime.Now - selectTime));
+                    selectTime = System.DateTime.Now;
                 }
                 if(leafToSimulate.childrenTreeNodes.Count > 0)
                 {
                     leafToSimulate = leafToSimulate.getRandomChildTreeNode();
                 }
+                selectTime = System.DateTime.Now;
                 float rolloutResult = rollout(leafToSimulate.state, 0);
+                Debug.Log("Rollout took " + (System.DateTime.Now - selectTime));
+                selectTime = System.DateTime.Now;
                 backPropagate(leafToSimulate, rolloutResult, 0);
+                Debug.Log("backPropogate took " + (System.DateTime.Now - selectTime));
+                selectTime = System.DateTime.Now;
                 timePassed++;
             }
-            TreeNode bestChild = getBestChild();
+            TreeNode bestChild = getBestChild(root);
+            selectTime = System.DateTime.Now;
             root = bestChild;
             root.parentTreeNode = null;
+            if(root.state.actualState.checkForWin() == GameBoard.Player.None && root.childrenTreeNodes.Count == 0) // node isn't a root node
+            {
+                //Debug.Log("did expand leaf");
+                expandTree(root);
+            }
             return bestChild;
         }
 
-        TreeNode findLeafToSimulate(TreeNode root)
+        TreeNode findLeafToSimulate(TreeNode root, int numCap)
         {
             TreeNode node = root;
-            Debug.Log(root);
-            Debug.Log(root.state);
-            while(node.state.actualState.checkForWin() != GameBoard.Player.None || node.visits != 0)
+            while(numCap < 100 && node.state.actualState.checkForWin() == GameBoard.Player.None && node.visits != 0)
             {
-                float maxUCT = Mathf.Infinity;
+                float maxUCT = Mathf.NegativeInfinity;
                 TreeNode bestChild = new TreeNode();
                 foreach (TreeNode child in node.childrenTreeNodes)
                 {
@@ -210,41 +369,44 @@ public class AI
                         node = bestChild;
                     }
                 }
+                numCap++;
+            }
+            if(numCap >= 100)
+            {
+                Debug.Log("FindLeafCappedOut");
             }
             return node;
         }
-        TreeNode uctResult()
-        {
-            return new TreeNode();
-        }
         float rollout(GameState simulation, int numCap)
         {
-            if(numCap > 10)
+            if(numCap > 50)
             {
+                Debug.Log("Rollout capped Out");
                 return Mathf.NegativeInfinity;
             }
-            if ((simulation.opponent == GameBoard.Player.Player1 && simulation.P1Score >=  10) || (simulation.opponent == GameBoard.Player.Player2 && simulation.P2Score >= 10))
+            if (simulation.actualState.checkForWin() == opponent)
             {
+                Debug.Log("Cap: " + numCap);
+                Debug.Log("Simulation lost");
                 return Mathf.NegativeInfinity;
             }
-            else if ((simulation.opponent == GameBoard.Player.Player1 && simulation.P2Score >=  10) || (simulation.opponent == GameBoard.Player.Player2 && simulation.P1Score >= 10))
+            else if (simulation.actualState.checkForWin() != opponent && simulation.actualState.checkForWin() != GameBoard.Player.None)
             {
+                Debug.Log("Cap: " + numCap);
+                Debug.Log("Simulation won");
                 return Mathf.Infinity;
             }
             else
             {
+                System.DateTime time = System.DateTime.Now;
                 List<GameBoard> possibleMoves = getPossibleMoves(simulation.actualState);
-                if(possibleMoves.Count != 0)
-                {
-                    int randomIndex = (int)Round(Random.Range(0.0f, (float)possibleMoves.Count));
-                    GameBoard chosenMove = possibleMoves[randomIndex];
-                    GameState nextState = new GameState(chosenMove);
-                    return rollout(nextState, numCap + 1);
-                }
-                else
-                {
-                    return Mathf.NegativeInfinity;
-                }
+                Debug.Log("PossibleMoves took: " + (System.DateTime.Now - time));
+                Debug.Log("PossibleMoves count: " + possibleMoves.Count);
+                int randomIndex = (int)Round(Random.Range(0.0f, (float)possibleMoves.Count - 1));
+                //Debug.Log("Random: " + randomIndex);
+                GameBoard chosenMove = possibleMoves[randomIndex];
+                GameState nextState = new GameState(chosenMove, simulation.opponent);
+                return rollout(nextState, numCap + 1);
             }
         }
         /*float rolloutStrat()
@@ -254,7 +416,7 @@ public class AI
         void backPropagate(TreeNode leaf, float rolloutResult, int numCap)
         {
             TreeNode node = leaf;
-            while (node.parentTreeNode != null && numCap < 1000000)
+            while (node.parentTreeNode != null)
             {
                 node.visits++;
                 if(node.state.actualState.checkForWin() != node.state.opponent)
@@ -265,9 +427,22 @@ public class AI
                 node = node.parentTreeNode;
             }
         }
-        TreeNode getBestChild()
+        TreeNode getBestChild(TreeNode root)
         {
-            return new TreeNode();
+            TreeNode bestChild = new TreeNode();
+            foreach (TreeNode child in root.childrenTreeNodes)
+            {
+                if (child.wins > bestChild.wins)
+                {
+                    bestChild = child;
+                }
+            }
+            Debug.Log("Children: " + root.childrenTreeNodes.Count);
+            if(root.childrenTreeNodes.IndexOf(bestChild) == -1)
+            {
+                bestChild = root.childrenTreeNodes[0];
+            }
+            return bestChild;
         }
         public float getUCT(int parentVisits, float nodeWinScore, int childVisits)
         {
@@ -282,7 +457,7 @@ public class AI
             List<GameBoard> possibleMoves = getPossibleMoves(nodeToExpand.state.actualState);
             foreach (GameBoard g in possibleMoves)
             {
-                GameState state = new GameState(g);
+                GameState state = new GameState(g, nodeToExpand.state.opponent);
                 TreeNode newNode = new TreeNode(state, nodeToExpand);
                 nodeToExpand.childrenTreeNodes.Add(newNode);
             }
@@ -293,17 +468,29 @@ public class AI
             List<GameBoard> allTradedBoards = getPossibleTrades(gBoard);
             List<GameBoard> allBranchPlacements = new List<GameBoard>();
             List<GameBoard> allPossibleOptions = new List<GameBoard>();
+            List<GameBoard.Coordinate> branchCoords = copyBranchCoords(branchIndexes);
+            List<GameBoard.Coordinate> nodeCoords = copyNodeCoords(nodeIndexes);
+            Debug.Log("Number of Possible Trades: " + allTradedBoards.Count);
             foreach (GameBoard g in allTradedBoards)
             {
-                List<GameBoard> possibleBranches = getPossibleBranches(g);
+                List<GameBoard> possibleBranches = getPossibleBranches(g, branchCoords);
+                if (gBoard.getSetupCounter() > 4)
+                {
+                    possibleBranches.Add(new GameBoard(g));
+                }
                 foreach (GameBoard branchBoard in possibleBranches)
                 {
                     allBranchPlacements.Add(branchBoard);
                 }
             }
+            Debug.Log("Number of Possible Branches with Trades: " + allBranchPlacements.Count);
             foreach (GameBoard g in allBranchPlacements)
             {
-                List<GameBoard> possibleNodes = getPossibleNodes(g);
+                List<GameBoard> possibleNodes = getPossibleNodes(g, nodeCoords);
+                if (gBoard.getSetupCounter() > 4)
+                {
+                    possibleNodes.Add(new GameBoard(g));
+                }
                 foreach (GameBoard nodeBoard in possibleNodes)
                 {
                     allPossibleOptions.Add(nodeBoard);
@@ -355,52 +542,103 @@ public class AI
             return tradedBoards;
         }
 
-        List<GameBoard> getPossibleNodes(GameBoard gBoard)
+        List<GameBoard> getPossibleNodes(GameBoard gBoard, List<GameBoard.Coordinate> unvisitedCoords)
         {
+    
             List<GameBoard.Coordinate> possibleNodeCoords = new List<GameBoard.Coordinate>();
             List<GameBoard> possibleNodes = new List<GameBoard>();
-            for(int i = 0; i < GameBoard.boardSize; ++i)
+            if(unvisitedCoords.Count != 0)
             {
-                for(int j = 0; j < GameBoard.boardSize; ++j)
+                foreach (GameBoard.Coordinate coord in unvisitedCoords)
                 {
-                    GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = i, y = j};
-                    if(gBoard.gameBoard[i,j] != null && gBoard.isNode(testMove) && gBoard.isValidMove(testMove))
+                    GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
+                    if(gBoard.isValidMove(coord))
                     {
                         possibleNodeCoords.Add(testMove);
                     }
                 }
-            }
-            foreach (GameBoard.Coordinate coord in possibleNodeCoords)
-            {
-                GameBoard g = new GameBoard(gBoard);
-                g.placePiece(coord);
-                possibleNodes.Add(g);
+
+                List<GameBoard.Coordinate> abridgedNodeCoords = new List<GameBoard.Coordinate>();
+                foreach (GameBoard.Coordinate coord in possibleNodeCoords)
+                {
+                    abridgedNodeCoords = copyNodeCoords(possibleNodeCoords, coord);
+                    GameBoard g = new GameBoard(gBoard);
+                    g.placePiece(coord);
+                    possibleNodes.Add(g);
+                    possibleNodes = possibleNodes.Concat(getPossibleNodes(g, abridgedNodeCoords)).ToList();
+                }
             }
             return possibleNodes;
         }
         
-        List<GameBoard> getPossibleBranches(GameBoard gBoard)
+        List<GameBoard> getPossibleBranches(GameBoard gBoard, List<GameBoard.Coordinate> unvisitedCoords)
         {
-            List<GameBoard.Coordinate> possibleBranchCoords = new List<GameBoard.Coordinate>();
+            List<GameBoard.Coordinate> possibleInitialBranchCoords = new List<GameBoard.Coordinate>();
             List<GameBoard> possibleBranches = new List<GameBoard>();
-            for(int i = 0; i < GameBoard.boardSize; ++i)
+            if (unvisitedCoords.Count != 0)
             {
-                for(int j = 0; j < GameBoard.boardSize; ++j)
+                foreach (GameBoard.Coordinate coord in unvisitedCoords)
                 {
-                    GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = i, y = j};
-                    if(gBoard.gameBoard[i,j] != null && gBoard.gameBoard[i,j].pieceType == GameBoard.PieceType.Branch && gBoard.isValidMove(testMove))
+                    GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
+                    if(gBoard.isValidMove(coord))
                     {
-                        possibleBranchCoords.Add(testMove);
+                        possibleInitialBranchCoords.Add(testMove);
                     }
                 }
-            }
-            foreach (GameBoard.Coordinate coord in possibleBranchCoords)
-            {
-                GameBoard g = new GameBoard(gBoard);
-                g.placePiece(coord);
-                possibleBranches.Add(g);
+
+                List<GameBoard.Coordinate> abridgedBranchCoords = new List<GameBoard.Coordinate>();
+                foreach (GameBoard.Coordinate coord in possibleInitialBranchCoords)
+                {
+                    abridgedBranchCoords = copyBranchCoords(possibleInitialBranchCoords, coord);
+                    GameBoard g = new GameBoard(gBoard);
+                    g.placePiece(coord);
+                    possibleBranches.Add(g);
+                    abridgedBranchCoords = addNewCoordinates(g, coord, abridgedBranchCoords);
+                    possibleBranches = possibleBranches.Concat(getPossibleBranches(g, abridgedBranchCoords)).ToList();
+                }
             }
             return possibleBranches;
+        }
+        List<GameBoard.Coordinate> addNewCoordinates(GameBoard g, GameBoard.Coordinate newCoord, List<GameBoard.Coordinate> abridgedCoords)
+        {
+            
+            List<GameBoard.Coordinate> potentialNewbies = new List<GameBoard.Coordinate>();
+            if (g.isHorizontalBranch(newCoord))
+            {
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x - 1, y = newCoord.y - 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x + 1, y = newCoord.y - 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x, y = newCoord.y - 2});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x - 1, y = newCoord.y + 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x + 1, y = newCoord.y + 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x, y = newCoord.y + 2});
+            }
+            else if (g.isVerticalBranch(newCoord))
+            {
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x - 1, y = newCoord.y - 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x - 1, y = newCoord.y + 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x - 2, y = newCoord.y});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x + 1, y = newCoord.y - 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x + 1, y = newCoord.y + 1});
+                potentialNewbies.Add(new GameBoard.Coordinate{x = newCoord.x + 2, y = newCoord.y});
+            }
+            foreach (GameBoard.Coordinate c in potentialNewbies)
+            {
+                bool included = false;
+                foreach (GameBoard.Coordinate ac in abridgedCoords)
+                {
+                    if (c.x == ac.x && c.y == ac.y ||
+                        (c.x >= 0 && c.x < 11) ||
+                        (c.y >= 0 && c.y < 11))
+                    {
+                        included = true;
+                    }
+                }
+                if(!included)
+                {
+                    abridgedCoords.Add(c);
+                }
+            }
+            return abridgedCoords;
         }
     }
 
@@ -410,19 +648,20 @@ public class AI
         opponent = o;
         Freederick = new MonteCarloTree(o, firstBoard);
     }
-    public AI()
+    /*public AI()
     {
         AIGameBoard = new GameBoard();
         opponent = GameBoard.Player.None;
         Freederick = null;
-    }
+    }*/
 
     public GameBoard makeMove(GameBoard gBoard)
     {
+        System.DateTime time = System.DateTime.Now;
         Freederick.updateRoot(gBoard);
-        Debug.Log("The cheese is");
-        Debug.Log(Freederick.root);
+        Debug.Log("After updating the root, Freedericks children count is " + Freederick.root.childrenTreeNodes.Count);
         TreeNode selectedNode = Freederick.selectMove();
+        Debug.Log("Selection of move from Freederick took " + (System.DateTime.Now - time));
         return selectedNode.state.unendedState;
     }
 
@@ -545,7 +784,6 @@ public class AI
                         if(noncapturedTiles.Contains(tile))
                         {
                             noncapturedTiles.Remove(tile);
-                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been set to captured and removed from the captured list.");
                         }
                     }
                 } else
@@ -555,7 +793,6 @@ public class AI
                         if(noncapturedTiles.Contains(tile))
                         {
                             noncapturedTiles.Remove(tile);
-                            Debug.Log(tile.coord.x + " - " + tile.coord.y + " has been removed from the captured list.");
                         }
                     }
                 }
