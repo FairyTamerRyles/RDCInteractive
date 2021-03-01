@@ -6,6 +6,10 @@ public class NoNodeIcon : MonoBehaviour
 {
     public GameObject controller;
 
+    private Animator animator;
+
+    private bool hovered;
+
     Color mouseOverColor = Color.cyan;
 
     Color originalColor;
@@ -16,7 +20,8 @@ public class NoNodeIcon : MonoBehaviour
     {
         Debug.Log(this.name);
         sprite = GetComponent<SpriteRenderer>();
-        originalColor = sprite.color; 
+        originalColor = sprite.color;
+        animator = GetComponent<Animator>(); 
     }
 
     // Start is called before the first frame update
@@ -25,15 +30,17 @@ public class NoNodeIcon : MonoBehaviour
         GameBoard.Coordinate nodeCoord = parseName();
         if(controller.GetComponent<GameController>().getGameBoard().isValidMove(nodeCoord))
         {
-            sprite.color = mouseOverColor;
+            hovered = true;
+            animator.SetBool("validHover", true);
         }
     }
 
     void OnMouseExit()
     {
-        if(sprite.color != originalColor)
+        if(hovered)
         {
-            sprite.color = originalColor;
+            hovered = false;
+            animator.SetBool("validHover", false);
         }
     }
 
