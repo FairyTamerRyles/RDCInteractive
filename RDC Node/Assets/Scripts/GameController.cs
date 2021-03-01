@@ -88,9 +88,9 @@ public class GameController : MonoBehaviour
     void Start()
     {
         gameType = GameType.AI;
-        humanPlayer = GameBoard.Player.Player1;
+        humanPlayer = GameBoard.Player.Player2;
 
-        gameBoard = new GameBoard();
+        gameBoard = new GameBoard("N0Y3Y2B2B1G3G2R1R2B3G1Y1R3");
         testAI = new AI(humanPlayer, gameBoard);
         randomAI = new AdamRandomAI(gameBoard);
         piecesPlacedThisTurn = new List<GameObject>();
@@ -488,5 +488,10 @@ public class GameController : MonoBehaviour
                 Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);
             }
         }
+    }
+
+    public GameBoard getGameBoard()
+    {
+        return new GameBoard(gameBoard);
     }
 }

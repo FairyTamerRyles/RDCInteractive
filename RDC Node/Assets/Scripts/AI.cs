@@ -168,6 +168,7 @@ public class AI
             new GameBoard.Coordinate{x = 8, y = 4},
             new GameBoard.Coordinate{x = 8, y = 6},
             new GameBoard.Coordinate{x = 8, y = 8},
+            //Matthew was here
             new GameBoard.Coordinate{x = 10, y = 4},
             new GameBoard.Coordinate{x = 10, y = 6}
         };
