@@ -30,6 +30,7 @@ public class NoNodeIcon : MonoBehaviour
         GameBoard.Coordinate nodeCoord = parseName();
         if(controller.GetComponent<GameController>().getGameBoard().isValidMove(nodeCoord))
         {
+            Debug.Log("Valid Hover");
             hovered = true;
             animator.SetBool("validHover", true);
         }
