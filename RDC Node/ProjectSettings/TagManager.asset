@@ -120,6 +120,8 @@ TagManager:
   - -G
   - +Y
   - -Y
+  - branch
+  - node
   layers:
   - Default
   - TransparentFX
