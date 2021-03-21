@@ -34,7 +34,7 @@ public class SoundManager : MonoBehaviour
 
     public void Play(int i = 0) {
         Stop();
-        audioSources[i].volume = 100;
+        audioSources[i].volume = 1;
         playing = audioSources[i];
     }
 
@@ -50,7 +50,6 @@ public class SoundManager : MonoBehaviour
         transitionProgress = 0.0;
         transitioningTo = audioSources[i];
         transitioning = true;
-        Debug.Log("Transition Began");
     }
 
     void FixedUpdate() {
@@ -59,14 +58,13 @@ public class SoundManager : MonoBehaviour
 
             if (transitionProgress >= transitionLength) {
                 playing.volume = 0;
-                transitioningTo.volume = 100;
+                transitioningTo.volume = 1;
                 playing = transitioningTo;
                 transitioningTo = null;
                 transitioning = false;
-                Debug.Log("Transition Ended");
             } else {
-                playing.volume = 100 - Convert.ToInt32((transitionProgress / transitionLength) * 100);
-                transitioningTo.volume = 100 - playing.volume;
+                playing.volume = (float)(1 - (transitionProgress / transitionLength));
+                transitioningTo.volume = (float)(1 - playing.volume);
             }
         }
     }

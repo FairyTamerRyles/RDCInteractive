@@ -5,10 +5,16 @@ using UnityEngine;
 public class Scaffold : MonoBehaviour
 {
     public SoundManager soundManager;
-    private bool flag = false;
+    private bool flag = true;
 
     public void Play() {
-        soundManager.Play(2);
+        if (flag) {
+            soundManager.Play(2);
+        } else {
+            soundManager.Play(3);
+        }
+
+        flag = !flag;
     }
 
     public void Stop() {
