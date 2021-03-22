@@ -77,6 +77,9 @@ public class GameController : MonoBehaviour
     public GameObject purpleVertical;
     public GameObject orangeVertical;
     public GameObject gameOver;
+    public GameObject connectionManager;
+    public GameObject matchmakingManager;
+    public GameObject gameNetworkingManager;
 
     public enum GameType
     {
@@ -90,32 +93,40 @@ public class GameController : MonoBehaviour
         gameType = GameType.AI;
         humanPlayer = GameBoard.Player.Player2;
 
-        gameBoard = new GameBoard("N0Y3Y2B2B1G3G2R1R2B3G1Y1R3");
-        testAI = new AI(humanPlayer, gameBoard);
-        randomAI = new AdamRandomAI(gameBoard);
-        piecesPlacedThisTurn = new List<GameObject>();
-        testAI.AIGameBoard = gameBoard;
-        foreach (GameBoard.Tile tile in gameBoard.GameTiles)
-        {
-            string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
-            GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
-            List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
-            GameObject startTile = new GameObject();
-            foreach (GameObject o in tilePrefab)
+        if(gameType != GameType.Network)
+        { 
+            gameBoard = new GameBoard();
+            testAI = new AI(humanPlayer, gameBoard);
+            randomAI = new AdamRandomAI(gameBoard);
+            piecesPlacedThisTurn = new List<GameObject>();
+            testAI.AIGameBoard = gameBoard;
+            foreach (GameBoard.Tile tile in gameBoard.GameTiles)
             {
-                if(o.name.IndexOf('S') != -1)
+                string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
+                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject startTile = new GameObject();
+                foreach (GameObject o in tilePrefab)
                 {
-                    startTile = o;
+                    if(o.name.IndexOf('S') != -1)
+                    {
+                        startTile = o;
+                    }
                 }
+                Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
             }
-            Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            updateCurrentPlayer();
+            GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
+            if(gameType == GameType.AI && gameBoard.getCurrentPlayer() != humanPlayer)
+            {
+                blockPlayerFromPlaying();
+                StartCoroutine(makeAIMove());
+            }
         }
-        updateCurrentPlayer();
-        GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
-        if(gameBoard.getCurrentPlayer() != humanPlayer)
+        else
         {
-            blockPlayerFromPlaying();
-            StartCoroutine(makeAIMove());
+            connectionManager.GetComponent<ConnectionManager>().Connect(() => {Debug.Log("Connected");});
+            
         }
     }
 

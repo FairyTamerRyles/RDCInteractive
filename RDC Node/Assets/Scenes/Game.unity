@@ -17012,6 +17012,82 @@ MonoBehaviour:
   orangeSlime: {fileID: 6532730018761056577, guid: 43921ba69a34a7f4a832221d04aac1a9, type: 3}
   purpleSlime: {fileID: 7116336534207955899, guid: 133262ac56e500347bc11ccbe9bf03e9, type: 3}
   random: 0
+--- !u!1001 &1228288544
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 601173544349088446, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252579338123063492, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_Name
+      value: NetworkingObjects
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+--- !u!1 &1228288545 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3561409265467594038, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+  m_PrefabInstance: {fileID: 1228288544}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1228288546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3502012517911585515, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+  m_PrefabInstance: {fileID: 1228288544}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1228288547 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 442220312618083992, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+  m_PrefabInstance: {fileID: 1228288544}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1228799911
 GameObject:
   m_ObjectHideFlags: 0
@@ -18876,6 +18952,9 @@ MonoBehaviour:
   purpleVertical: {fileID: 4479259704391619016, guid: a3510a61a47f8fe489eabae02383619c, type: 3}
   orangeVertical: {fileID: 7283018035306687363, guid: 82ce9c944e911f34fa7628bd5617b9da, type: 3}
   gameOver: {fileID: 3123147981363497447, guid: 61a6860d0b7e1944fa4fe868057240e9, type: 3}
+  connectionManager: {fileID: 1228288547}
+  matchmakingManager: {fileID: 1228288546}
+  gameNetworkingManager: {fileID: 1228288545}
 --- !u!4 &1357508549
 Transform:
   m_ObjectHideFlags: 0
