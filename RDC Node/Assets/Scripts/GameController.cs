@@ -90,7 +90,27 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        gameType = GameType.AI;
+        if(PlayerPrefs.HasKey("gameType"))
+        {
+            string gt = PlayerPrefs.GetString("gameType");
+            Debug.Log("GameType is: " + gt);
+            if(gt == "AI")
+            {
+                gameType = GameType.AI;
+            }
+            else if(gt == "network")
+            {
+                gameType = GameType.Network;
+            }
+            else
+            {
+                gameType = GameType.Local;
+            }
+        }
+        else
+        {
+            gameType = GameType.AI;
+        }
         humanPlayer = GameBoard.Player.Player2;
 
         if(gameType != GameType.Network)
@@ -126,7 +146,6 @@ public class GameController : MonoBehaviour
         else
         {
             connectionManager.GetComponent<ConnectionManager>().Connect(() => {Debug.Log("Connected");});
-            
         }
     }
 
