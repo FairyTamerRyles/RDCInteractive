@@ -1,0 +1,456 @@
+fileFormatVersion: 2
+guid: e0c78986965aac3489e0d101d7c48028
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 859957496749194984
+    second: capPurpleSpawn_Yellow_0
+  - first:
+      213: 226052652170627789
+    second: capPurpleSpawn_Yellow_1
+  - first:
+      213: -6056637895427130471
+    second: capPurpleSpawn_Yellow_2
+  - first:
+      213: -218083439515950423
+    second: capPurpleSpawn_Yellow_3
+  - first:
+      213: -4134912878001420213
+    second: capPurpleSpawn_Yellow_4
+  - first:
+      213: 5065100968175620136
+    second: capPurpleSpawn_Yellow_5
+  - first:
+      213: 7944752709761430532
+    second: capPurpleSpawn_Yellow_6
+  - first:
+      213: 1143537724197374075
+    second: capPurpleSpawn_Yellow_7
+  - first:
+      213: 6547369869437025901
+    second: capPurpleSpawn_Yellow_8
+  - first:
+      213: 4497913744542026480
+    second: capPurpleSpawn_Yellow_9
+  - first:
+      213: -8574259891080237951
+    second: capPurpleSpawn_Yellow_10
+  - first:
+      213: 418103474745231467
+    second: capPurpleSpawn_Yellow_11
+  - first:
+      213: 3040922307501255961
+    second: capPurpleSpawn_Yellow_12
+  - first:
+      213: -6858795507752675895
+    second: capPurpleSpawn_Yellow_13
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ee7bab79ce2feb00800000000000000
+      internalID: 859957496749194984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_1
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dca4a2180b9132300800000000000000
+      internalID: 226052652170627789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_2
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99b75ed6cef72fba0800000000000000
+      internalID: -6056637895427130471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_3
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a2a148644639fcf0800000000000000
+      internalID: -218083439515950423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_4
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b48898925a6dd96c0800000000000000
+      internalID: -4134912878001420213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_5
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82058979e7ada4640800000000000000
+      internalID: 5065100968175620136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 404f6a51f7e614e60800000000000000
+      internalID: 7944752709761430532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_7
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b780b0e5089aedf00800000000000000
+      internalID: 1143537724197374075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_8
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6eb3e0f43eecda50800000000000000
+      internalID: 6547369869437025901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_9
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fa46cd38bccb6e30800000000000000
+      internalID: 4497913744542026480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_10
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18c6844be0c120980800000000000000
+      internalID: -8574259891080237951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_11
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b68cb8325e66dc500800000000000000
+      internalID: 418103474745231467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_12
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91d6c282ab6833a20800000000000000
+      internalID: 3040922307501255961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleSpawn_Yellow_13
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c55b5d33d9a0d0a0800000000000000
+      internalID: -6858795507752675895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

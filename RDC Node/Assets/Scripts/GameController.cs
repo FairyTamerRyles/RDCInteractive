@@ -34,45 +34,7 @@ public class GameController : MonoBehaviour
     public GameObject green1;
     public GameObject green2;
     public GameObject green3;
-    public GameObject red1X;
-    public GameObject red2X;
-    public GameObject red3X;
-    public GameObject blue1X;
-    public GameObject blue2X;
-    public GameObject blue3X;
-    public GameObject yellow1X;
-    public GameObject yellow2X;
-    public GameObject yellow3X;
-    public GameObject green1X;
-    public GameObject green2X;
-    public GameObject green3X;
     public GameObject voidTile;
-    public GameObject red1CP1;
-    public GameObject red2CP1;
-    public GameObject red3CP1;
-    public GameObject blue1CP1;
-    public GameObject blue2CP1;
-    public GameObject blue3CP1;
-    public GameObject yellow1CP1;
-    public GameObject yellow2CP1;
-    public GameObject yellow3CP1;
-    public GameObject green1CP1;
-    public GameObject green2CP1;
-    public GameObject green3CP1;
-    public GameObject voidTileCP1;
-    public GameObject red1CP2;
-    public GameObject red2CP2;
-    public GameObject red3CP2;
-    public GameObject blue1CP2;
-    public GameObject blue2CP2;
-    public GameObject blue3CP2;
-    public GameObject yellow1CP2;
-    public GameObject yellow2CP2;
-    public GameObject yellow3CP2;
-    public GameObject green1CP2;
-    public GameObject green2CP2;
-    public GameObject green3CP2;
-    public GameObject voidTileCP2;
     public GameObject purpleSlime;
     public GameObject orangeSlime;
     public GameObject purpleVertical;
@@ -91,7 +53,7 @@ public class GameController : MonoBehaviour
         humanPlayer = GameBoard.Player.Player2;
         AIPlayer = GameBoard.Player.Player1;
 
-        gameBoard = new GameBoard("N0Y3Y2B2B1G3G2R1R2B3G1Y1R3");
+        gameBoard = new GameBoard();
         testAI = new AI(humanPlayer, gameBoard);
         randomAI = new AdamRandomAI(gameBoard);
         piecesPlacedThisTurn = new List<GameObject>();
@@ -109,7 +71,7 @@ public class GameController : MonoBehaviour
                     startTile = o;
                 }
             }
-            Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .1f, 1), Quaternion.identity);
         }
         updateCurrentPlayer();
         GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
@@ -535,18 +497,19 @@ public class GameController : MonoBehaviour
         foreach (GameBoard.Tile tile in overloadedTiles) 
         {
             string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
-            GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
-            List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
-            GameObject exhaustedTile = new GameObject();
-            foreach (GameObject o in tilePrefab)
-            {
-                if(o.name.IndexOf('X') != -1)
-                {
-                    exhaustedTile = o;
-                    Debug.Log(o + "is the exhausted tile");
-                }
-            }
-            Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+            tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+            //List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+            //GameObject exhaustedTile = new GameObject();
+            //foreach (GameObject o in tilePrefab)
+            //{
+            //    if(o.name.IndexOf('X') != -1)
+            //    {
+            //        exhaustedTile = o;
+            //        Debug.Log(o + "is the exhausted tile");
+            //    }
+            //}
+            //Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
         }
     }
     public void updateCapturedTiles()
@@ -557,8 +520,12 @@ public class GameController : MonoBehaviour
             if(tile.player == GameBoard.Player.Player1)
             {
                 string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
-                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
-                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("captured", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("player", 1);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("resource", (int)tile.resourceType);
+                /*List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
                 GameObject capturedTile = new GameObject();
                 foreach (GameObject o in tilePrefab)
                 {
@@ -569,13 +536,17 @@ public class GameController : MonoBehaviour
                         Debug.Log(o + "is the captured tile");
                     }
                 }
-                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);
+                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);*/
             }
             else if (tile.player == GameBoard.Player.Player2)
             {
                 string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
-                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
-                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("captured", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("player", 2);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("resource", (int)tile.resourceType);
+                /*List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
                 GameObject capturedTile = new GameObject();
                 foreach (GameObject o in tilePrefab)
                 {
@@ -586,7 +557,7 @@ public class GameController : MonoBehaviour
                         Debug.Log(o + "is the captured tile");
                     }
                 }
-                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);
+                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);*/
             }
         }
     }

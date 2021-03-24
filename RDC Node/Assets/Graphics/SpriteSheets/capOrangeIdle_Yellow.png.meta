@@ -1,0 +1,1008 @@
+fileFormatVersion: 2
+guid: a37d347317882cc4e9b8eaa2caa9b2a9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1993656506470615255
+    second: capOrangeIdle_Yellow_0
+  - first:
+      213: -7914389978490774999
+    second: capOrangeIdle_Yellow_1
+  - first:
+      213: -5548869297970652706
+    second: capOrangeIdle_Yellow_2
+  - first:
+      213: 8230374596785872551
+    second: capOrangeIdle_Yellow_3
+  - first:
+      213: 2468399812727729974
+    second: capOrangeIdle_Yellow_4
+  - first:
+      213: 5228637966814226006
+    second: capOrangeIdle_Yellow_5
+  - first:
+      213: 6002625629211096831
+    second: capOrangeIdle_Yellow_6
+  - first:
+      213: 3439770418041365341
+    second: capOrangeIdle_Yellow_7
+  - first:
+      213: -6299883065830231766
+    second: capOrangeIdle_Yellow_8
+  - first:
+      213: -7533708415431369671
+    second: capOrangeIdle_Yellow_9
+  - first:
+      213: -3594464841629628799
+    second: capOrangeIdle_Yellow_10
+  - first:
+      213: 3618723536374184908
+    second: capOrangeIdle_Yellow_11
+  - first:
+      213: 1779250156600851785
+    second: capOrangeIdle_Yellow_12
+  - first:
+      213: -3295324211556140451
+    second: capOrangeIdle_Yellow_13
+  - first:
+      213: 4775868703789495812
+    second: capOrangeIdle_Yellow_14
+  - first:
+      213: -7095341194960588369
+    second: capOrangeIdle_Yellow_15
+  - first:
+      213: -4005515750718888995
+    second: capOrangeIdle_Yellow_16
+  - first:
+      213: 2762550845687399811
+    second: capOrangeIdle_Yellow_17
+  - first:
+      213: 3778739123682613104
+    second: capOrangeIdle_Yellow_18
+  - first:
+      213: 9142346469201287789
+    second: capOrangeIdle_Yellow_19
+  - first:
+      213: -647429234213305044
+    second: capOrangeIdle_Yellow_20
+  - first:
+      213: 6559824745566812974
+    second: capOrangeIdle_Yellow_21
+  - first:
+      213: 8377954598325700709
+    second: capOrangeIdle_Yellow_22
+  - first:
+      213: 7606491593617374533
+    second: capOrangeIdle_Yellow_23
+  - first:
+      213: 9172132791829109278
+    second: capOrangeIdle_Yellow_24
+  - first:
+      213: -8114293735229179469
+    second: capOrangeIdle_Yellow_25
+  - first:
+      213: 4062796033483694659
+    second: capOrangeIdle_Yellow_26
+  - first:
+      213: 7188887368023018560
+    second: capOrangeIdle_Yellow_27
+  - first:
+      213: 899043398664727912
+    second: capOrangeIdle_Yellow_28
+  - first:
+      213: 7261157409568067457
+    second: capOrangeIdle_Yellow_29
+  - first:
+      213: 4415686287859334816
+    second: capOrangeIdle_Yellow_30
+  - first:
+      213: 3490256854611132935
+    second: capOrangeIdle_Yellow_31
+  - first:
+      213: -5675006628486466865
+    second: capOrangeIdle_Yellow_32
+  - first:
+      213: -5791944659739614080
+    second: capOrangeIdle_Yellow_33
+  - first:
+      213: -7146410181026849800
+    second: capOrangeIdle_Yellow_34
+  - first:
+      213: -6722397279097918209
+    second: capOrangeIdle_Yellow_35
+  - first:
+      213: 8355859274371836109
+    second: capOrangeIdle_Yellow_36
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d8c350a704eaab10800000000000000
+      internalID: 1993656506470615255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_1
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92a552e2f307a2290800000000000000
+      internalID: -7914389978490774999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_2
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed9536dc5c47ef2b0800000000000000
+      internalID: -5548869297970652706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_3
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ae12d1e61a283270800000000000000
+      internalID: 8230374596785872551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_4
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63fe6413d84814220800000000000000
+      internalID: 2468399812727729974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_5
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 656251f378adf8840800000000000000
+      internalID: 5228637966814226006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_6
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff678ccd43c9d4350800000000000000
+      internalID: 6002625629211096831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_7
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d53a04478f48cbf20800000000000000
+      internalID: 3439770418041365341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a21b0b6dab15298a0800000000000000
+      internalID: -6299883065830231766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_9
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93c97d88c14e27790800000000000000
+      internalID: -7533708415431369671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_10
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18609055545ed1ec0800000000000000
+      internalID: -3594464841629628799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_11
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccbbded22e9483230800000000000000
+      internalID: 3618723536374184908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_12
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94d70ce279a21b810800000000000000
+      internalID: 1779250156600851785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_13
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5ab376c618a442d0800000000000000
+      internalID: -3295324211556140451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_14
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 406374f484b474240800000000000000
+      internalID: 4775868703789495812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_15
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa1bd22a6c8488d90800000000000000
+      internalID: -7095341194960588369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd32b2895ac8968c0800000000000000
+      internalID: -4005515750718888995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_17
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38507278b5d865620800000000000000
+      internalID: 2762550845687399811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_18
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07719fd5637c07430800000000000000
+      internalID: 3778739123682613104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_19
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6a1a4eeca320ee70800000000000000
+      internalID: 9142346469201287789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_20
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c25438daa8ed307f0800000000000000
+      internalID: -647429234213305044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_21
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2bb354c9dd290b50800000000000000
+      internalID: 6559824745566812974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_22
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 568cd81a159744470800000000000000
+      internalID: 8377954598325700709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_23
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54dfe80bdcfaf8960800000000000000
+      internalID: 7606491593617374533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1a9fa99d26f94f70800000000000000
+      internalID: 9172132791829109278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_25
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b9bc74d6dc346f80800000000000000
+      internalID: -8114293735229179469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_26
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34269a28773f16830800000000000000
+      internalID: 4062796033483694659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_27
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04c0e4d09fe04c360800000000000000
+      internalID: 7188887368023018560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_28
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86d221f253b0a7c00800000000000000
+      internalID: 899043398664727912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_29
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18f00875130d4c460800000000000000
+      internalID: 7261157409568067457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_30
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ae3b63984ba74d30800000000000000
+      internalID: 4415686287859334816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_31
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70208f9fd12ef6030800000000000000
+      internalID: 3490256854611132935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc2b313f9835e31b0800000000000000
+      internalID: -5675006628486466865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_33
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 084ef7dd401ee9fa0800000000000000
+      internalID: -5791944659739614080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_34
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fbd8acbdc9d2dc90800000000000000
+      internalID: -7146410181026849800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_35
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffce05c9a4f35b2a0800000000000000
+      internalID: -6722397279097918209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capOrangeIdle_Yellow_36
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 0
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc826122db9f5f370800000000000000
+      internalID: 8355859274371836109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
