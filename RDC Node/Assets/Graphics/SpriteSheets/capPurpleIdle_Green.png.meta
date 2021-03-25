@@ -1,0 +1,1152 @@
+fileFormatVersion: 2
+guid: 8dbe75267a8cf14448cf225c35ad926d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8223116570188563582
+    second: capPurpleIdle_Green_0
+  - first:
+      213: -4913602277109272930
+    second: capPurpleIdle_Green_1
+  - first:
+      213: 3833326742587722310
+    second: capPurpleIdle_Green_2
+  - first:
+      213: -1741291668498922498
+    second: capPurpleIdle_Green_3
+  - first:
+      213: -8103381042444889784
+    second: capPurpleIdle_Green_4
+  - first:
+      213: 3934217974072395759
+    second: capPurpleIdle_Green_5
+  - first:
+      213: -6845097146319595707
+    second: capPurpleIdle_Green_6
+  - first:
+      213: -5473090432729585196
+    second: capPurpleIdle_Green_7
+  - first:
+      213: -5114165428036143727
+    second: capPurpleIdle_Green_8
+  - first:
+      213: 3061800011605608373
+    second: capPurpleIdle_Green_9
+  - first:
+      213: 69870182030856307
+    second: capPurpleIdle_Green_10
+  - first:
+      213: -4294908584051397684
+    second: capPurpleIdle_Green_11
+  - first:
+      213: 7452953247236516877
+    second: capPurpleIdle_Green_12
+  - first:
+      213: 6746490853553511655
+    second: capPurpleIdle_Green_13
+  - first:
+      213: -4954081794536989177
+    second: capPurpleIdle_Green_14
+  - first:
+      213: 8856927578009796804
+    second: capPurpleIdle_Green_15
+  - first:
+      213: -8288397662729975838
+    second: capPurpleIdle_Green_16
+  - first:
+      213: -4304367800233277158
+    second: capPurpleIdle_Green_17
+  - first:
+      213: 289302601189899360
+    second: capPurpleIdle_Green_18
+  - first:
+      213: -5244538365931926762
+    second: capPurpleIdle_Green_19
+  - first:
+      213: -5663780080910146621
+    second: capPurpleIdle_Green_20
+  - first:
+      213: 4259401239118839330
+    second: capPurpleIdle_Green_21
+  - first:
+      213: -1014168192869680525
+    second: capPurpleIdle_Green_22
+  - first:
+      213: 4291473997117339541
+    second: capPurpleIdle_Green_23
+  - first:
+      213: 2899700154695271551
+    second: capPurpleIdle_Green_24
+  - first:
+      213: -1044959943254454360
+    second: capPurpleIdle_Green_25
+  - first:
+      213: 7870051712243583507
+    second: capPurpleIdle_Green_26
+  - first:
+      213: 3606866729850885939
+    second: capPurpleIdle_Green_27
+  - first:
+      213: -2656094129470151628
+    second: capPurpleIdle_Green_28
+  - first:
+      213: -4492541481134193283
+    second: capPurpleIdle_Green_29
+  - first:
+      213: -294176664980661862
+    second: capPurpleIdle_Green_30
+  - first:
+      213: 5786900567996483096
+    second: capPurpleIdle_Green_31
+  - first:
+      213: -8591760859648563865
+    second: capPurpleIdle_Green_32
+  - first:
+      213: -3368862339501276396
+    second: capPurpleIdle_Green_33
+  - first:
+      213: -8900979984539121576
+    second: capPurpleIdle_Green_34
+  - first:
+      213: -5780030142863056970
+    second: capPurpleIdle_Green_35
+  - first:
+      213: 9040845236084382404
+    second: capPurpleIdle_Green_36
+  - first:
+      213: -2288344834291246257
+    second: capPurpleIdle_Green_37
+  - first:
+      213: 9194006207039018492
+    second: capPurpleIdle_Green_38
+  - first:
+      213: 2240424515800488965
+    second: capPurpleIdle_Green_39
+  - first:
+      213: -1532743030665925706
+    second: capPurpleIdle_Green_40
+  - first:
+      213: 3898679892769500539
+    second: capPurpleIdle_Green_41
+  - first:
+      213: 782505151297188186
+    second: capPurpleIdle_Green_42
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e74c7b0e3f06e1270800000000000000
+      internalID: 8223116570188563582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_1
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9ee95923c06fcbb0800000000000000
+      internalID: -4913602277109272930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_2
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64a42ffcc56b23530800000000000000
+      internalID: 3833326742587722310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_3
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef346c80470b5d7e0800000000000000
+      internalID: -1741291668498922498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_4
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 841107d10e10b8f80800000000000000
+      internalID: -8103381042444889784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_5
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe7ca8d2766299630800000000000000
+      internalID: 3934217974072395759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_6
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 547949c89645101a0800000000000000
+      internalID: -6845097146319595707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_7
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 1650
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d96095cf3dab04b0800000000000000
+      internalID: -5473090432729585196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1957253a3a5d609b0800000000000000
+      internalID: -5114165428036143727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_9
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b70a0173e2bd7a20800000000000000
+      internalID: 3061800011605608373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_10
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37057547f8a38f000800000000000000
+      internalID: 69870182030856307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_11
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccb27d0f56b6564c0800000000000000
+      internalID: -4294908584051397684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_12
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0c602dad753e6760800000000000000
+      internalID: 7452953247236516877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_13
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ec9a76dfa950ad50800000000000000
+      internalID: 6746490853553511655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_14
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70e94601bd09f3bb0800000000000000
+      internalID: -4954081794536989177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_15
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 1320
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c082a8c4b02aea70800000000000000
+      internalID: 8856927578009796804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e74dc35d32b9fc80800000000000000
+      internalID: -8288397662729975838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_17
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a19477c8a40d344c0800000000000000
+      internalID: -4304367800233277158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_18
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06c3588de2fc30400800000000000000
+      internalID: 289302601189899360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_19
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61b48b79428a737b0800000000000000
+      internalID: -5244538365931926762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_20
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c3ea6f36063661b0800000000000000
+      internalID: -5663780080910146621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_21
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22e79851cde6c1b30800000000000000
+      internalID: 4259401239118839330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_22
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37ab081e663fce1f0800000000000000
+      internalID: -1014168192869680525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_23
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 990
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5973109fcd06e8b30800000000000000
+      internalID: 4291473997117339541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f74c1cb6dedcd3820800000000000000
+      internalID: 2899700154695271551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_25
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8af4ec1d77e8f71f0800000000000000
+      internalID: -1044959943254454360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_26
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31acb30c55a083d60800000000000000
+      internalID: 7870051712243583507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_27
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 337dfe84e2a2e0230800000000000000
+      internalID: 3606866729850885939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_28
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4346eea3678a32bd0800000000000000
+      internalID: -2656094129470151628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_29
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d750a4e435947a1c0800000000000000
+      internalID: -4492541481134193283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_30
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a995e9eb1efdaebf0800000000000000
+      internalID: -294176664980661862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_31
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 660
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 816cfe108633f4050800000000000000
+      internalID: 5786900567996483096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 765ea8de40fe3c880800000000000000
+      internalID: -8591760859648563865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_33
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 413c5dc1d856f31d0800000000000000
+      internalID: -3368862339501276396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_34
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8580fac0ddd597480800000000000000
+      internalID: -8900979984539121576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_35
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bfd89f753539cfa0800000000000000
+      internalID: -5780030142863056970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_36
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ca971e77d8877d70800000000000000
+      internalID: 9040845236084382404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_37
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4b58745f7a2e30e0800000000000000
+      internalID: -2288344834291246257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_38
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf51c41feeba79f70800000000000000
+      internalID: 9194006207039018492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_39
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 330
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50c5d521a36971f10800000000000000
+      internalID: 2240424515800488965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bba33d955a9abae0800000000000000
+      internalID: -1532743030665925706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_41
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 0
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7deb75d4b4ea1630800000000000000
+      internalID: 3898679892769500539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: capPurpleIdle_Green_42
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 0
+        width: 330
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a517bf90a440cda00800000000000000
+      internalID: 782505151297188186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

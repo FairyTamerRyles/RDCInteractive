@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     private List<GameObject> piecesPlacedThisTurn;
     private AdamRandomAI randomAI;
     public GameBoard.Player humanPlayer;
+    public GameBoard.Player AIPlayer;
     public GameType gameType;
 
     public Button[] nodeButtons;
@@ -33,45 +34,7 @@ public class GameController : MonoBehaviour
     public GameObject green1;
     public GameObject green2;
     public GameObject green3;
-    public GameObject red1X;
-    public GameObject red2X;
-    public GameObject red3X;
-    public GameObject blue1X;
-    public GameObject blue2X;
-    public GameObject blue3X;
-    public GameObject yellow1X;
-    public GameObject yellow2X;
-    public GameObject yellow3X;
-    public GameObject green1X;
-    public GameObject green2X;
-    public GameObject green3X;
     public GameObject voidTile;
-    public GameObject red1CP1;
-    public GameObject red2CP1;
-    public GameObject red3CP1;
-    public GameObject blue1CP1;
-    public GameObject blue2CP1;
-    public GameObject blue3CP1;
-    public GameObject yellow1CP1;
-    public GameObject yellow2CP1;
-    public GameObject yellow3CP1;
-    public GameObject green1CP1;
-    public GameObject green2CP1;
-    public GameObject green3CP1;
-    public GameObject voidTileCP1;
-    public GameObject red1CP2;
-    public GameObject red2CP2;
-    public GameObject red3CP2;
-    public GameObject blue1CP2;
-    public GameObject blue2CP2;
-    public GameObject blue3CP2;
-    public GameObject yellow1CP2;
-    public GameObject yellow2CP2;
-    public GameObject yellow3CP2;
-    public GameObject green1CP2;
-    public GameObject green2CP2;
-    public GameObject green3CP2;
-    public GameObject voidTileCP2;
     public GameObject purpleSlime;
     public GameObject orangeSlime;
     public GameObject purpleVertical;
@@ -112,9 +75,10 @@ public class GameController : MonoBehaviour
             gameType = GameType.AI;
         }
         humanPlayer = GameBoard.Player.Player2;
+        AIPlayer = GameBoard.Player.Player1;
 
         if(gameType != GameType.Network)
-        { 
+        {
             gameBoard = new GameBoard();
             testAI = new AI(humanPlayer, gameBoard);
             randomAI = new AdamRandomAI(gameBoard);
@@ -173,11 +137,15 @@ public class GameController : MonoBehaviour
                     case "N":
                         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                         {
-                            newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
+                            newGameObject = GameObject.Find(button.tag);
+                            newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
+                            //newGameObject = Instantiate(orangeSlime, new Vector3(button.transform.position.x + .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
                         }
                         else
                         {
-                            newGameObject = Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
+                            newGameObject = GameObject.Find(button.tag);
+                            newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
+                            //newGameObject = Instantiate(purpleSlime, new Vector3(button.transform.position.x+ .25f, button.transform.position.y+ .25f, 1), Quaternion.identity);
                         }
                         break;
 
@@ -186,22 +154,34 @@ public class GameController : MonoBehaviour
                         {
                             if(gameBoard.isHorizontalBranch(gamePieceCoord))
                             {
-                                newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                                newGameObject = GameObject.Find(button.tag);
+                                newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                newGameObject.GetComponent<Animator>().SetBool("topOrRight", true);
+                                //newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
                             }
                             else
                             {
-                                newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                                newGameObject = GameObject.Find(button.tag);
+                                newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                newGameObject.GetComponent<Animator>().SetBool("topOrRight", true);
+                                //newGameObject = Instantiate(orangeVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
                             }
                         }
                         else
                         {
                             if(gameBoard.isHorizontalBranch(gamePieceCoord))
                             {
-                                newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                                //newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                                newGameObject = GameObject.Find(button.tag);
+                                newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                newGameObject.GetComponent<Animator>().SetBool("topOrRight", true);
                             }
                             else
                             {
-                                newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                                //newGameObject = Instantiate(purpleVertical, new Vector3(button.transform.position.x, button.transform.position.y, 1), Quaternion.identity);
+                                newGameObject = GameObject.Find(button.tag);
+                                newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                newGameObject.GetComponent<Animator>().SetBool("topOrRight", true);
                             }
                         }
                         break;
@@ -271,7 +251,7 @@ public class GameController : MonoBehaviour
                 enablePlayerPlaying();
             }
         }
-        
+
     }
 
     public void makeTrade(int[] rChange)
@@ -349,13 +329,73 @@ public class GameController : MonoBehaviour
     {
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
         {
+            updateAnimatorCurrentPlayer(1);
+            if(gameBoard.getTurnCounter() > 4)
+            {
+                collectResources();
+            }
             GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -3.75f, GameObject.Find("OrangePlayer").transform.position.z);
             GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 10, GameObject.Find("PurplePlayer").transform.position.z);
         }
         else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
+            updateAnimatorCurrentPlayer(2);
+            if(gameBoard.getTurnCounter() > 4)
+            {
+                collectResources();
+            }
             GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -10, GameObject.Find("OrangePlayer").transform.position.z);
             GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 3.75f, GameObject.Find("PurplePlayer").transform.position.z);
+        }
+    }
+
+    void updateAnimatorCurrentPlayer(int currentPlayer)
+    {
+        GameObject[] branches = GameObject.FindGameObjectsWithTag("branch");
+        GameObject[] nodes = GameObject.FindGameObjectsWithTag("node");
+        foreach (GameObject b in branches)
+        {
+            b.GetComponent<Animator>().SetInteger("currentPlayer", currentPlayer);
+        }
+        foreach (GameObject n in nodes)
+        {
+            n.GetComponent<Animator>().SetInteger("currentPlayer", currentPlayer);
+        }
+    }
+    void updateAnimatorAITrigger()
+    {
+        GameObject[] nodes = GameObject.FindGameObjectsWithTag("node");
+        GameObject[] branches = GameObject.FindGameObjectsWithTag("branch");
+        foreach (GameObject b in branches)
+        {
+            if(AIPlayer == GameBoard.Player.Player1)
+            {
+                b.GetComponent<Animator>().SetTrigger("AIMove_O");
+            }
+            else
+            {
+                b.GetComponent<Animator>().SetTrigger("AIMove_P");
+            }
+        }
+        foreach (GameObject n in nodes)
+        {
+            if(AIPlayer == GameBoard.Player.Player1)
+            {
+                n.GetComponent<Animator>().SetTrigger("AIMove_O");
+            }
+            else
+            {
+                n.GetComponent<Animator>().SetTrigger("AIMove_P");
+            }
+        }
+    }
+
+    void collectResources()
+    {
+        GameObject[] nodes = GameObject.FindGameObjectsWithTag("node");
+        foreach (GameObject n in nodes)
+        {
+            n.GetComponent<Animator>().SetTrigger("collectResources");
         }
     }
 
@@ -376,7 +416,13 @@ public class GameController : MonoBehaviour
         {
             GameObject toBeDestroyed = piecesPlacedThisTurn[piecesPlacedThisTurn.Count - 1];
             piecesPlacedThisTurn.RemoveAt(piecesPlacedThisTurn.Count - 1);
-            Destroy(toBeDestroyed);
+            toBeDestroyed.GetComponent<Animator>().SetBool("piecePlaced", false);
+            if(toBeDestroyed.tag == "branch")
+            {
+                toBeDestroyed.GetComponent<Animator>().SetBool("topOrRight", false);
+                toBeDestroyed.GetComponent<Animator>().SetBool("bottomOrLeft", false);
+            }
+            //Destroy(toBeDestroyed);
         }
         else
         {
@@ -399,6 +445,7 @@ public class GameController : MonoBehaviour
 
     public void updateBoardGraphic(GameBoard newBoard)
     {
+        updateAnimatorAITrigger();
         for(int i = 0; i < GameBoard.boardSize; ++i)
         {
             for(int j = 0; j < GameBoard.boardSize; ++j)
@@ -413,33 +460,50 @@ public class GameController : MonoBehaviour
                         {
                             if(newBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                             {
-                                Instantiate(orangeSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
+                                GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
+                                changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                //Instantiate(orangeSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
                             }
                             else
                             {
-                                Instantiate(purpleSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
+                                GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
+                                changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                //Instantiate(purpleSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
                             }
                         }
                         else if(gameBoard.isVerticalBranch(gameBoard.getGameBoard()[i,j].coord))
                         {
                             if(newBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                             {
-                                Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
+
+                                GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
+                                changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                //Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
                             }
                             else
                             {
-                                Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
+                                GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
+                                changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                //Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
                             }
                         }
                         else if(gameBoard.isHorizontalBranch(gameBoard.getGameBoard()[i,j].coord))
                         {
                             if(newBoard.getCurrentPlayer() == GameBoard.Player.Player1)
                             {
-                                Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                                GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
+                                changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                //Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
                             }
                             else
                             {
-                                Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
+                                GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
+                                changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                //Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
                             }
                         }
                     }
@@ -461,33 +525,38 @@ public class GameController : MonoBehaviour
     public void updateExhaustedTiles()
     {
         List<GameBoard.Tile> overloadedTiles = gameBoard.overloadedTiles();
-        foreach (GameBoard.Tile tile in overloadedTiles) 
+        foreach (GameBoard.Tile tile in overloadedTiles)
         {
             string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
-            GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
-            List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
-            GameObject exhaustedTile = new GameObject();
-            foreach (GameObject o in tilePrefab)
-            {
-                if(o.name.IndexOf('X') != -1)
-                {
-                    exhaustedTile = o;
-                    Debug.Log(o + "is the exhausted tile");
-                }
-            }
-            Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+            tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+            //List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+            //GameObject exhaustedTile = new GameObject();
+            //foreach (GameObject o in tilePrefab)
+            //{
+            //    if(o.name.IndexOf('X') != -1)
+            //    {
+            //        exhaustedTile = o;
+            //        Debug.Log(o + "is the exhausted tile");
+            //    }
+            //}
+            //Instantiate(exhaustedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
         }
     }
     public void updateCapturedTiles()
     {
         List<GameBoard.Tile> tiles = gameBoard.getGameTiles();
-        foreach (GameBoard.Tile tile in tiles) 
+        foreach (GameBoard.Tile tile in tiles)
         {
             if(tile.player == GameBoard.Player.Player1)
             {
                 string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
-                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
-                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("captured", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("player", 1);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("resource", (int)tile.resourceType);
+                /*List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
                 GameObject capturedTile = new GameObject();
                 foreach (GameObject o in tilePrefab)
                 {
@@ -498,13 +567,17 @@ public class GameController : MonoBehaviour
                         Debug.Log(o + "is the captured tile");
                     }
                 }
-                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);
+                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);*/
             }
             else if (tile.player == GameBoard.Player.Player2)
             {
                 string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
-                GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
-                List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("captured", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("player", 2);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("resource", (int)tile.resourceType);
+                /*List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
                 GameObject capturedTile = new GameObject();
                 foreach (GameObject o in tilePrefab)
                 {
@@ -515,7 +588,7 @@ public class GameController : MonoBehaviour
                         Debug.Log(o + "is the captured tile");
                     }
                 }
-                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);
+                Instantiate(capturedTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + .19f, 1), Quaternion.identity);*/
             }
         }
     }
