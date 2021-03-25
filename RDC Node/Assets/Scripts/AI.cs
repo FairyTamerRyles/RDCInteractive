@@ -491,7 +491,7 @@ public class AI
             foreach (GameBoard g in allTradedBoards)
             {
                 List<GameBoard> possibleBranches = getPossibleBranches(g, branchCoords, false);
-                if (gBoard.getSetupCounter() > 4)
+                if (gBoard.getSetupCounter() > 4 && possibleBranches.Count == 0)
                 {
                     possibleBranches.Add(new GameBoard(g));
                 }
@@ -504,7 +504,7 @@ public class AI
             foreach (GameBoard g in allBranchPlacements)
             {
                 List<GameBoard> possibleNodes = getPossibleNodes(g, nodeCoords, false);
-                if (gBoard.getSetupCounter() > 4 && possibleNodes.Count > 0)
+                if (gBoard.getSetupCounter() > 4 && possibleNodes.Count == 0)
                 {
                     possibleNodes.Add(new GameBoard(g));
                 }
@@ -545,7 +545,7 @@ public class AI
             while(resources[2] > 1 && resources[3] > 1)
             {
                 resources[2] -= 2;
-                resources[3] -= 3;
+                resources[3] -= 2;
             }
             return reducedResources;
         }
