@@ -18,7 +18,6 @@ public class NoNodeIcon : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(this.name);
         sprite = GetComponent<SpriteRenderer>();
         originalColor = sprite.color;
         animator = GetComponent<Animator>(); 

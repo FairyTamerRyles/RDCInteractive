@@ -9,6 +9,7 @@ public class SettingsController : MonoBehaviour
     void Start()
     {
         PlayerPrefs.SetInt("humanPlayer", 1);
+        DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
     }
 
     public void AIGameSelected()

@@ -53,15 +53,19 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        connectionManager = GameObject.Find("ConnectionManager");
+        matchmakingManager = GameObject.Find("MatchmakingManager");
+        gameNetworkingManager = GameObject.Find("GameNetworkingManager");
+
         if(PlayerPrefs.HasKey("gameType"))
         {
             string gt = PlayerPrefs.GetString("gameType");
-            Debug.Log("GameType is: " + gt);
+
             if(gt == "AI")
             {
                 gameType = GameType.AI;
             }
-            else if(gt == "network")
+            else if(gt == "Network")
             {
                 gameType = GameType.Network;
             }
@@ -120,6 +124,7 @@ public class GameController : MonoBehaviour
         else
         {
             connectionManager.GetComponent<ConnectionManager>().Connect(() => {Debug.Log("Connected");});
+            Debug.Log(ConnectionManager.IsConnected());
         }
     }
 
