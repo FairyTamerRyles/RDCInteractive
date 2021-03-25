@@ -32,6 +32,9 @@ public class TradeController : MonoBehaviour
             case "RedResource":
                 if (selectedResource != 0)
                 {
+                    clearResources();
+                    GameObject.Find("RedIncrement").GetComponent<Button>().interactable = false;
+                    GameObject.Find("RedDecrement").GetComponent<Button>().interactable = false;
                     GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
@@ -82,6 +85,7 @@ public class TradeController : MonoBehaviour
             case "BlueResource":
                 if (selectedResource != 1)
                 {
+                    clearResources();
                     GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
@@ -108,6 +112,7 @@ public class TradeController : MonoBehaviour
                 }
                 else
                 {
+                    clearResources();
                     GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
                     GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
                     GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
@@ -132,6 +137,7 @@ public class TradeController : MonoBehaviour
             case "GreenResource":
                 if (selectedResource != 2)
                 {
+                    clearResources();
                     GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
@@ -158,6 +164,7 @@ public class TradeController : MonoBehaviour
                 }
                 else
                 {
+                    clearResources();
                     GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
                     GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
                     GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
@@ -182,6 +189,7 @@ public class TradeController : MonoBehaviour
             case "YellowResource":
                 if (selectedResource != 3)
                 {
+                    clearResources();
                     GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
                     GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
@@ -370,6 +378,14 @@ public class TradeController : MonoBehaviour
     }
     public void resetMenu()
     {
+        GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
+        GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
+        GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
+        GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
+        GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
+        GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
+        GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
+        GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
         RedCounter.GetComponent<Text>().text = "0";
         BlueCounter.GetComponent<Text>().text = "0";
         GreenCounter.GetComponent<Text>().text = "0";

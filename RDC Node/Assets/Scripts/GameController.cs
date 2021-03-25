@@ -50,8 +50,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         gameType = GameType.AI;
-        humanPlayer = GameBoard.Player.Player2;
-        AIPlayer = GameBoard.Player.Player1;
+        humanPlayer = GameBoard.Player.Player1;
+        AIPlayer = GameBoard.Player.Player2;
 
         gameBoard = new GameBoard();
         testAI = new AI(humanPlayer, gameBoard);
