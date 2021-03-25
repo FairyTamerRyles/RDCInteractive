@@ -8,7 +8,7 @@ public class SettingsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        PlayerPrefs.SetInt("humanPlayer", 1);
     }
 
     public void AIGameSelected()
@@ -21,9 +21,16 @@ public class SettingsController : MonoBehaviour
         PlayerPrefs.SetString("gameType", "Network");
     }
 
-    public void SetPlayer(int i)
+    public void SetPlayer()
     {
-        PlayerPrefs.SetInt("humanPlayer", i);
+        if(GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().isOn)
+        {
+            PlayerPrefs.SetInt("humanPlayer", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("humanPlayer", 2);
+        }
     }
 
     // Update is called once per frame

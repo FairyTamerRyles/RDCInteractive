@@ -1564,18 +1564,6 @@ MonoBehaviour:
           m_StringArgument: Game
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2029322483}
-        m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
-        m_MethodName: AIGameSelected
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!61 &670329303
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1686,7 +1674,19 @@ MonoBehaviour:
   m_Group: {fileID: 1775425918}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2029322483}
+        m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
+        m_MethodName: SetPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1001 &710779417
 PrefabInstance:
@@ -4063,7 +4063,7 @@ GameObject:
   - component: {fileID: 1396193231}
   m_Layer: 0
   m_Name: 'P1_Toggle '
-  m_TagString: Untagged
+  m_TagString: P1Toggle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4139,7 +4139,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2029322483}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
         m_MethodName: SetPlayer
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4834,18 +4834,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Game
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2029322483}
-        m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
-        m_MethodName: AIGameSelected
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!61 &1702104324

@@ -74,8 +74,18 @@ public class GameController : MonoBehaviour
         {
             gameType = GameType.AI;
         }
-        humanPlayer = GameBoard.Player.Player2;
-        AIPlayer = GameBoard.Player.Player1;
+
+        if(PlayerPrefs.GetInt("humanPlayer") == 1)
+        {
+            humanPlayer = GameBoard.Player.Player1;
+            AIPlayer = GameBoard.Player.Player2;
+        }
+        else
+        {
+            humanPlayer = GameBoard.Player.Player2;
+            AIPlayer = GameBoard.Player.Player1;
+        }
+        
 
         if(gameType != GameType.Network)
         {
