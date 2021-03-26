@@ -99,7 +99,7 @@ public class GameController : MonoBehaviour
         {
             //TODO: Set players appropriately
         }
-
+        humanPlayer = GameBoard.Player.Player2;
         if(gameType != GameType.Network)
         {
             gameBoard = new GameBoard();
@@ -164,8 +164,8 @@ public class GameController : MonoBehaviour
             else
             {
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {
-                    gameBoard = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
-                    foreach (GameBoard.Tile tile in gameBoard.GameTiles)
+                    gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
+                    foreach (GameBoard.Tile tile in gameBoard.getGameTiles())
                     {
                         string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
                         GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
@@ -459,26 +459,54 @@ public class GameController : MonoBehaviour
     {
         GameObject[] nodes = GameObject.FindGameObjectsWithTag("node");
         GameObject[] branches = GameObject.FindGameObjectsWithTag("branch");
-        foreach (GameObject b in branches)
+        if(gameType == GameType.AI)
         {
-            if(AIPlayer == GameBoard.Player.Player1)
+            foreach (GameObject b in branches)
             {
-                b.GetComponent<Animator>().SetTrigger("AIMove_O");
+                if(AIPlayer == GameBoard.Player.Player1)
+                {
+                    b.GetComponent<Animator>().SetTrigger("AIMove_O");
+                }
+                else
+                {
+                    b.GetComponent<Animator>().SetTrigger("AIMove_P");
+                }
             }
-            else
+            foreach (GameObject n in nodes)
             {
-                b.GetComponent<Animator>().SetTrigger("AIMove_P");
+                if(AIPlayer == GameBoard.Player.Player1)
+                {
+                    n.GetComponent<Animator>().SetTrigger("AIMove_O");
+                }
+                else
+                {
+                    n.GetComponent<Animator>().SetTrigger("AIMove_P");
+                }
             }
         }
-        foreach (GameObject n in nodes)
+        else if(gameType == GameType.Network)
         {
-            if(AIPlayer == GameBoard.Player.Player1)
+            foreach (GameObject b in branches)
             {
-                n.GetComponent<Animator>().SetTrigger("AIMove_O");
+                if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+                {
+                    b.GetComponent<Animator>().SetTrigger("AIMove_O");
+                }
+                else
+                {
+                    b.GetComponent<Animator>().SetTrigger("AIMove_P");
+                }
             }
-            else
+            foreach (GameObject n in nodes)
             {
-                n.GetComponent<Animator>().SetTrigger("AIMove_P");
+                if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+                {
+                    n.GetComponent<Animator>().SetTrigger("AIMove_O");
+                }
+                else
+                {
+                    n.GetComponent<Animator>().SetTrigger("AIMove_P");
+                }
             }
         }
     }
