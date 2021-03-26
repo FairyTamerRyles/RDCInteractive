@@ -277,8 +277,21 @@ public class GameController : MonoBehaviour
         gameBoard = new GameBoard(boardAfterNetworkMove);
         updateResourceCounters();
         updateCurrentPlayer();
+        updateExhaustedTiles();
+        updateCapturedTiles();
         if(gameBoard.getCurrentPlayer() == humanPlayer)
         {
+            if(gameBoard.getTurnCounter() <= 4)
+            {
+                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
+                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
+                updateScore();
+                updateLargestNetwork();
+            }
             enablePlayerPlaying();
         }
     }
