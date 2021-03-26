@@ -1786,7 +1786,14 @@ public class GameBoard
                                 break;
                         }
 
-                        serializedBoard += ((Tile)gameBoard[i,j]).maxLoad.ToString();
+                        if(((Tile)gameBoard[i,j]).maxLoad > 0)
+                        {
+                            serializedBoard += ((Tile)gameBoard[i,j]).maxLoad.ToString();
+                        }
+                        else
+                        {
+                            serializedBoard += "0";
+                        }
 
                         if(((Tile)gameBoard[i,j]).quartered)
                         {
@@ -1801,9 +1808,6 @@ public class GameBoard
             }
         }
         
-        serializedBoard += (player1Resources[0].ToString() + player1Resources[1].ToString() + player1Resources[2].ToString() + player1Resources[3].ToString() +
-            player2Resources[0].ToString() + player2Resources[1].ToString() + player2Resources[2].ToString() + player2Resources[3].ToString());
-
         if(currentPlayer == Player.Player1)
         {
             serializedBoard += "1";
@@ -1813,8 +1817,6 @@ public class GameBoard
             serializedBoard += "2";
         }
 
-        serializedBoard += setupCounter.ToString();
-
         if(tradeMadeThisTurn)
         {
             serializedBoard += "T";
@@ -1823,6 +1825,11 @@ public class GameBoard
         {
             serializedBoard += "F";
         }
+
+        serializedBoard += setupCounter.ToString();
+
+        serializedBoard += ("R" + player1Resources[0].ToString() + "B" + player1Resources[1].ToString() + "G" + player1Resources[2].ToString() + "Y" + player1Resources[3].ToString() +
+            "R" + player2Resources[0].ToString() + "B" + player2Resources[1].ToString() + "G" + player2Resources[2].ToString() + "Y" + player2Resources[3].ToString());
 
         return serializedBoard;
     }
@@ -1881,6 +1888,10 @@ public class GameBoard
 
                         quart = currentPiece.Substring(4,1) == "T";
                         max = int.Parse(currentPiece.Substring(3,1));
+                        if(max == 0)
+                        {
+                            max = -1;
+                        }
 
                         newBoard.gameBoard[i,j] = new Tile(rType, max, pPlayer, quart, current);
                     }
@@ -1898,7 +1909,48 @@ public class GameBoard
                 }
             }
         }
-        //TODO: unparse nonboard members
+
+        if(sBoard.Substring(0,1) == "1")
+        {
+            newBoard.currentPlayer = Player.Player1;
+        }
+        else
+        {
+            newBoard.currentPlayer = Player.Player2;
+        }
+        sBoard = sBoard.Substring(1);
+
+        if(sBoard.Substring(0,1) == "T")
+        {
+            newBoard.tradeMadeThisTurn = true;
+        }
+        else
+        {
+            newBoard.tradeMadeThisTurn = false;
+        }
+        sBoard = sBoard.Substring(1);
+
+        Debug.Log(sBoard.Substring(0, sBoard.IndexOf('R')));
+
+        newBoard.setupCounter = int.Parse(sBoard.Substring(0, sBoard.IndexOf('R')));
+
+        sBoard = sBoard.Substring(sBoard.IndexOf('R', 0) + 1);
+        newBoard.player1Resources[0] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('B')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('B', 0) + 1);
+        newBoard.player1Resources[1] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('G')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('G', 0) + 1);
+        newBoard.player1Resources[2] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('Y')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('Y', 0) + 1);
+        newBoard.player1Resources[3] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('R')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('R', 0) + 1);
+        newBoard.player2Resources[0] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('B')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('B', 0) + 1);
+        newBoard.player2Resources[1] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('G')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('G', 0) + 1);
+        newBoard.player2Resources[2] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('Y')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('Y', 0) + 1);
+        newBoard.player2Resources[3] = int.Parse(sBoard);
+
         return newBoard;
     }
 }

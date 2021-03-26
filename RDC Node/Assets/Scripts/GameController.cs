@@ -264,8 +264,6 @@ public class GameController : MonoBehaviour
     public void endTurn()
     {
         gameBoard.endTurn();
-        
-        Debug.Log(gameBoard.serializeBoard());
 
         piecesPlacedThisTurn.Clear();
         GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
