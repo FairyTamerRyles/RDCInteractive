@@ -13,6 +13,7 @@ public class AI
     //TODO: Make Gamepiece class; most likely in GameCore
     public GameBoard AIGameBoard;
     public GameBoard.Player opponent;
+    public GameBoard.Player self;
     public MonteCarloTree Freederick;
     public struct moveResult
     {
@@ -35,6 +36,18 @@ public class AI
         {
             this.tileStack = tileStack;
             this.isCaptured = isCaptured;
+        }
+    }
+
+    public struct minimaxBoard
+    {
+        public GameBoard board;
+        public float score;
+
+        public minimaxBoard(GameBoard b, float s)
+        {
+            board = b;
+            score = s;
         }
     }
 
@@ -753,6 +766,61 @@ public class AI
                 }
             }
             return abridgedCoords;
+        }
+    }
+
+    public minimaxBoard minimax(GameBoard position, int maxDepth, float alpha, float beta, GameBoard.Player player)
+    {
+        float hvalue = 0;
+        //NOTE: This is modified from the original code, and could be wrong
+        if(player == opponent)
+        {
+            hvlaue = heuristic(position, -1);
+        }
+        else
+        {
+            hvalue = heuristic(position, 1);
+        }
+        if (depth == 0 || hvalue == WIN || hvalue == LOSE)
+        {
+            GameBoard resultBoard = new minimaxBoard(position, score);
+            return resultBoard;
+        }
+        if (player != opponent)
+        {
+            minimaxBoard maxEvaluation = new minimaxBoard(position, Mathf.NegativeInfinity);
+            List<minimaxBoard> legalMoves = getLegalMoves(position, player);
+            foreach (minimaxBoard child in legalMoves)
+            {
+                minimaxBoard evaluation = minimax(child, maxDepth - 1, alpha, beta, opponent);
+                if (max(maxEvaluation.score, evaluation.score) == evaluation.score)
+                {
+                    minEvaluation.board = child;
+                    minEvaluation.score = evaluation.value;0
+                }
+                beta = max(beta, evaluation.value);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            minimaxBoard minEvaluation = new minimaxBoard(position, Mathf.Infinity);
+            List<minimaxBoard> legalMoves = getLegalMoves(position, player);
+            foreach (minimaxBoard child in legalMoves)
+            {
+                minimaxBoard evaluation = minimax(child, maxDepth - 1, alpha, beta, self);
+                if (min(maxEvaluation.score, evaluation.score) == evaluation.score)
+                {
+                    minEvaluation.board = child;
+                    minEvaluation.score = evaluation.value;0
+                }
+                beta = min(beta, evaluation.value);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
         }
     }
 
