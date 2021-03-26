@@ -86,6 +86,13 @@ public class GameBoard
             pieceType = pt;
         }
 
+        public GamePiece(Coordinate c, PieceType pt, Player p)
+        {
+            player = p;
+            coord = c;
+            pieceType = pt;
+        }
+
         public GamePiece(GamePiece g)
         {
             coord = new Coordinate {x = g.coord.x, y = g.coord.y};
@@ -106,6 +113,13 @@ public class GameBoard
             maxLoad = max;
             player = Player.None;
             quartered = false;
+        }
+
+        public Tile(ResourceType r, int max, Player p, bool q, Coordinate c): base(c, PieceType.Tile, p)
+        {
+            resourceType = r;
+            maxLoad = max;
+            quartered = q;
         }
 
         public Tile(Tile t): base(new Coordinate{x = t.coord.x, y = t.coord.y}, t.pieceType)
@@ -1708,6 +1722,184 @@ public class GameBoard
     public int getSetupCounter()
     {
         return setupCounter;
+    }
+
+    public string serializeBoard()
+    {
+        string serializedBoard = "";
+
+        for(int i = 0; i < boardSize; ++i)
+        {
+            for(int j = 0; j < boardSize; ++j)
+            {
+                Coordinate current = new Coordinate{x = i, y = j};
+                if(isInBounds(current))
+                {
+                    switch(gameBoard[i,j].pieceType)
+                    {
+                        case PieceType.Branch:
+                            serializedBoard += "B";
+                            break;
+                        case PieceType.Node:
+                            serializedBoard += "N";
+                            break;
+                        case PieceType.Tile:
+                            serializedBoard += "T";
+                            break;
+                    }
+
+                    switch(gameBoard[i,j].player)
+                    {
+                        case Player.None:
+                            serializedBoard += "N";
+                            break;
+                        case Player.Player1:
+                            serializedBoard += "1";
+                            break;
+                        case Player.Player2:
+                            serializedBoard += "2";
+                            break;
+                    }
+
+                    if(gameBoard[i,j].pieceType != PieceType.Tile)
+                    {
+                        serializedBoard += "___";
+                    }
+                    else
+                    {
+                        switch(((Tile)gameBoard[i,j]).resourceType)
+                        {
+                            case ResourceType.None:
+                                serializedBoard += "N";
+                                break;
+                            case ResourceType.Red:
+                                serializedBoard += "R";
+                                break;
+                            case ResourceType.Blue:
+                                serializedBoard += "B";
+                                break;
+                            case ResourceType.Green:
+                                serializedBoard += "G";
+                                break;
+                            case ResourceType.Yellow:
+                                serializedBoard += "Y";
+                                break;
+                        }
+
+                        serializedBoard += ((Tile)gameBoard[i,j]).maxLoad.ToString();
+
+                        if(((Tile)gameBoard[i,j]).quartered)
+                        {
+                            serializedBoard += "T";
+                        }
+                        else
+                        {
+                            serializedBoard += "F";
+                        }
+                    }
+                }
+            }
+        }
+        
+        serializedBoard += (player1Resources[0].ToString() + player1Resources[1].ToString() + player1Resources[2].ToString() + player1Resources[3].ToString() +
+            player2Resources[0].ToString() + player2Resources[1].ToString() + player2Resources[2].ToString() + player2Resources[3].ToString());
+
+        if(currentPlayer == Player.Player1)
+        {
+            serializedBoard += "1";
+        }
+        else
+        {
+            serializedBoard += "2";
+        }
+
+        serializedBoard += setupCounter.ToString();
+
+        if(tradeMadeThisTurn)
+        {
+            serializedBoard += "T";
+        }
+        else
+        {
+            serializedBoard += "F";
+        }
+
+        return serializedBoard;
+    }
+
+    public GameBoard deserializeBoard(string sBoard)
+    {
+        GameBoard newBoard = new GameBoard();
+        for(int i = 0; i < boardSize; ++i)
+        {
+            for(int j = 0; j < boardSize; ++j)
+            {
+                Coordinate current = new Coordinate{x = i, y = j};
+                if(isInBounds(current))
+                {
+                    string currentPiece = sBoard.Substring(0,5);
+                    sBoard = sBoard.Substring(5);
+
+                    Player pPlayer;
+                    if(currentPiece.Substring(1,1) == "1")
+                    {
+                        pPlayer = Player.Player1;
+                    }
+                    else if(currentPiece.Substring(1,1) == "2")
+                    {
+                        pPlayer = Player.Player2;
+                    }
+                    else
+                    {
+                        pPlayer = Player.None;
+                    }
+
+                    if(currentPiece.Substring(0,1) == "T")
+                    {
+                        ResourceType rType = ResourceType.None;
+                        bool quart;
+                        int max;
+
+                        switch(currentPiece.Substring(2,1))
+                        {
+                            case "N":
+                                rType = ResourceType.None;
+                                break;
+                            case "R":
+                                rType = ResourceType.Red;
+                                break;
+                            case "B":
+                                rType = ResourceType.Blue;
+                                break;
+                            case "G":
+                                rType = ResourceType.Green;
+                                break;
+                            case "Y":
+                                rType = ResourceType.Yellow;
+                                break;
+                        }
+
+                        quart = currentPiece.Substring(4,1) == "T";
+                        max = int.Parse(currentPiece.Substring(3,1));
+
+                        newBoard.gameBoard[i,j] = new Tile(rType, max, pPlayer, quart, current);
+                    }
+                    else 
+                    {
+                        if(currentPiece.Substring(0,1) == "N")
+                        {
+                            newBoard.gameBoard[i,j] = new GamePiece(current, PieceType.Node, pPlayer);
+                        }
+                        else
+                        {
+                            newBoard.gameBoard[i,j] = new GamePiece(current, PieceType.Branch, pPlayer);
+                        }
+                    }
+                }
+            }
+        }
+        //TODO: unparse nonboard members
+        return newBoard;
     }
 }
 

@@ -129,10 +129,14 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            //TODO: Set players appropriately? Or maybe do this in main menu
             if(humanPlayer == GameBoard.Player.Player1)
             {
                 gameBoard = new GameBoard();
-                gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard;
+
+                //TODO: Passing board doesn't presently work
+                gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
+                
                 foreach (GameBoard.Tile tile in gameBoard.GameTiles)
                 {
                     string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
@@ -154,7 +158,10 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                
+                if(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board != null)
+                {
+
+                }
             }
         }
     }
@@ -257,6 +264,9 @@ public class GameController : MonoBehaviour
     public void endTurn()
     {
         gameBoard.endTurn();
+        
+        Debug.Log(gameBoard.serializeBoard());
+
         piecesPlacedThisTurn.Clear();
         GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
         //End of game

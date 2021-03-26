@@ -20,12 +20,12 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    private GameBoard board;
+    private String board;
 
     private Action onOpponentMoved_Callback;
     private Action onRoomFull_Callback;
 
-    public GameBoard Board {
+    public String Board {
         get => board;
         set {
             board = value;
@@ -44,7 +44,7 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
     }
 
     [PunRPC]
-    private void MakeMove(GameBoard board) {
+    private void MakeMove(String board) {
         this.board = board;
         OnOpponentMoved();
     }
