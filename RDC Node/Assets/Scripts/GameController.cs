@@ -82,17 +82,23 @@ public class GameController : MonoBehaviour
             gameType = GameType.AI;
         }
 
-        if(PlayerPrefs.GetInt("humanPlayer") == 1)
+        if(PlayerPrefs.HasKey("humanPlayer"))
         {
-            humanPlayer = GameBoard.Player.Player1;
-            AIPlayer = GameBoard.Player.Player2;
+            if(PlayerPrefs.GetInt("humanPlayer") == 1)
+            {
+                humanPlayer = GameBoard.Player.Player1;
+                AIPlayer = GameBoard.Player.Player2;
+            }
+            else
+            {
+                humanPlayer = GameBoard.Player.Player2;
+                AIPlayer = GameBoard.Player.Player1;
+            }
         }
         else
         {
-            humanPlayer = GameBoard.Player.Player2;
-            AIPlayer = GameBoard.Player.Player1;
+            //TODO: Set players appropriately
         }
-        
 
         if(gameType != GameType.Network)
         {
@@ -129,13 +135,12 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            gameBoard = new GameBoard();
             //TODO: Set players appropriately? Or maybe do this in main menu
             if(humanPlayer == GameBoard.Player.Player1)
             {
-                gameBoard = new GameBoard();
-
-                //TODO: Passing board doesn't presently work
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
+                gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
                 
                 foreach (GameBoard.Tile tile in gameBoard.GameTiles)
                 {
@@ -158,10 +163,25 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                if(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board != null)
-                {
-
-                }
+                gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {
+                    gameBoard = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
+                    foreach (GameBoard.Tile tile in gameBoard.GameTiles)
+                    {
+                        string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                        GameObject tileObject = GameObject.FindGameObjectWithTag(tile.coord.x + "," + tile.coord.y);
+                        List<GameObject> tilePrefab = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g=>g.tag == tileTag).ToList();
+                        GameObject startTile = new GameObject();
+                        foreach (GameObject o in tilePrefab)
+                        {
+                            if(o.name.IndexOf('S') != -1)
+                            {
+                                startTile = o;
+                            }
+                        }
+                        Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+                    }
+                    gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
+                };
             }
         }
     }
@@ -250,6 +270,19 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void onNetworkOpponentMoved()
+    {
+        GameBoard boardAfterNetworkMove = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
+        updateBoardGraphic(boardAfterNetworkMove);
+        gameBoard = new GameBoard(boardAfterNetworkMove);
+        updateResourceCounters();
+        updateCurrentPlayer();
+        if(gameBoard.getCurrentPlayer() == humanPlayer)
+        {
+            enablePlayerPlaying();
+        }
+    }
+
     private IEnumerator makeAIMove()
     {
         yield return new WaitForSeconds(3);
@@ -274,6 +307,7 @@ public class GameController : MonoBehaviour
             Instantiate(gameOver, new Vector3(0, 0, 1), Quaternion.identity);
             GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
             //TODO: Give them the option to leave
+            //TODO: Send networking message upon game ending
         }
         else
         {
@@ -294,11 +328,16 @@ public class GameController : MonoBehaviour
                 updateLargestNetwork();
             }
 
-            //Let AI make a move
+            //Let AI or Network opponent make a move
             if(gameType == GameType.AI && gameBoard.getCurrentPlayer() != humanPlayer)
             {
                 blockPlayerFromPlaying();
                 StartCoroutine(makeAIMove());
+            }
+            else if(gameType == GameType.Network && gameBoard.getCurrentPlayer() != humanPlayer)
+            {
+                blockPlayerFromPlaying();
+                gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
             }
             else
             {
