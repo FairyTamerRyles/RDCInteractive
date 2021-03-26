@@ -123,6 +123,7 @@ TagManager:
   - branch
   - node
   - P1Toggle
+  - ChangeScene
   layers:
   - Default
   - TransparentFX

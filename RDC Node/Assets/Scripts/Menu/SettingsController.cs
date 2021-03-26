@@ -34,6 +34,18 @@ public class SettingsController : MonoBehaviour
         }
     }
 
+    public void JoinRandomGame()
+    {
+        var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
+        var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
+        var gameNetworkingManager = GameObject.Find("GameNetworkingManager").GetComponent<GameNetworkingManager>();
+        connectionManager.Connect(() => {
+            matchmakingManager.JoinRandomRoom(() => {
+                gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
+            });
+        });
+    }
+
     // Update is called once per frame
     void Update()
     {
