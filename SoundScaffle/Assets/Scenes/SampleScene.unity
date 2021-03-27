@@ -1242,6 +1242,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0094d6507118add40869339237f29868, type: 3}
   - {fileID: 8300000, guid: 58a84d2761df6f042b5882cf487a6cac, type: 3}
   - {fileID: 8300000, guid: 36e5dc1fed17c314096578657f3138a0, type: 3}
+  audioNames:
+  - Menu
+  - Intro
+  - Scientist
+  - Intern
+  sfxClips: []
+  sfxNames: []
 --- !u!4 &1698929618
 Transform:
   m_ObjectHideFlags: 0
