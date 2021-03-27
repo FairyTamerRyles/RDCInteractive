@@ -92,6 +92,13 @@ public class GameController : MonoBehaviour
             humanPlayer = GameBoard.Player.Player2;
             AIPlayer = GameBoard.Player.Player1;
         }
+
+        if(!connectionManager)
+        {
+            gameType = GameType.AI;
+            humanPlayer = GameBoard.Player.Player1;
+            AIPlayer = GameBoard.Player.Player2;
+        }
         
 
         if(gameType != GameType.Network)
