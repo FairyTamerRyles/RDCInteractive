@@ -1,7 +1,7 @@
 using System;
 
 public class RoomNameGenerator {
-    private static short length = 1;
+    private static short length = 5;
 
     public static short Length {
         get => length;
