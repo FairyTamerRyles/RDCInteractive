@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour
     public GameObject connectionManager;
     public GameObject matchmakingManager;
     public GameObject gameNetworkingManager;
+    public GameObject soundController;
 
     public enum GameType
     {
@@ -57,6 +58,8 @@ public class GameController : MonoBehaviour
         connectionManager = GameObject.Find("ConnectionManager");
         matchmakingManager = GameObject.Find("MatchmakingManager");
         gameNetworkingManager = GameObject.Find("GameNetworkingManager");
+        soundController = GameObject.Find("SoundManager");
+        soundController.GetComponent<SoundManager>().Play("Intern");
 
         if(PlayerPrefs.HasKey("gameType"))
         {
@@ -267,7 +270,7 @@ public class GameController : MonoBehaviour
 
     private IEnumerator makeAIMove()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         GameBoard boardAfterAIMove = randomAI.makeRandomAIMove(new GameBoard(gameBoard));
         updateBoardGraphic(boardAfterAIMove);
         gameBoard = new GameBoard(boardAfterAIMove);
@@ -411,6 +414,7 @@ public class GameController : MonoBehaviour
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
         {
             updateAnimatorCurrentPlayer(1);
+            soundController.GetComponent<SoundManager>().Transition("Intern");
             if(gameBoard.getTurnCounter() > 4)
             {
                 collectResources();
@@ -421,6 +425,10 @@ public class GameController : MonoBehaviour
         else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
             updateAnimatorCurrentPlayer(2);
+            if(gameBoard.getTurnCounter() != 3)
+            {
+                soundController.GetComponent<SoundManager>().Transition("Scientist");
+            }
             if(gameBoard.getTurnCounter() > 4)
             {
                 collectResources();
@@ -658,6 +666,23 @@ public class GameController : MonoBehaviour
                 tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("player", 2);
                 tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("resource", (int)tile.resourceType);
             }
+        }
+    }
+
+    public void playMenu()
+    {
+        soundController.GetComponent<SoundManager>().Transition("Menu");
+    }
+
+    public void turnOffMenu()
+    {
+        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+        {
+            soundController.GetComponent<SoundManager>().Play("Intern");
+        }
+        else
+        {
+            soundController.GetComponent<SoundManager>().Play("Scientist");
         }
     }
 

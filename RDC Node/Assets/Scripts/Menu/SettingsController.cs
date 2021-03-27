@@ -9,6 +9,7 @@ public class SettingsController : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
+        DontDestroyOnLoad(GameObject.Find("SoundManager"));
     }
 
     public void AIGameSelected()
