@@ -6640,19 +6640,7 @@ MonoBehaviour:
   m_Group: {fileID: 1775425918}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
-        m_MethodName: SetPlayer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 1
 --- !u!1 &1490604540
 GameObject:
@@ -7443,6 +7431,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 2029322483}
+        m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
+        m_MethodName: CreatePrivateRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2084902462}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -8052,7 +8052,7 @@ GameObject:
   - component: {fileID: 1775425917}
   - component: {fileID: 1775425918}
   m_Layer: 0
-  m_Name: Toggle Group
+  m_Name: Private Match Toggle Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

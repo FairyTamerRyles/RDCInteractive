@@ -78,11 +78,11 @@ public class SettingsController : MonoBehaviour
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
         var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
         var gameNetworkingManager = GameObject.Find("GameNetworkingManager").GetComponent<GameNetworkingManager>();
-        //string roomName = GameObject.FindGameObjectWithTag("PrivateRoomName").text;
 
-        //TODO: Pass name to private room
         connectionManager.Connect(() => {
             matchmakingManager.CreatePrivateRoom(() => {
+                GameObject.Find("Room Code").GetComponent<Text>().text = matchmakingManager.RoomName;
+                //TODO: Set hostPlayer
                 gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
             });
         });
