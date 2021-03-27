@@ -559,9 +559,29 @@ public class GameBoard
                     if(moveQueue.Count == 0)
                     {
                         //checks if it is a branch or node
-                        if(isNode(m.coord) || isHorizontalBranch(m.coord) || isVerticalBranch(m.coord))
+                        if(isNode(m.coord))
                         {
+                            if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None))
                             return true;
+                        }
+                        else if (isHorizontalBranch(m.coord))
+                        {
+                            if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None))
+                            {
+                                return true;
+                            }
+                        }
+                        else if (isVerticalBranch(m.coord))
+                        {
+                            if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None))
+                            {
+                                return true;
+                            }
                         }
                     }
                     else if(moveQueue.Count == 1) //second piece placed
