@@ -9,7 +9,6 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
     private int recordedPlayers = 0;
     private bool roomFull = false;
-    private bool firstInRoom = false;
     private Timer queryForPlayersLeavingTimer;
 
     private bool RoomFull {
@@ -19,11 +18,6 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
             roomFull = value;
         }
-    }
-
-    private bool FirstInRoom {
-        get => firstInRoom;
-        set => firstInRoom = value;
     }
 
     private String board;
@@ -68,7 +62,7 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     private void IncrementRecordedPlayers() {
-        if (RoomFull) PhotonView.Get(this).RPC("DesignateRoomAsFull", RpcTarget.All);
+        if (roomFull) PhotonView.Get(this).RPC("DesignateRoomAsFull", RpcTarget.All);
 
         ++recordedPlayers;
         if (recordedPlayers == maxPlayersPerRoom) PhotonView.Get(this).RPC("DesignateRoomAsFull", RpcTarget.All);
@@ -76,8 +70,6 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     private void DesignateRoomAsFull() {
-        FirstInRoom = (recordedPlayers == maxPlayersPerRoom) ? true : false;
-
         recordedPlayers = 0;
         RoomFull = true;
     }

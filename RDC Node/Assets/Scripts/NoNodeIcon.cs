@@ -24,19 +24,11 @@ public class NoNodeIcon : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void OnMouseOver()
+    void OnMouseEnter()
     {
         GameBoard.Coordinate nodeCoord = parseName();
         if(controller.GetComponent<GameController>().getGameBoard().getCurrentPlayer() == controller.GetComponent<GameController>().humanPlayer && controller.GetComponent<GameController>().getGameBoard().isValidMove(nodeCoord))
         {
-            if(controller.GetComponent<GameController>().getGameBoard().getCurrentPlayer() == GameBoard.Player.Player1)
-            {
-                animator.SetInteger("currentPlayer", 1);
-            }
-            else
-            {
-                animator.SetInteger("currentPlayer", 2);
-            }
             Debug.Log("Valid Hover");
             hovered = true;
             animator.SetBool("validHover", true);
@@ -52,10 +44,6 @@ public class NoNodeIcon : MonoBehaviour
         }
     }
 
-    void update()
-    {
-
-    }
     private GameBoard.Coordinate parseName()
     {
         string pieceName = this.name;

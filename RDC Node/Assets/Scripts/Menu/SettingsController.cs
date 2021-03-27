@@ -8,6 +8,7 @@ public class SettingsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("humanPlayer", 1);
         DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
     }
 
@@ -21,19 +22,7 @@ public class SettingsController : MonoBehaviour
         PlayerPrefs.SetString("gameType", "Network");
     }
 
-    public void SetPlayerForAIGame()
-    {
-        if(GameObject.FindGameObjectWithTag("P1ToggleAI").GetComponent<Toggle>().isOn)
-        {
-            PlayerPrefs.SetInt("humanPlayer", 1);
-        }
-        else
-        {
-            PlayerPrefs.SetInt("humanPlayer", 2);
-        }
-    }
-
-    public void SetPlayerForPrivateNetworkGame()
+    public void SetPlayer()
     {
         if(GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().isOn)
         {
@@ -55,33 +44,6 @@ public class SettingsController : MonoBehaviour
                 gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
             });
         });
-    }
-
-    public void BeginAIGame()
-    {
-        SetPlayerForAIGame();
-        GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
-    }
-
-    public void CreatePrivateRoom()
-    {
-        SetPlayerForPrivateNetworkGame();
-        var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
-        var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
-        var gameNetworkingManager = GameObject.Find("GameNetworkingManager").GetComponent<GameNetworkingManager>();
-        //string roomName = GameObject.FindGameObjectWithTag("PrivateRoomName").text;
-
-        //TODO: Pass name to private room
-        connectionManager.Connect(() => {
-            matchmakingManager.CreatePrivateRoom(() => {
-                gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
-            });
-        });
-    }
-
-    public void quitGame()
-    {
-        Application.Quit();
     }
 
     // Update is called once per frame

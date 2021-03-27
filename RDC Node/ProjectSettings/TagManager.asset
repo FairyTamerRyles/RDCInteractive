@@ -124,8 +124,6 @@ TagManager:
   - node
   - P1Toggle
   - ChangeScene
-  - P1ToggleAI
-  - PrivateRoomName
   layers:
   - Default
   - TransparentFX
