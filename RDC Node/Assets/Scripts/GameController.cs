@@ -137,7 +137,7 @@ public class GameController : MonoBehaviour
             {
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
-                
+
                 initializeTileGraphics();
                 updateCurrentPlayer();
                 GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
@@ -292,7 +292,7 @@ public class GameController : MonoBehaviour
         if(gameBoard.checkForWin() != GameBoard.Player.None)
         {
             endGame();
-            //TODO: Give them the option to leave      
+            //TODO: Give them the option to leave
         }
         else //Not end of game
         {
