@@ -53,10 +53,9 @@ public class SettingsController : MonoBehaviour
         var gameNetworkingManager = GameObject.Find("GameNetworkingManager").GetComponent<GameNetworkingManager>();
         connectionManager.Connect(() => {
             matchmakingManager.JoinRandomRoom(() => {
-                if(gameNetworkingManager.FirstInRoom)
+                if(matchmakingManager.FirstInRoom)
                 {
                     PlayerPrefs.SetInt("humanPlayer", 1);
-                    gameNetworkingManager.FirstInRoom = false;
                 }
                 else
                 {
