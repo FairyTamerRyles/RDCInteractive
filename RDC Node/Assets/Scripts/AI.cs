@@ -13,6 +13,7 @@ public class AI
     //TODO: Make Gamepiece class; most likely in GameCore
     public GameBoard AIGameBoard;
     public GameBoard.Player opponent;
+    public GameBoard.Player self;
     public MonteCarloTree Freederick;
     public struct moveResult
     {
@@ -35,6 +36,18 @@ public class AI
         {
             this.tileStack = tileStack;
             this.isCaptured = isCaptured;
+        }
+    }
+
+    public struct minimaxBoard
+    {
+        public GameBoard board;
+        public float score;
+
+        public minimaxBoard(GameBoard b, float s)
+        {
+            board = b;
+            score = s;
         }
     }
 
@@ -303,6 +316,7 @@ public class AI
             {
                 expandTree(root);
             }
+            //TODO: if no new node was found, after that if, then just make a new node
             root.parentTreeNode = null;
             Debug.Log("Update Root time: " + (System.DateTime.Now - time));
             return false;
@@ -312,7 +326,7 @@ public class AI
         {
             int timePassed = 0;
             System.DateTime selectTime = System.DateTime.Now;
-            while(timePassed < 3)
+            while(timePassed < 1)
             {
                 //Debug.Log("Root currently has " + root.childrenTreeNodes.Count + " before finding leaf");
                 TreeNode leafToSimulate = findLeafToSimulate(root, 0);
@@ -466,7 +480,23 @@ public class AI
 
         public List<GameBoard> getPossibleMoves(GameBoard gBoard)
         {
-            List<GameBoard> allTradedBoards = getPossibleTrades(gBoard);
+            int[] resourcePool = new int[]{-1, -1, -1, -1};
+            if(gBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+            {
+                resourcePool[0] = gBoard.getResources(GameBoard.Player.Player1)[0];
+                resourcePool[1] = gBoard.getResources(GameBoard.Player.Player1)[1];
+                resourcePool[2] = gBoard.getResources(GameBoard.Player.Player1)[2];
+                resourcePool[3] = gBoard.getResources(GameBoard.Player.Player1)[3];
+            }
+            else
+            {
+                resourcePool[0] = gBoard.getResources(GameBoard.Player.Player2)[0];
+                resourcePool[1] = gBoard.getResources(GameBoard.Player.Player2)[1];
+                resourcePool[2] = gBoard.getResources(GameBoard.Player.Player2)[2];
+                resourcePool[3] = gBoard.getResources(GameBoard.Player.Player2)[3];
+            }
+            resourcePool = reduceResources(resourcePool);
+            List<GameBoard> allTradedBoards = getPossibleTrades(gBoard, resourcePool);
             List<GameBoard> allBranchPlacements = new List<GameBoard>();
             List<GameBoard> allPossibleOptions = new List<GameBoard>();
             List<GameBoard.Coordinate> branchCoords = copyBranchCoords(branchIndexes);
@@ -474,8 +504,8 @@ public class AI
             Debug.Log("Number of Possible Trades: " + allTradedBoards.Count);
             foreach (GameBoard g in allTradedBoards)
             {
-                List<GameBoard> possibleBranches = getPossibleBranches(g, branchCoords);
-                if (gBoard.getSetupCounter() > 4)
+                List<GameBoard> possibleBranches = getPossibleBranches(g, branchCoords, false);
+                if (gBoard.getSetupCounter() > 4 && possibleBranches.Count == 0)
                 {
                     possibleBranches.Add(new GameBoard(g));
                 }
@@ -487,8 +517,8 @@ public class AI
             Debug.Log("Number of Possible Branches with Trades: " + allBranchPlacements.Count);
             foreach (GameBoard g in allBranchPlacements)
             {
-                List<GameBoard> possibleNodes = getPossibleNodes(g, nodeCoords);
-                if (gBoard.getSetupCounter() > 4)
+                List<GameBoard> possibleNodes = getPossibleNodes(g, nodeCoords, false);
+                if (gBoard.getSetupCounter() > 4 && possibleNodes.Count == 0)
                 {
                     possibleNodes.Add(new GameBoard(g));
                 }
@@ -500,8 +530,57 @@ public class AI
             return allPossibleOptions;
         }
 
-        List<GameBoard> getPossibleTrades(GameBoard gBoard)
-        { 
+        int[] reduceResources(int[] resources)
+        {
+            int[]reducedResources = new int[]{-1, -1, -1, -1};
+            //first reduce branch resources
+            int reducedBranchResources = resources[0] - resources[1];
+            if(reducedBranchResources == 0)
+            {
+                reducedResources[0] = 0;
+                reducedResources[1] = 0;
+            }
+            else if (reducedBranchResources < 0)
+            {
+                //blue was bigger than red
+                reducedResources[0] = 0;
+                reducedResources[1] = reducedBranchResources * -1;
+            }
+            else
+            {
+                //red was bigger than blue
+                reducedResources[0] = reducedBranchResources;
+                reducedResources[1] = 0;
+            }
+
+            //now reduce the node resources
+            reducedResources[2] = resources[2];
+            reducedResources[3] = resources[3];
+            while(reducedResources[2] > 1 && reducedResources[3] > 1)
+            {
+                reducedResources[2] -= 2;
+                reducedResources[3] -= 2;
+            }
+            Debug.Log("Reduced Resources: " + reducedResources[0] + " " + reducedResources[1] + " " + reducedResources[2] + " " + reducedResources[3]);
+            return reducedResources;
+        }
+
+        private bool isTradable(int[] moveCost, int[] resourcePool)
+        {
+            for(int i = 0; i < resourcePool.Length; ++i)
+            {
+                if(moveCost[i] + resourcePool[i] < 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        List<GameBoard> getPossibleTrades(GameBoard gBoard, int[] resourcePool)
+        {
+
+            //TODO: Add stipulations for possible trades 
             List<int[]> possibleTrades = new List<int[]>();
             List<GameBoard> tradedBoards = new List<GameBoard>();
             possibleTrades.Add(new int[]{0, 0, 0, 0});
@@ -527,7 +606,7 @@ public class AI
                                 ++resourcesToSpendIndex;
                             }
                         }
-                        if(gBoard.isValidTrade(testTrade))
+                        if(isTradable(testTrade, resourcePool))
                         {
                             possibleTrades.Add(testTrade);
                         }
@@ -543,63 +622,107 @@ public class AI
             return tradedBoards;
         }
 
-        List<GameBoard> getPossibleNodes(GameBoard gBoard, List<GameBoard.Coordinate> unvisitedCoords)
+        List<GameBoard> getPossibleNodes(GameBoard gBoard, List<GameBoard.Coordinate> unvisitedCoords, bool haveRanOnce)
         {
-    
-            List<GameBoard.Coordinate> possibleNodeCoords = new List<GameBoard.Coordinate>();
-            List<GameBoard> possibleNodes = new List<GameBoard>();
-            if(unvisitedCoords.Count != 0)
+            if (haveRanOnce)
             {
-                foreach (GameBoard.Coordinate coord in unvisitedCoords)
+                //the function has gotten past the initial recursive call, therefore univsitedCoords is our list of possible coords
+                //this means that there is no need to check if it is possible again
+                List<GameBoard> possibleNodes = new List<GameBoard>();
+                List<GameBoard.Coordinate> abridgedNodeCoords = new List<GameBoard.Coordinate>();
+                if(unvisitedCoords.Count != 0)
                 {
-                    GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
-                    if(gBoard.isValidMove(coord))
+                    foreach (GameBoard.Coordinate coord in unvisitedCoords)
                     {
-                        possibleNodeCoords.Add(testMove);
+                        abridgedNodeCoords = copyNodeCoords(unvisitedCoords, coord);
+                        GameBoard g = new GameBoard(gBoard);
+                        g.placePiece(coord);
+                        possibleNodes.Add(g);
+                        possibleNodes = possibleNodes.Concat(getPossibleNodes(g, abridgedNodeCoords, true)).ToList();
                     }
                 }
-
-                List<GameBoard.Coordinate> abridgedNodeCoords = new List<GameBoard.Coordinate>();
-                foreach (GameBoard.Coordinate coord in possibleNodeCoords)
-                {
-                    abridgedNodeCoords = copyNodeCoords(possibleNodeCoords, coord);
-                    GameBoard g = new GameBoard(gBoard);
-                    g.placePiece(coord);
-                    possibleNodes.Add(g);
-                    possibleNodes = possibleNodes.Concat(getPossibleNodes(g, abridgedNodeCoords)).ToList();
-                }
+                return possibleNodes;
             }
-            return possibleNodes;
+            else
+            {
+                List<GameBoard.Coordinate> possibleNodeCoords = new List<GameBoard.Coordinate>();
+                List<GameBoard> possibleNodes = new List<GameBoard>();
+                if(unvisitedCoords.Count != 0)
+                {
+                    foreach (GameBoard.Coordinate coord in unvisitedCoords)
+                    {
+                        GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
+                        if(gBoard.isValidMove(coord))
+                        {
+                            possibleNodeCoords.Add(testMove);
+                        }
+                    }
+
+                    List<GameBoard.Coordinate> abridgedNodeCoords = new List<GameBoard.Coordinate>();
+                    foreach (GameBoard.Coordinate coord in possibleNodeCoords)
+                    {
+                        abridgedNodeCoords = copyNodeCoords(possibleNodeCoords, coord);
+                        GameBoard g = new GameBoard(gBoard);
+                        g.placePiece(coord);
+                        possibleNodes.Add(g);
+                        possibleNodes = possibleNodes.Concat(getPossibleNodes(g, abridgedNodeCoords, true)).ToList();
+                    }
+                }
+                return possibleNodes;
+            }
         }
         
-        List<GameBoard> getPossibleBranches(GameBoard gBoard, List<GameBoard.Coordinate> unvisitedCoords)
+        List<GameBoard> getPossibleBranches(GameBoard gBoard, List<GameBoard.Coordinate> unvisitedCoords, bool haveRanOnce)
         {
-            List<GameBoard.Coordinate> possibleInitialBranchCoords = new List<GameBoard.Coordinate>();
-            List<GameBoard> possibleBranches = new List<GameBoard>();
-            if (unvisitedCoords.Count != 0)
+            /*if(haveRanOnce)
             {
-                foreach (GameBoard.Coordinate coord in unvisitedCoords)
+                //unvisitedCoords are now the only possible coords, don't check if they are legal again because we know they are
+                List<GameBoard> possibleBranches = new List<GameBoard>();
+                List<GameBoard.Coordinate> abridgedBranchCoords = new List<GameBoard.Coordinate>();
+                if (unvisitedCoords.Count != 0)
                 {
-                    GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
-                    if(gBoard.isValidMove(coord))
+                    foreach (GameBoard.Coordinate coord in unvisitedCoords)
                     {
-                        possibleInitialBranchCoords.Add(testMove);
+                        abridgedBranchCoords = copyBranchCoords(unvisitedCoords, coord);
+                        GameBoard g = new GameBoard(gBoard);
+                        g.placePiece(coord);
+                        possibleBranches.Add(g);
+                        abridgedBranchCoords = addNewCoordinates(g, coord, abridgedBranchCoords);
+                        possibleBranches = possibleBranches.Concat(getPossibleBranches(g, abridgedBranchCoords, true)).ToList();
                     }
                 }
-
-                List<GameBoard.Coordinate> abridgedBranchCoords = new List<GameBoard.Coordinate>();
-                foreach (GameBoard.Coordinate coord in possibleInitialBranchCoords)
+                return possibleBranches;
+            } 
+            else
+            {*/
+                List<GameBoard.Coordinate> possibleInitialBranchCoords = new List<GameBoard.Coordinate>();
+                List<GameBoard> possibleBranches = new List<GameBoard>();
+                if (unvisitedCoords.Count != 0)
                 {
-                    abridgedBranchCoords = copyBranchCoords(possibleInitialBranchCoords, coord);
-                    GameBoard g = new GameBoard(gBoard);
-                    g.placePiece(coord);
-                    possibleBranches.Add(g);
-                    abridgedBranchCoords = addNewCoordinates(g, coord, abridgedBranchCoords);
-                    possibleBranches = possibleBranches.Concat(getPossibleBranches(g, abridgedBranchCoords)).ToList();
+                    foreach (GameBoard.Coordinate coord in unvisitedCoords)
+                    {
+                        GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
+                        if(gBoard.isValidMove(coord))
+                        {
+                            possibleInitialBranchCoords.Add(testMove);
+                        }
+                    }
+
+                    List<GameBoard.Coordinate> abridgedBranchCoords = new List<GameBoard.Coordinate>();
+                    foreach (GameBoard.Coordinate coord in possibleInitialBranchCoords)
+                    {
+                        abridgedBranchCoords = copyBranchCoords(possibleInitialBranchCoords, coord);
+                        GameBoard g = new GameBoard(gBoard);
+                        g.placePiece(coord);
+                        possibleBranches.Add(g);
+                        abridgedBranchCoords = addNewCoordinates(g, coord, abridgedBranchCoords);
+                        possibleBranches = possibleBranches.Concat(getPossibleBranches(g, abridgedBranchCoords, true)).ToList();
+                    }
                 }
-            }
-            return possibleBranches;
+                return possibleBranches;
+            //}
         }
+
         List<GameBoard.Coordinate> addNewCoordinates(GameBoard g, GameBoard.Coordinate newCoord, List<GameBoard.Coordinate> abridgedCoords)
         {
             
@@ -636,10 +759,68 @@ public class AI
                 }
                 if(!included)
                 {
-                    abridgedCoords.Add(c);
+                    if (g.isValidMove(c))
+                    {
+                        abridgedCoords.Add(c);
+                    }
                 }
             }
             return abridgedCoords;
+        }
+    }
+
+    public minimaxBoard minimax(GameBoard position, int maxDepth, float alpha, float beta, GameBoard.Player player)
+    {
+        float hvalue = 0;
+        //NOTE: This is modified from the original code, and could be wrong
+        if(player == opponent)
+        {
+            hvlaue = heuristic(position, -1);
+        }
+        else
+        {
+            hvalue = heuristic(position, 1);
+        }
+        if (depth == 0 || hvalue == WIN || hvalue == LOSE)
+        {
+            GameBoard resultBoard = new minimaxBoard(position, score);
+            return resultBoard;
+        }
+        if (player != opponent)
+        {
+            minimaxBoard maxEvaluation = new minimaxBoard(position, Mathf.NegativeInfinity);
+            List<minimaxBoard> legalMoves = getLegalMoves(position, player);
+            foreach (minimaxBoard child in legalMoves)
+            {
+                minimaxBoard evaluation = minimax(child, maxDepth - 1, alpha, beta, opponent);
+                if (max(maxEvaluation.score, evaluation.score) == evaluation.score)
+                {
+                    minEvaluation.board = child;
+                    minEvaluation.score = evaluation.value;
+                }
+                beta = max(beta, evaluation.value);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            minimaxBoard minEvaluation = new minimaxBoard(position, Mathf.Infinity);
+            List<minimaxBoard> legalMoves = getLegalMoves(position, player);
+            foreach (minimaxBoard child in legalMoves)
+            {
+                minimaxBoard evaluation = minimax(child, maxDepth - 1, alpha, beta, self);
+                if (min(maxEvaluation.score, evaluation.score) == evaluation.score)
+                {
+                    minEvaluation.board = child;
+                    minEvaluation.score = evaluation.value;
+                }
+                beta = min(beta, evaluation.value);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
         }
     }
 
@@ -649,12 +830,6 @@ public class AI
         opponent = o;
         Freederick = new MonteCarloTree(o, firstBoard);
     }
-    /*public AI()
-    {
-        AIGameBoard = new GameBoard();
-        opponent = GameBoard.Player.None;
-        Freederick = null;
-    }*/
 
     public GameBoard makeMove(GameBoard gBoard)
     {
@@ -671,104 +846,7 @@ public class AI
         float heuristicResult = 0;
         return heuristicResult;
     }
-    /*GameBoard[] getPossibleMoves(GameBoard board, float player)
-    {
-        GameBoard gameBoard = new GameBoard();
-        GameBoard[] result = new GameBoard[5];
-        result[0] = gameBoard;
-        return result;
-    }*/
-    /*public List<GameBoard> getPossiblePiecePlacements(GameBoard gBoard)
-    {
-        List<GameBoard> possiblePiecePlacements = new List<GameBoard>();
-        for(int i = 0; i < GameBoard.boardSize; ++i)
-        {
-            for(int j = 0; j < GameBoard.boardSize; ++j)
-            {
-                GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = i, y = j};
-                if(gameBoard.isValidMove(testMove))
-                {
-                    possiblePiecePlacements.Add(testMove);
-                }
-            }
-        }
-        return possiblePiecePlacements;
-    }*/
-/*
-    List<GameBoard> getPossibleTrades(GameBoard gBoard)
-    { 
-        List<int[]> possibleTrades = new List<int[]>();
-        List<GameBoard> tradedBoards = new List<GameBoard>();
-        for(int selectedResource = 0; selectedResource < 4; ++selectedResource)
-        {
-            for(int r1 = 0; r1 <= 3; ++r1)
-            {
-                for(int r2 = 0; r2 <= 3 - r1; ++r2)
-                {
-                    int r3 = 3 - r1 - r2;
-                    int[] resourcesToSpend = new int[]{r1, r2, r3};
-                    int[] testTrade = new int[4];
-                    int resourcesToSpendIndex = 0;
-                    for(int i = 0; i < testTrade.Length; ++i)
-                    {
-                        if(i == selectedResource)
-                        {
-                            testTrade[i] = 1;
-                        }
-                        else
-                        {
-                            testTrade[i] = resourcesToSpend[resourcesToSpendIndex] * -1;
-                            ++resourcesToSpendIndex;
-                        }
-                    }
-                    if(AIGameBoard.isValidTrade(testTrade))
-                    {
-                        possibleTrades.Add(testTrade);
-                    }
-                }
-            }
-        }
-        foreach (int[] trade in possibleTrades)
-        {
-            GameBoard g = new GameBoard(gBoard);
-            g.makeTrade(trade);
-            tradedBoards.Add(g);
-        }
-        return tradedBoards;
-    }
-    void getPossibleNodes(GameBoard gBoard)
-    {
-        List<GameBoard.Coordinate> possibleNodeCoords = new List<GameBoard.Coordinate>();
-        List<GameBoard> possibleNodes = new List<GameBoard>();
-        for(int i = 0; i < GameBoard.boardSize; ++i)
-        {
-            for(int j = 0; j < GameBoard.boardSize; ++j)
-            {
-                GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = i, y = j};
-                if(gBoard.gameBoard[i][j].pieceType == GameBoard.PieceType.node && gameBoard.isValidMove(testMove))
-                {
-                    possibleNodes.Add(testMove);
-                }
-            }
-        }
-        return possibleNodes;
-    }
-    List<GameBoard> getPossibleBranches(GameBoard gBoard)
-    {
-        List<GameBoard> possibleBranches = new List<GameBoard>();
-        for(int i = 0; i < GameBoard.boardSize; ++i)
-        {
-            for(int j = 0; j < GameBoard.boardSize; ++j)
-            {
-                GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = i, y = j};
-                if(gBoard.gameBoard[i][j].pieceType == GameBoard.PieceType.branch && gameBoard.isValidMove(testMove))
-                {
-                    possibleBranches.Add(testMove);
-                }
-            }
-        }
-        return possibleBranches;
-    }*/
+
     public void setCapturedTiles(List<GameBoard.Tile> noncapturedTiles, GameBoard.Player player)
     {
         while (noncapturedTiles.Any())
@@ -804,6 +882,7 @@ public class AI
             }
         }
     }
+
     public CapTileChecker checkIfCaptured(GameBoard board, GameBoard.Tile currentTile, CapTileChecker checkedTiles, GameBoard.Player player)
     {
         //Debug.Log("Now checking Tile: " + currentTile.coord.x + " - " + currentTile.coord.y);
@@ -1217,6 +1296,7 @@ public class AI
         }
         return true;
     }
+
 
 
     // Start is called before the first frame update
