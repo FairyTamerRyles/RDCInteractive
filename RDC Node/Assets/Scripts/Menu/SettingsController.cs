@@ -84,6 +84,11 @@ public class SettingsController : MonoBehaviour
         Application.Quit();
     }
 
+    public void cancelNetworkGame()
+    {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
