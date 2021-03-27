@@ -37,8 +37,6 @@ public class GameController : MonoBehaviour
     public GameObject voidTile;
     public GameObject purpleSlime;
     public GameObject orangeSlime;
-    public GameObject purpleVertical;
-    public GameObject orangeVertical;
     public GameObject gameOver;
     public GameObject connectionManager;
     public GameObject matchmakingManager;
@@ -97,8 +95,19 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            humanPlayer = GameBoard.Player.Player1;
+            AIPlayer = GameBoard.Player.Player2;
             //TODO: Set players appropriately
         }
+
+        if(!connectionManager)
+        {
+            gameType = GameType.AI;
+            humanPlayer = GameBoard.Player.Player1;
+            AIPlayer = GameBoard.Player.Player2;
+        }
+
+        //humanPlayer = GameBoard.Player.Player1;
 
         if(gameType != GameType.Network)
         {
@@ -375,16 +384,19 @@ public class GameController : MonoBehaviour
         {
             GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -4, GameObject.Find("FickleOrange").transform.position.z);
             GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 10, GameObject.Find("FicklePurple").transform.position.z);
+            GameObject.Find("FickleN").transform.position = new Vector3(GameObject.Find("FickleN").transform.position.x, 10, GameObject.Find("FickleN").transform.position.z);
         }
         else if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.Player2)
         {
             GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -10, GameObject.Find("FickleOrange").transform.position.z);
             GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 4, GameObject.Find("FicklePurple").transform.position.z);
+            GameObject.Find("FickleN").transform.position = new Vector3(GameObject.Find("FickleN").transform.position.x, 10, GameObject.Find("FickleN").transform.position.z);
         }
         else if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.None)
         {
             GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -10, GameObject.Find("FickleOrange").transform.position.z);
             GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 10, GameObject.Find("FicklePurple").transform.position.z);
+            GameObject.Find("FickleN").transform.position = new Vector3(GameObject.Find("FickleN").transform.position.x, 4, GameObject.Find("FickleN").transform.position.z);
         }
     }
 
@@ -553,13 +565,11 @@ public class GameController : MonoBehaviour
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
-                                //Instantiate(orangeSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
                             }
                             else
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
-                                //Instantiate(purpleSlime, new Vector3(buttonToUpdate.transform.position.x + .25f, buttonToUpdate.transform.position.y+ .25f, 1), Quaternion.identity);
                             }
                         }
                         else if(gameBoard.isVerticalBranch(gameBoard.getGameBoard()[i,j].coord))
@@ -570,14 +580,12 @@ public class GameController : MonoBehaviour
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
-                                //Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
                             }
                             else
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
-                                //Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.identity);
                             }
                         }
                         else if(gameBoard.isHorizontalBranch(gameBoard.getGameBoard()[i,j].coord))
@@ -587,14 +595,12 @@ public class GameController : MonoBehaviour
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
-                                //Instantiate(orangeVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
                             }
                             else
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
-                                //Instantiate(purpleVertical, new Vector3(buttonToUpdate.transform.position.x, buttonToUpdate.transform.position.y, 1), Quaternion.Euler(0, 0, 90));
                             }
                         }
                     }
