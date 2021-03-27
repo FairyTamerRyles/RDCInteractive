@@ -9,6 +9,7 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
     private int recordedPlayers = 0;
     private bool roomFull = false;
+    private bool firstInRoom = false;
     private Timer queryForPlayersLeavingTimer;
 
     private bool RoomFull {
@@ -20,12 +21,17 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    private GameBoard board;
+    private bool FirstInRoom {
+        get => firstInRoom;
+        set => firstInRoom = value;
+    }
+
+    private String board;
 
     private Action onOpponentMoved_Callback;
     private Action onRoomFull_Callback;
 
-    public GameBoard Board {
+    public String Board {
         get => board;
         set {
             board = value;
@@ -44,7 +50,7 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
     }
 
     [PunRPC]
-    private void MakeMove(GameBoard board) {
+    private void MakeMove(String board) {
         this.board = board;
         OnOpponentMoved();
     }
@@ -62,7 +68,7 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     private void IncrementRecordedPlayers() {
-        if (roomFull) PhotonView.Get(this).RPC("DesignateRoomAsFull", RpcTarget.All);
+        if (RoomFull) PhotonView.Get(this).RPC("DesignateRoomAsFull", RpcTarget.All);
 
         ++recordedPlayers;
         if (recordedPlayers == maxPlayersPerRoom) PhotonView.Get(this).RPC("DesignateRoomAsFull", RpcTarget.All);
@@ -70,6 +76,8 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
     [PunRPC]
     private void DesignateRoomAsFull() {
+        FirstInRoom = (recordedPlayers == maxPlayersPerRoom) ? true : false;
+
         recordedPlayers = 0;
         RoomFull = true;
     }
