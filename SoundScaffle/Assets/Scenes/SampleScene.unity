@@ -1247,8 +1247,20 @@ MonoBehaviour:
   - Intro
   - Scientist
   - Intern
-  sfxClips: []
-  sfxNames: []
+  sfxClips:
+  - {fileID: 8300000, guid: 0b7ea8dc98a5df14282c674e418b4181, type: 3}
+  - {fileID: 8300000, guid: 267f1dc2be35e67488c4e74b361c8b09, type: 3}
+  - {fileID: 8300000, guid: b41af4e40d3cc99448b69407176ffa39, type: 3}
+  - {fileID: 8300000, guid: 66339b503d709bf44a46322374ebf2fc, type: 3}
+  - {fileID: 8300000, guid: d4b1fb7227572254faf72455a0295fb5, type: 3}
+  - {fileID: 8300000, guid: 71bd699b8defc79478479cf5aa117e41, type: 3}
+  sfxNames:
+  - MarkerOnDryErase
+  - MarkerCap
+  - SlimeCollect
+  - SlimeSpawn1
+  - SlimeSpawn2
+  - SlimeSpawn3
 --- !u!4 &1698929618
 Transform:
   m_ObjectHideFlags: 0
