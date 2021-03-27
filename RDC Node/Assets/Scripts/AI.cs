@@ -796,7 +796,7 @@ public class AI
                 if (max(maxEvaluation.score, evaluation.score) == evaluation.score)
                 {
                     minEvaluation.board = child;
-                    minEvaluation.score = evaluation.value;0
+                    minEvaluation.score = evaluation.value;
                 }
                 beta = max(beta, evaluation.value);
                 if (beta <= alpha) {
@@ -814,7 +814,7 @@ public class AI
                 if (min(maxEvaluation.score, evaluation.score) == evaluation.score)
                 {
                     minEvaluation.board = child;
-                    minEvaluation.score = evaluation.value;0
+                    minEvaluation.score = evaluation.value;
                 }
                 beta = min(beta, evaluation.value);
                 if (beta <= alpha) {
