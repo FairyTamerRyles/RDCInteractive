@@ -53,7 +53,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks {
         Connect();
     }
 
-    public void Disconnect() {
+    public static void Disconnect() {
         if (IsConnected()) {
             PhotonNetwork.Disconnect();
         }

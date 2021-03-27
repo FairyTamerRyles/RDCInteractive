@@ -8,9 +8,14 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     private static byte maxPlayersPerRoom = 2;
     
     private bool creatingPrivateRoom = false;
+    private int createRoomMaxAttempts = 50;
+    private int createRoomAttempts = 0;
 
     private Action onJoinedRoom_Callback;
     private Action onLeftRoom_Callback;
+    private Action onJoinRandomFailed_Callback;
+    private Action onCreatePrivateRoomFailed_Callback;
+    private Action onJoinRoomFailed_Callback;
 
     public Action OnJoinedRoom_Callback {
         get => onJoinedRoom_Callback;
@@ -20,6 +25,21 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     public Action OnLeftRoom_Callback {
         get => onLeftRoom_Callback;
         set => onLeftRoom_Callback = value;
+    }
+
+    public Action OnJoinRandomFailed_Callback {
+        get => onJoinRandomFailed_Callback;
+        set => onJoinRandomFailed_Callback = value;
+    }
+
+    public Action OnCreatePrivateRoomFailed_Callback {
+        get => onCreatePrivateRoomFailed_Callback;
+        set => onCreatePrivateRoomFailed_Callback = value;
+    }
+
+    public Action OnJoinRoomFailed_Callback {
+        get => onJoinRoomFailed_Callback;
+        set => onJoinRoomFailed_Callback = value;
     }
 
     public String RoomName {
@@ -47,6 +67,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
         CreatePrivateRoom();
     }
 
+    public void CreatePrivateRoom(Action onJoinedRoom_Callback, Action onCreatePrivateRoomFailed_Callback) {
+        OnCreatePrivateRoomFailed_Callback = onCreatePrivateRoomFailed_Callback;
+        CreatePrivateRoom(onJoinedRoom_Callback);
+    }
+
     public void JoinRoom(string roomName) {
         if (ConnectionManager.IsConnected()) {
             PhotonNetwork.JoinRoom(roomName.ToUpper());
@@ -56,6 +81,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     public void JoinRoom(string roomName, Action onJoinedRoom_Callback) {
         OnJoinedRoom_Callback = onJoinedRoom_Callback;
         JoinRoom(roomName);
+    }
+
+    public void JoinRoom(string roomName, Action onJoinedRoom_Callback, Action onJoinRoomFailed_Callback) {
+        OnJoinRoomFailed_Callback = onJoinRoomFailed_Callback;
+        JoinRoom(roomName, onJoinedRoom_Callback);
     }
 
     public void JoinRandomRoom() {
@@ -69,7 +99,12 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
         JoinRandomRoom();
     }
 
-    public void LeaveRoom() {
+    public void JoinRandomRoom(Action onJoinedRoom_Callback, Action onJoinRandomFailed_Callback) {
+        OnJoinRandomFailed_Callback = onJoinRandomFailed_Callback;
+        JoinRandomRoom(onJoinedRoom_Callback);
+    }
+
+    public static void LeaveRoom() {
         if (ConnectionManager.IsConnected() && PhotonNetwork.CurrentRoom != null) {
             PhotonNetwork.LeaveRoom();
         }
@@ -90,6 +125,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     public override void OnJoinedRoom() {
         creatingPrivateRoom = false;
+        createRoomAttempts = 0;
 
         Action callback = OnJoinedRoom_Callback;
         if (callback != null) callback();
@@ -101,8 +137,24 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message) {
-        if (creatingPrivateRoom) {
+        if (creatingPrivateRoom && ++createRoomAttempts < createRoomMaxAttempts) {
             CreatePrivateRoom();
+        } else if (creatingPrivateRoom) {
+            Action callback = OnCreatePrivateRoomFailed_Callback;
+            ConnectionManager.Disconnect();
+            if (callback != null) callback();
+        } else {
+            Action callback = OnJoinRandomFailed_Callback;
+            if (callback != null) callback();
         }
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message) {
+        Action callback = onJoinRoomFailed_Callback;
+        if (callback != null) callback();
+    }
+
+    public override void OnConnectedToMaster() {
+        createRoomAttempts = 0;
     }
 }
