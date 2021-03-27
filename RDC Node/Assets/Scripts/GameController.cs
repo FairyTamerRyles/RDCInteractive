@@ -100,7 +100,6 @@ public class GameController : MonoBehaviour
         {
             humanPlayer = GameBoard.Player.Player1;
             AIPlayer = GameBoard.Player.Player2;
-            //TODO: Set players appropriately
         }
 
         if(!connectionManager)
@@ -109,14 +108,6 @@ public class GameController : MonoBehaviour
             humanPlayer = GameBoard.Player.Player1;
             AIPlayer = GameBoard.Player.Player2;
         }
-
-        if(!connectionManager)
-        {
-            gameType = GameType.AI;
-            humanPlayer = GameBoard.Player.Player1;
-            AIPlayer = GameBoard.Player.Player2;
-        }
-
 
         if(gameType != GameType.Network)
         {

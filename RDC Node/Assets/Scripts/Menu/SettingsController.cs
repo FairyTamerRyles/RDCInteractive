@@ -53,6 +53,14 @@ public class SettingsController : MonoBehaviour
         var gameNetworkingManager = GameObject.Find("GameNetworkingManager").GetComponent<GameNetworkingManager>();
         connectionManager.Connect(() => {
             matchmakingManager.JoinRandomRoom(() => {
+                if(gameNetworkingManager.FirstInRoom)
+                {
+                    PlayerPrefs.SetInt("humanPlayer", 1);
+                }
+                else
+                {
+                    PlayerPrefs.SetInt("humanPlayer", 2);
+                }
                 gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
             });
         });

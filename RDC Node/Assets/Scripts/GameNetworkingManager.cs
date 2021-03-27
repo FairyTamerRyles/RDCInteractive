@@ -21,7 +21,7 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    private bool FirstInRoom {
+    public bool FirstInRoom {
         get => firstInRoom;
         set => firstInRoom = value;
     }
