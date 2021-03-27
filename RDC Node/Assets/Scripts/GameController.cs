@@ -146,6 +146,7 @@ public class GameController : MonoBehaviour
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {
                     gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
                     initializeTileGraphics();
+                    updateCurrentPlayer();
                     gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
                 };
             }
@@ -305,16 +306,19 @@ public class GameController : MonoBehaviour
                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
             }
 
-            //Let AI or Network opponent make a move
-            if(gameType == GameType.AI && gameBoard.getCurrentPlayer() != humanPlayer)
+            if(gameType == GameType.Network)
             {
-                blockPlayerFromPlaying();
-                StartCoroutine(makeAIMove());
-            }
-            else if(gameType == GameType.Network && gameBoard.getCurrentPlayer() != humanPlayer)
-            {
-                blockPlayerFromPlaying();
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
+            }
+
+            //Let AI or Network opponent make a move
+            if(gameBoard.getCurrentPlayer() != humanPlayer)
+            {
+                blockPlayerFromPlaying();
+                if(gameType == GameType.AI)
+                {
+                    StartCoroutine(makeAIMove());
+                }
             }
             else
             {
