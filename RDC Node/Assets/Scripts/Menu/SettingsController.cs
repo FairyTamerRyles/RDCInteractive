@@ -79,6 +79,11 @@ public class SettingsController : MonoBehaviour
         });
     }
 
+    public void quitGame()
+    {
+        Application.Quit();
+    }
+
     // Update is called once per frame
     void Update()
     {
