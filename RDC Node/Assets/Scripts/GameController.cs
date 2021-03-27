@@ -35,8 +35,6 @@ public class GameController : MonoBehaviour
     public GameObject green2;
     public GameObject green3;
     public GameObject voidTile;
-    public GameObject purpleSlime;
-    public GameObject orangeSlime;
     public GameObject gameOver;
     public GameObject connectionManager;
     public GameObject matchmakingManager;

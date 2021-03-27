@@ -63,8 +63,8 @@ public class SettingsController : MonoBehaviour
                     PlayerPrefs.SetInt("humanPlayer", 2);
                 }
                 gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
-            });
-        });
+            }, () => {ConnectionError();});
+        }, () => {ConnectionError();});
     }
 
     public void BeginAIGame()
@@ -96,12 +96,18 @@ public class SettingsController : MonoBehaviour
 
     public void cancelNetworkGame()
     {
-        
+        var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
+        var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
+
+        matchmakingManager.LeaveRoom(() =>{
+            connectionManager.Disconnect(() =>{
+                //Move waiting for players box and reenable interaction
+            });
+        });
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ConnectionError()
     {
-        
+        Debug.Log("Connection Error");
     }
 }
