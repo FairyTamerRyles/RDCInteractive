@@ -99,7 +99,7 @@ public class GameController : MonoBehaviour
         {
             //TODO: Set players appropriately
         }
-
+        //humanPlayer = GameBoard.Player.Player2;
         if(gameType != GameType.Network)
         {
             gameBoard = new GameBoard();
