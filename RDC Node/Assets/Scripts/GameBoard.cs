@@ -86,6 +86,13 @@ public class GameBoard
             pieceType = pt;
         }
 
+        public GamePiece(Coordinate c, PieceType pt, Player p)
+        {
+            player = p;
+            coord = c;
+            pieceType = pt;
+        }
+
         public GamePiece(GamePiece g)
         {
             coord = new Coordinate {x = g.coord.x, y = g.coord.y};
@@ -106,6 +113,13 @@ public class GameBoard
             maxLoad = max;
             player = Player.None;
             quartered = false;
+        }
+
+        public Tile(ResourceType r, int max, Player p, bool q, Coordinate c): base(c, PieceType.Tile, p)
+        {
+            resourceType = r;
+            maxLoad = max;
+            quartered = q;
         }
 
         public Tile(Tile t): base(new Coordinate{x = t.coord.x, y = t.coord.y}, t.pieceType)
@@ -545,9 +559,29 @@ public class GameBoard
                     if(moveQueue.Count == 0)
                     {
                         //checks if it is a branch or node
-                        if(isNode(m.coord) || isHorizontalBranch(m.coord) || isVerticalBranch(m.coord))
+                        if(isNode(m.coord))
                         {
+                            if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None))
                             return true;
+                        }
+                        else if (isHorizontalBranch(m.coord))
+                        {
+                            if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y + 1}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x, y = m.coord.y - 1}, Player.None))
+                            {
+                                return true;
+                            }
+                        }
+                        else if (isVerticalBranch(m.coord))
+                        {
+                            if(pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x + 1, y = m.coord.y}, Player.None) ||
+                                pieceAtCoordinateIsOwnedByPlayer(new Coordinate{x = m.coord.x - 1, y = m.coord.y}, Player.None))
+                            {
+                                return true;
+                            }
                         }
                     }
                     else if(moveQueue.Count == 1) //second piece placed
@@ -1708,6 +1742,236 @@ public class GameBoard
     public int getSetupCounter()
     {
         return setupCounter;
+    }
+
+    public string serializeBoard()
+    {
+        string serializedBoard = "";
+
+        for(int i = 0; i < boardSize; ++i)
+        {
+            for(int j = 0; j < boardSize; ++j)
+            {
+                Coordinate current = new Coordinate{x = i, y = j};
+                if(isInBounds(current))
+                {
+                    switch(gameBoard[i,j].pieceType)
+                    {
+                        case PieceType.Branch:
+                            serializedBoard += "B";
+                            break;
+                        case PieceType.Node:
+                            serializedBoard += "N";
+                            break;
+                        case PieceType.Tile:
+                            serializedBoard += "T";
+                            break;
+                    }
+
+                    switch(gameBoard[i,j].player)
+                    {
+                        case Player.None:
+                            serializedBoard += "N";
+                            break;
+                        case Player.Player1:
+                            serializedBoard += "1";
+                            break;
+                        case Player.Player2:
+                            serializedBoard += "2";
+                            break;
+                    }
+
+                    if(gameBoard[i,j].pieceType != PieceType.Tile)
+                    {
+                        serializedBoard += "___";
+                    }
+                    else
+                    {
+                        switch(((Tile)gameBoard[i,j]).resourceType)
+                        {
+                            case ResourceType.None:
+                                serializedBoard += "N";
+                                break;
+                            case ResourceType.Red:
+                                serializedBoard += "R";
+                                break;
+                            case ResourceType.Blue:
+                                serializedBoard += "B";
+                                break;
+                            case ResourceType.Green:
+                                serializedBoard += "G";
+                                break;
+                            case ResourceType.Yellow:
+                                serializedBoard += "Y";
+                                break;
+                        }
+
+                        if(((Tile)gameBoard[i,j]).maxLoad > 0)
+                        {
+                            serializedBoard += ((Tile)gameBoard[i,j]).maxLoad.ToString();
+                        }
+                        else
+                        {
+                            serializedBoard += "0";
+                        }
+
+                        if(((Tile)gameBoard[i,j]).quartered)
+                        {
+                            serializedBoard += "T";
+                        }
+                        else
+                        {
+                            serializedBoard += "F";
+                        }
+                    }
+                }
+            }
+        }
+        
+        if(currentPlayer == Player.Player1)
+        {
+            serializedBoard += "1";
+        }
+        else
+        {
+            serializedBoard += "2";
+        }
+
+        if(tradeMadeThisTurn)
+        {
+            serializedBoard += "T";
+        }
+        else
+        {
+            serializedBoard += "F";
+        }
+
+        serializedBoard += setupCounter.ToString();
+
+        serializedBoard += ("R" + player1Resources[0].ToString() + "B" + player1Resources[1].ToString() + "G" + player1Resources[2].ToString() + "Y" + player1Resources[3].ToString() +
+            "R" + player2Resources[0].ToString() + "B" + player2Resources[1].ToString() + "G" + player2Resources[2].ToString() + "Y" + player2Resources[3].ToString());
+
+        return serializedBoard;
+    }
+
+    public GameBoard deserializeBoard(string sBoard)
+    {
+        GameBoard newBoard = new GameBoard();
+        for(int i = 0; i < boardSize; ++i)
+        {
+            for(int j = 0; j < boardSize; ++j)
+            {
+                Coordinate current = new Coordinate{x = i, y = j};
+                if(isInBounds(current))
+                {
+                    string currentPiece = sBoard.Substring(0,5);
+                    sBoard = sBoard.Substring(5);
+
+                    Player pPlayer;
+                    if(currentPiece.Substring(1,1) == "1")
+                    {
+                        pPlayer = Player.Player1;
+                    }
+                    else if(currentPiece.Substring(1,1) == "2")
+                    {
+                        pPlayer = Player.Player2;
+                    }
+                    else
+                    {
+                        pPlayer = Player.None;
+                    }
+
+                    if(currentPiece.Substring(0,1) == "T")
+                    {
+                        ResourceType rType = ResourceType.None;
+                        bool quart;
+                        int max;
+
+                        switch(currentPiece.Substring(2,1))
+                        {
+                            case "N":
+                                rType = ResourceType.None;
+                                break;
+                            case "R":
+                                rType = ResourceType.Red;
+                                break;
+                            case "B":
+                                rType = ResourceType.Blue;
+                                break;
+                            case "G":
+                                rType = ResourceType.Green;
+                                break;
+                            case "Y":
+                                rType = ResourceType.Yellow;
+                                break;
+                        }
+
+                        quart = currentPiece.Substring(4,1) == "T";
+                        max = int.Parse(currentPiece.Substring(3,1));
+                        if(max == 0)
+                        {
+                            max = -1;
+                        }
+
+                        newBoard.gameBoard[i,j] = new Tile(rType, max, pPlayer, quart, current);
+                    }
+                    else 
+                    {
+                        if(currentPiece.Substring(0,1) == "N")
+                        {
+                            newBoard.gameBoard[i,j] = new GamePiece(current, PieceType.Node, pPlayer);
+                        }
+                        else
+                        {
+                            newBoard.gameBoard[i,j] = new GamePiece(current, PieceType.Branch, pPlayer);
+                        }
+                    }
+                }
+            }
+        }
+
+        if(sBoard.Substring(0,1) == "1")
+        {
+            newBoard.currentPlayer = Player.Player1;
+        }
+        else
+        {
+            newBoard.currentPlayer = Player.Player2;
+        }
+        sBoard = sBoard.Substring(1);
+
+        if(sBoard.Substring(0,1) == "T")
+        {
+            newBoard.tradeMadeThisTurn = true;
+        }
+        else
+        {
+            newBoard.tradeMadeThisTurn = false;
+        }
+        sBoard = sBoard.Substring(1);
+
+        Debug.Log(sBoard.Substring(0, sBoard.IndexOf('R')));
+
+        newBoard.setupCounter = int.Parse(sBoard.Substring(0, sBoard.IndexOf('R')));
+
+        sBoard = sBoard.Substring(sBoard.IndexOf('R', 0) + 1);
+        newBoard.player1Resources[0] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('B')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('B', 0) + 1);
+        newBoard.player1Resources[1] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('G')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('G', 0) + 1);
+        newBoard.player1Resources[2] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('Y')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('Y', 0) + 1);
+        newBoard.player1Resources[3] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('R')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('R', 0) + 1);
+        newBoard.player2Resources[0] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('B')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('B', 0) + 1);
+        newBoard.player2Resources[1] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('G')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('G', 0) + 1);
+        newBoard.player2Resources[2] = int.Parse(sBoard.Substring(0, sBoard.IndexOf('Y')));
+        sBoard = sBoard.Substring(sBoard.IndexOf('Y', 0) + 1);
+        newBoard.player2Resources[3] = int.Parse(sBoard);
+
+        return newBoard;
     }
 }
 

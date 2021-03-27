@@ -120,6 +120,12 @@ TagManager:
   - -G
   - +Y
   - -Y
+  - branch
+  - node
+  - P1Toggle
+  - ChangeScene
+  - PrivateRoomName
+  - P1ToggleAI
   layers:
   - Default
   - TransparentFX
