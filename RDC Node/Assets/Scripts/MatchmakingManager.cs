@@ -6,6 +6,13 @@ using System;
 public class MatchmakingManager : MonoBehaviourPunCallbacks {
     [SerializeField]
     private static byte maxPlayersPerRoom = 2;
+
+    private bool firstInRoom = false;
+    
+    public bool FirstInRoom {
+        get => firstInRoom;
+        set => firstInRoom = value;
+    }
     
     private bool creatingPrivateRoom = false;
     private int createRoomMaxAttempts = 50;
@@ -59,6 +66,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
             string roomName = RoomNameGenerator.Next();
 
             PhotonNetwork.CreateRoom(roomName, roomOptions);
+            FirstInRoom = true;
         }
     }
 
@@ -75,6 +83,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     public void JoinRoom(string roomName) {
         if (ConnectionManager.IsConnected()) {
             PhotonNetwork.JoinRoom(roomName.ToUpper());
+            FirstInRoom = false;
         }
     }
 
