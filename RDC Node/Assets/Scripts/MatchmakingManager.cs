@@ -8,10 +8,21 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     private static byte maxPlayersPerRoom = 2;
 
     private bool firstInRoom = false;
+    private int hostPlayer;
     
     public bool FirstInRoom {
         get => firstInRoom;
         set => firstInRoom = value;
+    }
+
+    public int HostPlayer {
+        get => hostPlayer;
+        set {
+            hostPlayer = value;
+            if (RoomName != null) {
+                PhotonView.Get(this).RPC("SetHostPlayer", RpcTarget.Others, value);
+            }
+        }
     }
     
     private bool creatingPrivateRoom = false;
@@ -65,8 +76,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
             string roomName = RoomNameGenerator.Next();
 
-            PhotonNetwork.CreateRoom(roomName, roomOptions);
             FirstInRoom = true;
+            PhotonNetwork.CreateRoom(roomName, roomOptions);
         }
     }
 
@@ -82,8 +93,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     public void JoinRoom(string roomName) {
         if (ConnectionManager.IsConnected()) {
-            PhotonNetwork.JoinRoom(roomName.ToUpper());
             FirstInRoom = false;
+            PhotonNetwork.JoinRoom(roomName.ToUpper());
         }
     }
 
@@ -129,8 +140,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     }
 
     private void CreateRoom() {
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
         FirstInRoom = true;
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
     public override void OnJoinedRoom() {
@@ -166,5 +177,10 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     public override void OnConnectedToMaster() {
         createRoomAttempts = 0;
+    }
+
+    [PunRPC]
+    private void SetHostPlayer(int hostPlayer) {
+        HostPlayer = hostPlayer;
     }
 }
