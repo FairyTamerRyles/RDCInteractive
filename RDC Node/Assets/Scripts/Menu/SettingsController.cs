@@ -56,6 +56,7 @@ public class SettingsController : MonoBehaviour
                 if(gameNetworkingManager.FirstInRoom)
                 {
                     PlayerPrefs.SetInt("humanPlayer", 1);
+                    gameNetworkingManager.FirstInRoom = false;
                 }
                 else
                 {

@@ -9,7 +9,7 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
 
     private int recordedPlayers = 0;
     private bool roomFull = false;
-    private bool firstInRoom = false;
+    private bool firstInRoom = true;
     private Timer queryForPlayersLeavingTimer;
 
     private bool RoomFull {
