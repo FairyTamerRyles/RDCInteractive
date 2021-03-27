@@ -130,6 +130,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     private void CreateRoom() {
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+        FirstInRoom = true;
     }
 
     public override void OnJoinedRoom() {
