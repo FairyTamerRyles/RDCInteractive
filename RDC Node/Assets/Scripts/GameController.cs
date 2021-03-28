@@ -723,5 +723,6 @@ public class GameController : MonoBehaviour
         PlayerPrefs.DeleteKey("humanPlayer");
         PlayerPrefs.DeleteKey("gameType");
         SceneManager.LoadScene("MainMenu");
+        SceneManager.UnloadScene("Game");
     }
 }
