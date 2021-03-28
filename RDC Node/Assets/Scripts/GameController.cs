@@ -711,12 +711,17 @@ public class GameController : MonoBehaviour
             Debug.Log("Disconnected");
             connectionErrorBox.SetActive(true);
             blockPlayerFromPlaying();
+            Destroy(gameNetworkingManager);
+            Destroy(matchmakingManager);
+            Destroy(connectionManager);
             connectionErrorBox.GetComponent<GraphicRaycaster>().enabled = true;
         }
     }
 
     public void returnToMainMenu()
     {
+        PlayerPrefs.DeleteKey("humanPlayer");
+        PlayerPrefs.DeleteKey("gameType");
         SceneManager.LoadScene("MainMenu");
     }
 }
