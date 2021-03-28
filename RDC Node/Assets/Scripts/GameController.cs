@@ -52,6 +52,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        SceneManager.UnloadScene("MainMenu");
         blockPlayerFromPlaying();
         piecesPlacedThisTurn = new List<GameObject>();
 
@@ -723,6 +724,5 @@ public class GameController : MonoBehaviour
         PlayerPrefs.DeleteKey("humanPlayer");
         PlayerPrefs.DeleteKey("gameType");
         SceneManager.LoadScene("MainMenu");
-        SceneManager.UnloadScene("Game");
     }
 }

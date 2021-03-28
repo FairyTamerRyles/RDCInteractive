@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SettingsController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class SettingsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SceneManager.UnloadScene("Game");
         DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
         DontDestroyOnLoad(GameObject.Find("SoundManager"));
 
