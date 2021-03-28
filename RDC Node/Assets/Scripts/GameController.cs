@@ -722,6 +722,6 @@ public class GameController : MonoBehaviour
     {
         PlayerPrefs.DeleteKey("humanPlayer");
         PlayerPrefs.DeleteKey("gameType");
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

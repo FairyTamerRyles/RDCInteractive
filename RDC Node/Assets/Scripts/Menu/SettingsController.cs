@@ -10,10 +10,6 @@ public class SettingsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(ifSceneCurrentlyLoaded("Game"))
-        {
-            SceneManager.UnloadScene("Game");
-        }
         DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
         DontDestroyOnLoad(GameObject.Find("SoundManager"));
 
