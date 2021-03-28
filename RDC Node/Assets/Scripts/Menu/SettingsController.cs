@@ -61,7 +61,9 @@ public class SettingsController : MonoBehaviour
                 {
                     PlayerPrefs.SetInt("humanPlayer", 2);
                 }
-                gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
+                gameNetworkingManager.OnRoomFull_Callback = () => {
+                    GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+                };
             }, () => {ConnectionError();});
         }, () => {ConnectionError();});
     }
@@ -82,10 +84,31 @@ public class SettingsController : MonoBehaviour
         connectionManager.Connect(() => {
             matchmakingManager.CreatePrivateRoom(() => {
                 GameObject.Find("Room Code").GetComponent<Text>().text = matchmakingManager.RoomName;
-                //TODO: Set hostPlayer
-                gameNetworkingManager.OnRoomFull_Callback = () => {GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");};
-            });
-        });
+                gameNetworkingManager.OnRoomFull_Callback = () => {
+                    matchmakingManager.HostPlayer = PlayerPrefs.GetInt("humanPlayer");
+                    GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+                };
+            }, () => {ConnectionError();});
+        }, () => {ConnectionError();});
+    }
+
+    public void JoinPrivateRoom()
+    {
+        var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
+        var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
+        var gameNetworkingManager = GameObject.Find("GameNetworkingManager").GetComponent<GameNetworkingManager>();
+
+        string roomName = GameObject.Find("RoomNameToJoin").GetComponent<Text>().text;
+
+        connectionManager.Connect(() => {
+            //matchmakingManager.OnHostSetCallback = () => {PlayerPrefs.SetInt("humanPlayer", (matchmakingManager.HostPlayer == 1) ? 2 : 1;};
+            matchmakingManager.JoinRoom(roomName, () => {
+                gameNetworkingManager.OnRoomFull_Callback = () => {
+                    GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+                };
+            },
+            () => {ConnectionError();});
+        }, () => {ConnectionError();});
     }
 
     public void quitGame()
@@ -100,7 +123,7 @@ public class SettingsController : MonoBehaviour
 
         matchmakingManager.LeaveRoom(() =>{
             connectionManager.Disconnect(() =>{
-                //Move waiting for players box and reenable interaction
+                //TODO: Move waiting for players box and reenable interaction
             });
         });
     }
