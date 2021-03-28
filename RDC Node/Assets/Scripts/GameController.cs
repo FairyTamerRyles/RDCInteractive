@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class GameController : MonoBehaviour
     public GameObject matchmakingManager;
     public GameObject gameNetworkingManager;
     public GameObject soundController;
+    public GameObject connectionErrorBox;
 
     public enum GameType
     {
@@ -707,6 +709,14 @@ public class GameController : MonoBehaviour
         if(gameBoard.checkForWin() == GameBoard.Player.None)
         {
             Debug.Log("Disconnected");
+            connectionErrorBox.SetActive(true);
+            blockPlayerFromPlaying();
+            connectionErrorBox.GetComponent<GraphicRaycaster>().enabled = true;
         }
+    }
+
+    public void returnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
