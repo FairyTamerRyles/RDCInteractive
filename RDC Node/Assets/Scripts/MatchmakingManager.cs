@@ -34,6 +34,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     private Action onJoinRandomFailed_Callback;
     private Action onCreatePrivateRoomFailed_Callback;
     private Action onJoinRoomFailed_Callback;
+    private Action onHostSet_Callback;
 
     public Action OnJoinedRoom_Callback {
         get => onJoinedRoom_Callback;
@@ -58,6 +59,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     public Action OnJoinRoomFailed_Callback {
         get => onJoinRoomFailed_Callback;
         set => onJoinRoomFailed_Callback = value;
+    }
+
+    public Action OnHostSet_Callback {
+        get => onHostSet_Callback;
+        set => onHostSet_Callback = value;
     }
 
     public String RoomName {
@@ -182,5 +188,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     [PunRPC]
     private void SetHostPlayer(int hostPlayer) {
         HostPlayer = hostPlayer;
+
+        Action callback = OnHostSet_Callback;
+        if (callback != null) callback();
     }
 }
