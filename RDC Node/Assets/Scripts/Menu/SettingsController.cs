@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
+    public GameObject connectionErrorBox;
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
         DontDestroyOnLoad(GameObject.Find("SoundManager"));
+
+        var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
+        connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
     }
 
     public void AIGameSelected()
@@ -130,7 +134,7 @@ public class SettingsController : MonoBehaviour
 
     public void ConnectionError()
     {
-        Debug.Log("Connection Error");
+        connectionErrorBox.SetActive(true);
     }
 
     public void CleanRoomCodeBox()
