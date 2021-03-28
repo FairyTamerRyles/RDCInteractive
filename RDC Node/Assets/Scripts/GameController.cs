@@ -59,6 +59,9 @@ public class GameController : MonoBehaviour
         soundController = GameObject.Find("SoundManager");
         soundController.GetComponent<SoundManager>().Play("Intern");
 
+        connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {Disconnected();};
+        matchmakingManager.GetComponent<MatchmakingManager>().OnLeftRoom_Callback = () => {Disconnected();};
+
         if(PlayerPrefs.HasKey("gameType"))
         {
             string gt = PlayerPrefs.GetString("gameType");
@@ -682,5 +685,13 @@ public class GameController : MonoBehaviour
     public GameBoard getGameBoard()
     {
         return new GameBoard(gameBoard);
+    }
+
+    public void Disconnected()
+    {
+        if(gameBoard.checkForWin() == GameBoard.Player.None)
+        {
+            Debug.Log("Disconnected");
+        }
     }
 }
