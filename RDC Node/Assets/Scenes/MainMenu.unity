@@ -5410,6 +5410,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkingObjects
       objectReference: {fileID: 0}
+    - target: {fileID: 4970524382989650992, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6011844302765780244, guid: 6189d98f3a4525343a418c1f87138ab0, type: 3}
       propertyPath: m_RootOrder
       value: 7

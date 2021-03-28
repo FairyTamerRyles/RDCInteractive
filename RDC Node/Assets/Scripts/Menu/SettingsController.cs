@@ -101,7 +101,7 @@ public class SettingsController : MonoBehaviour
         string roomName = GameObject.Find("RoomNameToJoin").GetComponent<Text>().text;
 
         connectionManager.Connect(() => {
-            //matchmakingManager.OnHostSetCallback = () => {PlayerPrefs.SetInt("humanPlayer", (matchmakingManager.HostPlayer == 1) ? 2 : 1;};
+            matchmakingManager.OnHostSet_Callback = (() => {PlayerPrefs.SetInt("humanPlayer", ((matchmakingManager.HostPlayer == 1) ? 2 : 1));});
             matchmakingManager.JoinRoom(roomName, () => {
                 gameNetworkingManager.OnRoomFull_Callback = () => {
                     GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
