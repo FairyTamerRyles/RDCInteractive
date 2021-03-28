@@ -76,6 +76,7 @@ public class SettingsController : MonoBehaviour
 
     public void CreatePrivateRoom()
     {
+        CleanRoomCodeBox();
         SetPlayerForPrivateNetworkGame();
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
         var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
@@ -123,7 +124,6 @@ public class SettingsController : MonoBehaviour
 
         matchmakingManager.LeaveRoom(() =>{
             connectionManager.Disconnect(() =>{
-                //TODO: Move waiting for players box and reenable interaction
             });
         });
     }
@@ -131,5 +131,15 @@ public class SettingsController : MonoBehaviour
     public void ConnectionError()
     {
         Debug.Log("Connection Error");
+    }
+
+    public void CleanRoomCodeBox()
+    {
+        GameObject.Find("Room Code").GetComponent<Text>().text = "Loading...";
+    }
+
+    public void CleanRoomToJoinBox()
+    {
+        GameObject.Find("RoomNameToJoin").GetComponent<Text>().text = "";
     }
 }
