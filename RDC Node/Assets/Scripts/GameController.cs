@@ -265,8 +265,8 @@ public class GameController : MonoBehaviour
 
     private IEnumerator makeAIMove()
     {
-        yield return new WaitForSeconds(6);
-        GameBoard boardAfterAIMove = randomAI.makeRandomAIMove(new GameBoard(gameBoard));
+        yield return new WaitForSeconds(2);
+        GameBoard boardAfterAIMove = testAI.makeMove(new GameBoard(gameBoard));
         updateBoardGraphic(boardAfterAIMove);
         gameBoard = new GameBoard(boardAfterAIMove);
         updateResourceCounters();
