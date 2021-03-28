@@ -282,6 +282,21 @@ public class GameController : MonoBehaviour
         {
             gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
         }
+
+        if(gameType == GameType.Network)
+        {
+            connectionManager.GetComponent<ConnectionManager>().Disconnect(() => {
+                Destroy(gameNetworkingManager);
+                Destroy(matchmakingManager);
+                Destroy(connectionManager);
+            });
+        }
+        else
+        {
+            Destroy(gameNetworkingManager);
+            Destroy(matchmakingManager);
+            Destroy(connectionManager);
+        }
     }
 
     public void endTurn()
