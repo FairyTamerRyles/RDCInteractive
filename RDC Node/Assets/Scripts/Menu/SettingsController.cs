@@ -10,7 +10,10 @@ public class SettingsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.UnloadScene("Game");
+        if(ifSceneCurrentlyLoaded("Game"))
+        {
+            SceneManager.UnloadScene("Game");
+        }
         DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
         DontDestroyOnLoad(GameObject.Find("SoundManager"));
 
@@ -148,4 +151,16 @@ public class SettingsController : MonoBehaviour
     {
         GameObject.Find("RoomNameToJoin").GetComponent<Text>().text = "";
     }
+
+    bool ifSceneCurrentlyLoaded(string sceneName_no_extention) {
+          for(int i = 0; i<SceneManager.sceneCount; ++i) {
+             Scene scene = SceneManager.GetSceneAt(i);
+             if(scene.name == sceneName_no_extention) {
+                 //the scene is already loaded
+                 return true;
+             }
+         }
+ 
+          return false;//scene not currently loaded in the hierarchy
+     }
 }

@@ -52,7 +52,6 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        SceneManager.UnloadScene("MainMenu");
         blockPlayerFromPlaying();
         piecesPlacedThisTurn = new List<GameObject>();
 
