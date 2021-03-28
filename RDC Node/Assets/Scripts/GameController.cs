@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -35,12 +36,12 @@ public class GameController : MonoBehaviour
     public GameObject green2;
     public GameObject green3;
     public GameObject voidTile;
-    public GameObject purpleSlime;
-    public GameObject orangeSlime;
     public GameObject gameOver;
     public GameObject connectionManager;
     public GameObject matchmakingManager;
     public GameObject gameNetworkingManager;
+    public GameObject soundController;
+    public GameObject connectionErrorBox;
 
     public enum GameType
     {
@@ -57,6 +58,11 @@ public class GameController : MonoBehaviour
         connectionManager = GameObject.Find("ConnectionManager");
         matchmakingManager = GameObject.Find("MatchmakingManager");
         gameNetworkingManager = GameObject.Find("GameNetworkingManager");
+        soundController = GameObject.Find("SoundManager");
+        soundController.GetComponent<SoundManager>().Play("Intern");
+
+        connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {Disconnected();};
+        matchmakingManager.GetComponent<MatchmakingManager>().OnLeftRoom_Callback = () => {Disconnected();};
 
         if(PlayerPrefs.HasKey("gameType"))
         {
@@ -97,7 +103,6 @@ public class GameController : MonoBehaviour
         {
             humanPlayer = GameBoard.Player.Player1;
             AIPlayer = GameBoard.Player.Player2;
-            //TODO: Set players appropriately
         }
 
         if(!connectionManager)
@@ -106,14 +111,6 @@ public class GameController : MonoBehaviour
             humanPlayer = GameBoard.Player.Player1;
             AIPlayer = GameBoard.Player.Player2;
         }
-
-        if(!connectionManager)
-        {
-            gameType = GameType.AI;
-            humanPlayer = GameBoard.Player.Player1;
-            AIPlayer = GameBoard.Player.Player2;
-        }
-
 
         if(gameType != GameType.Network)
         {
@@ -154,6 +151,7 @@ public class GameController : MonoBehaviour
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {
                     gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
                     initializeTileGraphics();
+                    updateCurrentPlayer();
                     gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
                 };
             }
@@ -267,7 +265,7 @@ public class GameController : MonoBehaviour
 
     private IEnumerator makeAIMove()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         GameBoard boardAfterAIMove = randomAI.makeRandomAIMove(new GameBoard(gameBoard));
         updateBoardGraphic(boardAfterAIMove);
         gameBoard = new GameBoard(boardAfterAIMove);
@@ -285,6 +283,21 @@ public class GameController : MonoBehaviour
         if(gameType == GameType.Network && gameBoard.checkForWin() == humanPlayer)
         {
             gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
+        }
+
+        if(gameType == GameType.Network)
+        {
+            connectionManager.GetComponent<ConnectionManager>().Disconnect(() => {
+                Destroy(gameNetworkingManager);
+                Destroy(matchmakingManager);
+                Destroy(connectionManager);
+            });
+        }
+        else
+        {
+            Destroy(gameNetworkingManager);
+            Destroy(matchmakingManager);
+            Destroy(connectionManager);
         }
     }
 
@@ -313,16 +326,19 @@ public class GameController : MonoBehaviour
                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
             }
 
-            //Let AI or Network opponent make a move
-            if(gameType == GameType.AI && gameBoard.getCurrentPlayer() != humanPlayer)
+            if(gameType == GameType.Network)
             {
-                blockPlayerFromPlaying();
-                StartCoroutine(makeAIMove());
-            }
-            else if(gameType == GameType.Network && gameBoard.getCurrentPlayer() != humanPlayer)
-            {
-                blockPlayerFromPlaying();
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
+            }
+
+            //Let AI or Network opponent make a move
+            if(gameBoard.getCurrentPlayer() != humanPlayer)
+            {
+                blockPlayerFromPlaying();
+                if(gameType == GameType.AI)
+                {
+                    StartCoroutine(makeAIMove());
+                }
             }
             else
             {
@@ -411,6 +427,7 @@ public class GameController : MonoBehaviour
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
         {
             updateAnimatorCurrentPlayer(1);
+            soundController.GetComponent<SoundManager>().Transition("Intern");
             if(gameBoard.getTurnCounter() > 4)
             {
                 collectResources();
@@ -421,6 +438,10 @@ public class GameController : MonoBehaviour
         else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
             updateAnimatorCurrentPlayer(2);
+            if(gameBoard.getTurnCounter() != 3)
+            {
+                soundController.GetComponent<SoundManager>().Transition("Scientist");
+            }
             if(gameBoard.getTurnCounter() > 4)
             {
                 collectResources();
@@ -661,8 +682,47 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void playMenu()
+    {
+        soundController.GetComponent<SoundManager>().Transition("Menu");
+    }
+
+    public void turnOffMenu()
+    {
+        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+        {
+            soundController.GetComponent<SoundManager>().Play("Intern");
+        }
+        else
+        {
+            soundController.GetComponent<SoundManager>().Play("Scientist");
+        }
+    }
+
     public GameBoard getGameBoard()
     {
         return new GameBoard(gameBoard);
+    }
+
+    public void Disconnected()
+    {
+        if(gameBoard.checkForWin() == GameBoard.Player.None)
+        {
+            Debug.Log("Disconnected");
+            connectionErrorBox.SetActive(true);
+            blockPlayerFromPlaying();
+            connectionErrorBox.GetComponent<GraphicRaycaster>().enabled = true;
+        }
+    }
+
+    public void returnToMainMenu()
+    {
+        Destroy(gameNetworkingManager);
+        Destroy(matchmakingManager);
+        Destroy(connectionManager);
+        Destroy(GameObject.Find("NetworkingObjects"));
+        PlayerPrefs.DeleteKey("humanPlayer");
+        PlayerPrefs.DeleteKey("gameType");
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

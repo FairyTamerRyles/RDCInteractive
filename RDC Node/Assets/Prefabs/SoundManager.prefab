@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7177807004759023691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7177807004759023689}
+  - component: {fileID: 7177807004759023688}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7177807004759023689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7177807004759023691}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7177807004759023688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7177807004759023691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 567133719db2853419e994fe281371e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 2fb3756c98abb21479efb51322f4ae9f, type: 3}
+  - {fileID: 8300000, guid: ae730901d968a27448b2213348a2b48b, type: 3}
+  - {fileID: 8300000, guid: 1c3e67e3384a07f44b1fa60193c05080, type: 3}
+  - {fileID: 8300000, guid: 0ea8b0113d705d847a1d6dd39574d589, type: 3}
+  audioNames:
+  - Menu
+  - Intro
+  - Scientist
+  - Intern
+  sfxClips:
+  - {fileID: 8300000, guid: f1d22abd0e0fcf845affb8a90af51bc4, type: 3}
+  - {fileID: 8300000, guid: 7ef25b45cc3962242b4df1c77f6156cd, type: 3}
+  - {fileID: 8300000, guid: f7dd2ee80c886134294db1f924bb7345, type: 3}
+  - {fileID: 8300000, guid: a1cdd98e98fb4384e863fe12ab91e309, type: 3}
+  - {fileID: 8300000, guid: 57176d3160edf0b42b3f6a46bf2475fd, type: 3}
+  - {fileID: 8300000, guid: 0ca8914296c017d4ca9ff4e766ef908a, type: 3}
+  sfxNames:
+  - MarkerOnDryErase
+  - MarkerCap
+  - SlimeCollect
+  - SlimeSpawn1
+  - SlimeSpawn2
+  - SlimeSpawn3

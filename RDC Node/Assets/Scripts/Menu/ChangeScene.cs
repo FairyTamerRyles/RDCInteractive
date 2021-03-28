@@ -12,7 +12,7 @@ public class ChangeScene : MonoBehaviour
         //yield return new WaitForSeconds(5);
         StartCoroutine(Action());
         //Invoke("Action", 2.0f);
-        SceneManager.LoadScene(level);
+        SceneManager.LoadScene(level,LoadSceneMode.Single);
 
     }
 

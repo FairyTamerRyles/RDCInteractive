@@ -6,6 +6,24 @@ using System;
 public class MatchmakingManager : MonoBehaviourPunCallbacks {
     [SerializeField]
     private static byte maxPlayersPerRoom = 2;
+
+    private bool firstInRoom = false;
+    private int hostPlayer;
+    
+    public bool FirstInRoom {
+        get => firstInRoom;
+        set => firstInRoom = value;
+    }
+
+    public int HostPlayer {
+        get => hostPlayer;
+        set {
+            hostPlayer = value;
+            if (RoomName != null) {
+                PhotonView.Get(this).RPC("SetHostPlayer", RpcTarget.Others, value);
+            }
+        }
+    }
     
     private bool creatingPrivateRoom = false;
     private int createRoomMaxAttempts = 50;
@@ -16,6 +34,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     private Action onJoinRandomFailed_Callback;
     private Action onCreatePrivateRoomFailed_Callback;
     private Action onJoinRoomFailed_Callback;
+    private Action onHostSet_Callback;
 
     public Action OnJoinedRoom_Callback {
         get => onJoinedRoom_Callback;
@@ -42,6 +61,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
         set => onJoinRoomFailed_Callback = value;
     }
 
+    public Action OnHostSet_Callback {
+        get => onHostSet_Callback;
+        set => onHostSet_Callback = value;
+    }
+
     public String RoomName {
         get {
             return (PhotonNetwork.CurrentRoom == null) ? "" : PhotonNetwork.CurrentRoom.Name;
@@ -58,6 +82,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
             string roomName = RoomNameGenerator.Next();
 
+            FirstInRoom = true;
             PhotonNetwork.CreateRoom(roomName, roomOptions);
         }
     }
@@ -74,6 +99,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     public void JoinRoom(string roomName) {
         if (ConnectionManager.IsConnected()) {
+            FirstInRoom = false;
             PhotonNetwork.JoinRoom(roomName.ToUpper());
         }
     }
@@ -120,6 +146,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     }
 
     private void CreateRoom() {
+        FirstInRoom = true;
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
@@ -156,5 +183,13 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
 
     public override void OnConnectedToMaster() {
         createRoomAttempts = 0;
+    }
+
+    [PunRPC]
+    private void SetHostPlayer(int hostPlayer) {
+        HostPlayer = hostPlayer;
+
+        Action callback = OnHostSet_Callback;
+        if (callback != null) callback();
     }
 }
