@@ -788,6 +788,53 @@ public class AI
         return abridgedCoords;
     }
 
+    List<GameBoard.Coordinate> tilesTouched(GameBoard board, GameBoard.Player player)
+    {
+        List<GameBoard.Coordinate> tilesTouched = new List<GameBoard.Coordinate>();
+        foreach (GameBoard.Coordinate nodeCoord in nodeIndexes)
+        {
+            if(pieceAtCoordinateIsOwnedByPlayer(board, nodeCoord, player))
+            {
+                List<GameBoard.Coordinate> tiles = new List<GameBoard.Coordinate> {
+                    new GameBoard.Coordinate{x = nodeCoord.x + 1, y = nodeCoord.y + 1},
+                    new GameBoard.Coordinate{x = nodeCoord.x + 1, y = nodeCoord.y - 1},
+                    new GameBoard.Coordinate{x = nodeCoord.x - 1, y = nodeCoord.y + 1},
+                    new GameBoard.Coordinate{x = nodeCoord.x - 1, y = nodeCoord.y - 1}
+                };
+                foreach (GameBoard.Coordinate tileCoord in tiles)
+                {
+                    if(isInBounds(board, tileCoord) && !tilesTouched.Contains(tileCoord))
+                    {
+                        tilesTouched.Add(tileCoord);
+                    }
+                }
+            }
+        }
+        return tilesTouched;
+    }
+
+    int helpfulTileTouchCount(GameBoard board, GameBoard.Player player)
+    {
+        int httc = 0;
+        List<GameBoard.Coordinate> touchedTiles = tilesTouched(board, player);
+        foreach (GameBoard.Coordinate tileCoord in touchedTiles)
+        {
+            if(!board.overloadedTiles().Contains(board.gameBoard[tileCoord.x, tileCoord.y]) &&
+            ((GameBoard.Tile)board.gameBoard[tileCoord.x, tileCoord.y]).resourceType != GameBoard.ResourceType.None &&
+            (board.gameBoard[tileCoord.x, tileCoord.y].player == GameBoard.Player.None || board.gameBoard[tileCoord.x, tileCoord.y].player == player))
+            {
+                httc++;
+            }
+        }
+        return httc;
+    }
+
+    int touhedTileStability(GameBoard board, GameBoard.Plyaer player)
+    {
+        int httc = 0;
+        List<GameBoard.Coordinate> touchedTiles = tilesTouched(board, player);
+    }
+
     public minimaxBoard greedyFreederick(GameBoard position)
     {
         minimaxBoard hvalue = new minimaxBoard(position, Mathf.NegativeInfinity);
@@ -811,71 +858,6 @@ public class AI
             }
         }
         return hvalue;
-    }
-
-    public minimaxBoard minimax(GameBoard position, int maxDepth, float alpha, float beta, GameBoard.Player player)
-    {
-        float hvalue = 0;
-        //NOTE: This is modified from the original code, and could be wrong
-        hvalue = heuristic(position);
-        
-        if (maxDepth == 0 || hvalue == WIN || hvalue == LOSE)
-        {
-            minimaxBoard resultBoard = new minimaxBoard(position, hvalue);
-            return resultBoard;
-        }
-        if (player != opponent)
-        {
-            minimaxBoard maxEvaluation = new minimaxBoard(position, Mathf.NegativeInfinity);
-            List<GameBoard> boards = getPossibleMoves(position);
-            List<minimaxBoard> legalMoves = new List<minimaxBoard>();
-            foreach (GameBoard b in boards)
-            {
-                legalMoves.Add(new minimaxBoard(b, 0.0f));
-            }
-            foreach (minimaxBoard child in legalMoves)
-            {
-                GameBoard endedBoard = new GameBoard(child.board);
-                endedBoard.endTurn();
-                minimaxBoard evaluation = minimax(endedBoard, maxDepth - 1, alpha, beta, opponent);
-                if (Mathf.Max(maxEvaluation.score, evaluation.score) == evaluation.score)
-                {
-                    maxEvaluation.board = child.board;
-                    maxEvaluation.score = evaluation.score;
-                }
-                alpha = Mathf.Max(alpha, evaluation.score);
-                if (beta <= alpha) {
-                    break;
-                }
-            }
-            return maxEvaluation;
-        }
-        else
-        {
-            minimaxBoard minEvaluation = new minimaxBoard(position, Mathf.Infinity);
-            List<GameBoard> boards = getPossibleMoves(position);
-            List<minimaxBoard> legalMoves = new List<minimaxBoard>();
-            foreach (GameBoard b in boards)
-            {
-                legalMoves.Add(new minimaxBoard(b, 0.0f));
-            }
-            foreach (minimaxBoard child in legalMoves)
-            {
-                GameBoard endedBoard = new GameBoard(child.board);
-                endedBoard.endTurn();
-                minimaxBoard evaluation = minimax(endedBoard, maxDepth - 1, alpha, beta, self);
-                if (Mathf.Min(minEvaluation.score, evaluation.score) == evaluation.score)
-                {
-                    minEvaluation.board = child.board;
-                    minEvaluation.score = evaluation.score;
-                }
-                beta = Mathf.Min(beta, evaluation.score);
-                if (beta <= alpha) {
-                    break;
-                }
-            }
-            return minEvaluation;
-        }
     }
 
     public float heuristic(GameBoard board)
