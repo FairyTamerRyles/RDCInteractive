@@ -647,17 +647,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas gravida
-    augue sit amet facilisis. Nullam eget erat ut turpis dapibus dictum. Fusce a
-    fringilla nisi. Fusce condimentum tellus ut gravida suscipit. Orci varius natoque
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum
-    suscipit sem non tristique. Maecenas feugiat turpis quis justo vestibulum condimentum.
+  m_Text: I'm Not typing all that again. This is text.
 --- !u!222 &190136011
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -682,8 +678,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -163.9}
-  m_SizeDelta: {x: 2400, y: 1057}
+  m_AnchoredPosition: {x: 132.99995, y: -163.9}
+  m_SizeDelta: {x: 1636.7168, y: 1057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &190877580
 GameObject:
@@ -857,19 +853,31 @@ PrefabInstance:
       objectReference: {fileID: 1170861871}
     - target: {fileID: 715450882012552304, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_Text
-      value: Close
+      value: X
       objectReference: {fileID: 0}
     - target: {fileID: 715450882012552304, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 715450882012552304, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 715450882012552304, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 715450882012552304, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 13f7aefc2a39cd04588496ad3e3c9e75, type: 3}
+    - target: {fileID: 715450882012552304, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
+      propertyPath: m_FontData.m_MinSize
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 715450882012552304, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 1088965559617320634, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: disableOnce
@@ -909,7 +917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369065082735945914, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1103.7
+      value: 165.0299
       objectReference: {fileID: 0}
     - target: {fileID: 4369065082735945914, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_SizeDelta.y
@@ -957,11 +965,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369065082735945914, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 423
+      value: 450.5
       objectReference: {fileID: 0}
     - target: {fileID: 4369065082735945914, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: 175.9
       objectReference: {fileID: 0}
     - target: {fileID: 4369065082735945914, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -979,9 +987,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Exit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4449160728563609267, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8157862164507402858, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 542
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157862164507402858, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 8157862164507402858, guid: 3c614e9cd35bf468b8d2f1689cc4cca8, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1443,13 +1459,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  m_Text: I'm Not typing all that again. This is text.
 --- !u!222 &242215328
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1474,8 +1490,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -163.9}
-  m_SizeDelta: {x: 2400, y: 1057}
+  m_AnchoredPosition: {x: 133, y: -163.9}
+  m_SizeDelta: {x: 1636.7168, y: 1057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &243611460
 GameObject:
@@ -2439,7 +2455,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -44.999985, y: -257}
+  m_AnchoredPosition: {x: -69.000046, y: -257}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &427645972
@@ -3236,8 +3252,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 140.45609, y: 78.26306}
-  m_SizeDelta: {x: 600, y: 200}
+  m_AnchoredPosition: {x: 140.45609, y: 71.09791}
+  m_SizeDelta: {x: 600, y: 185.6697}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &585764784
 MonoBehaviour:
@@ -4764,14 +4780,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 481cf623d33500f43aca29a4bc35d37b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5320,7 +5336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -244.99998, y: -257}
+  m_AnchoredPosition: {x: -269.00006, y: -257}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026754818
@@ -6456,17 +6472,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas gravida
-    augue sit amet facilisis. Nullam eget erat ut turpis dapibus dictum. Fusce a
-    fringilla nisi. Fusce condimentum tellus ut gravida suscipit. Orci varius natoque
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum
-    suscipit sem non tristique. Maecenas feugiat turpis quis justo vestibulum condimentum.
+  m_Text: I'm Not typing all that again. This is text.
 --- !u!222 &1248694308
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6491,8 +6503,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -163.9}
-  m_SizeDelta: {x: 2400, y: 1057}
+  m_AnchoredPosition: {x: 132.99995, y: -163.9}
+  m_SizeDelta: {x: 1636.7168, y: 1057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1252616859
 GameObject:
@@ -6840,7 +6852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: -257}
+  m_AnchoredPosition: {x: -19.000065, y: -257}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1274578402
@@ -7770,8 +7782,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -163.9}
-  m_SizeDelta: {x: 2400, y: 1057}
+  m_AnchoredPosition: {x: 132.99995, y: -163.9}
+  m_SizeDelta: {x: 1636.7168, y: 1057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1461349627
 MonoBehaviour:
@@ -7800,17 +7812,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas gravida
-    augue sit amet facilisis. Nullam eget erat ut turpis dapibus dictum. Fusce a
-    fringilla nisi. Fusce condimentum tellus ut gravida suscipit. Orci varius natoque
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum
-    suscipit sem non tristique. Maecenas feugiat turpis quis justo vestibulum condimentum.
+  m_Text: I'm Not typing all that again. This is text.
 --- !u!222 &1461349628
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8104,17 +8112,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas gravida
-    augue sit amet facilisis. Nullam eget erat ut turpis dapibus dictum. Fusce a
-    fringilla nisi. Fusce condimentum tellus ut gravida suscipit. Orci varius natoque
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum
-    suscipit sem non tristique. Maecenas feugiat turpis quis justo vestibulum condimentum.
+  m_Text: I'm Not typing all that again. This is text.
 --- !u!222 &1607160009
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8139,8 +8143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -163.9}
-  m_SizeDelta: {x: 2400, y: 1057}
+  m_AnchoredPosition: {x: 132.99995, y: -163.9}
+  m_SizeDelta: {x: 1636.7168, y: 1057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1615647906
 PrefabInstance:
@@ -8581,7 +8585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -94.999985, y: -257}
+  m_AnchoredPosition: {x: -119.000046, y: -257}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1632599188
@@ -9428,17 +9432,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas gravida
-    augue sit amet facilisis. Nullam eget erat ut turpis dapibus dictum. Fusce a
-    fringilla nisi. Fusce condimentum tellus ut gravida suscipit. Orci varius natoque
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum
-    suscipit sem non tristique. Maecenas feugiat turpis quis justo vestibulum condimentum.
+  m_Text: I'm Not typing all that again. This is text.
 --- !u!222 &1719272545
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9463,8 +9463,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -163.9}
-  m_SizeDelta: {x: 2400, y: 1057}
+  m_AnchoredPosition: {x: 132.99995, y: -163.9}
+  m_SizeDelta: {x: 1636.7168, y: 1057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1725701177 stripped
 GameObject:
@@ -9662,7 +9662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -144.99998, y: -257}
+  m_AnchoredPosition: {x: -169.00005, y: -257}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1732709371
@@ -10126,7 +10126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 55.000015, y: -257}
+  m_AnchoredPosition: {x: 31, y: -257}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1787896931
@@ -10642,7 +10642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -194.99998, y: -257}
+  m_AnchoredPosition: {x: -219.00005, y: -257}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809032087
@@ -11548,17 +11548,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 300
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas gravida
-    augue sit amet facilisis. Nullam eget erat ut turpis dapibus dictum. Fusce a
-    fringilla nisi. Fusce condimentum tellus ut gravida suscipit. Orci varius natoque
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum
-    suscipit sem non tristique. Maecenas feugiat turpis quis justo vestibulum condimentum.
+  m_Text: I'm Not typing all that again. This is text.
 --- !u!222 &1968943472
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11583,8 +11579,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 144, y: -163.9}
-  m_SizeDelta: {x: 2400, y: 1057}
+  m_AnchoredPosition: {x: 132.99995, y: -163.9}
+  m_SizeDelta: {x: 1636.7168, y: 1057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1971177008
 GameObject:
