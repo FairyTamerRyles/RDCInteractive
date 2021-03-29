@@ -14,6 +14,7 @@ public class AI
     public GameBoard AIGameBoard;
     public GameBoard.Player opponent;
     public GameBoard.Player self;
+    private int strat;
     //public MonteCarloTree Freederick;
     public struct moveResult
     {
@@ -50,320 +51,6 @@ public class AI
             score = s;
         }
     }
-
-    public class GameState
-    {
-        public GameBoard unendedState;
-        public GameBoard actualState;
-        public GameBoard.Player largestNetworkOwner;
-        public int P1Score;
-        public int P2Score;
-        public GameBoard.Player opponent;
-
-        public GameState(GameBoard board, GameBoard.Player o)
-        {
-            opponent = o;
-            unendedState = board;
-            GameBoard newBoard = new GameBoard(board);
-            newBoard.endTurn();
-            actualState = newBoard;
-            largestNetworkOwner = actualState.playerWithLargestNetwork();
-            P1Score = actualState.getScore(GameBoard.Player.Player1);
-            P2Score = actualState.getScore(GameBoard.Player.Player2);
-        }
-    }
-
-    public class TreeNode
-    {
-        public GameState state;
-        public int visits;
-        public float wins;
-        public TreeNode parentTreeNode;
-        public List<TreeNode> childrenTreeNodes;
-        public TreeNode()
-        {
-            state = null;
-            visits = 0;
-            wins = 0.0f;
-            parentTreeNode = null;
-            childrenTreeNodes = new List<TreeNode>();
-        }
-        public TreeNode(GameState s)
-        {
-            state = s;
-            visits = 0;
-            wins = 0.0f;
-            parentTreeNode = null;
-            childrenTreeNodes = new List<TreeNode>();
-        }
-        public TreeNode(GameState s, TreeNode parent)
-        {
-            state = s;
-            visits = 0;
-            wins = 0f;
-            parentTreeNode = parent;
-            childrenTreeNodes = new List<TreeNode>();
-        }
-        public TreeNode getRandomChildTreeNode()
-        {
-            int randomIndex = (int)Round(Random.Range(0.0f, (float)childrenTreeNodes.Count - 1));
-            return childrenTreeNodes[randomIndex];
-        }
-    }
-
-    /*public class MonteCarloTree
-    {
-        public TreeNode root;
-        int level;
-        GameBoard.Player opponent;
-
-        public MonteCarloTree(GameBoard.Player o, GameBoard firstBoard)
-        {
-            GameState rootState = new GameState(firstBoard, o);
-            root = new TreeNode(rootState);
-            expandTree(root);
-            level = 1;
-            opponent = o;
-        }
-        public bool updateRoot(GameBoard gBoard)
-        {
-            System.DateTime time = System.DateTime.Now;
-            foreach (TreeNode child in root.childrenTreeNodes)
-            {
-                bool isNewRoot = true;
-                TreeNode newRoot = child;
-                if (child.state.actualState.getCurrentPlayer() == gBoard.getCurrentPlayer() &&
-                    child.state.P1Score == gBoard.getScore(GameBoard.Player.Player1) &&
-                    child.state.P2Score == gBoard.getScore(GameBoard.Player.Player2) &&
-                    child.state.largestNetworkOwner == gBoard.playerWithLargestNetwork())
-                {
-                    //Debug.Log("Player and Score");
-                    int[] actualP1Resources = gBoard.getResources(GameBoard.Player.Player1);
-                    int[] childP1Resources = child.state.actualState.getResources(GameBoard.Player.Player1);
-                    for (int i = 0; i < actualP1Resources.Length; i++)
-                    {
-                        if (actualP1Resources[i] != childP1Resources[i])
-                        {
-                            isNewRoot = false;
-                        }
-                    }
-                    if (isNewRoot)
-                    {
-                        //Debug.Log("Player1 resource");
-                        int[] actualP2Resources = gBoard.getResources(GameBoard.Player.Player2);
-                        int[] childP2Resources = child.state.actualState.getResources(GameBoard.Player.Player2);
-                        for (int i = 0; i < actualP2Resources.Length; i++)
-                        {
-                            if (actualP2Resources[i] != childP2Resources[i])
-                            {
-                                isNewRoot = false;
-                            }
-                        }
-                        if(isNewRoot)
-                        {
-                            //Debug.Log("Player2 resource");
-                            for(int i = 0; i < 11; i++)
-                            {
-                                for(int j = 0; j < 11; j++)
-                                {
-                                    if(gBoard.gameBoard[i,j] != null)
-                                    {
-                                        if (gBoard.gameBoard[i,j].player != child.state.actualState.gameBoard[i,j].player ||
-                                            gBoard.gameBoard[i,j].pieceType != child.state.actualState.gameBoard[i,j].pieceType)
-                                        {
-                                            isNewRoot = false;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    isNewRoot = false;
-                }
-                if (isNewRoot)
-                {
-                    //Debug.Log("Board matched");
-                    root = newRoot;
-                    if (root.childrenTreeNodes.Count == 0 && root.state.actualState.checkForWin() == GameBoard.Player.None)
-                    {
-                        expandTree(root);
-                    }
-                    root.parentTreeNode = null;
-                    Debug.Log("Update Root time: " + (System.DateTime.Now - time));
-                    return true;
-                }
-            }
-            Debug.Log("No newRoot was found");
-            if (root.childrenTreeNodes.Count == 0 && root.state.actualState.checkForWin() == GameBoard.Player.None)
-            {
-                expandTree(root);
-            }
-            //TODO: if no new node was found, after that if, then just make a new node
-            root.parentTreeNode = null;
-            Debug.Log("Update Root time: " + (System.DateTime.Now - time));
-            return false;
-        }
-
-        public TreeNode selectMove()
-        {
-            int timePassed = 0;
-            System.DateTime selectTime = System.DateTime.Now;
-            while(timePassed < 1)
-            {
-                //Debug.Log("Root currently has " + root.childrenTreeNodes.Count + " before finding leaf");
-                TreeNode leafToSimulate = findLeafToSimulate(root, 0);
-                Debug.Log("LeafSelection took " + (System.DateTime.Now - selectTime));
-                selectTime = System.DateTime.Now;
-                if(leafToSimulate.state.actualState.checkForWin() == GameBoard.Player.None && leafToSimulate.childrenTreeNodes.Count == 0) // node isn't a root node
-                {
-                    //Debug.Log("did expand leaf");
-                    expandTree(leafToSimulate);
-                    Debug.Log("ExpandTree took " + (System.DateTime.Now - selectTime));
-                    selectTime = System.DateTime.Now;
-                }
-                if(leafToSimulate.childrenTreeNodes.Count > 0)
-                {
-                    leafToSimulate = leafToSimulate.getRandomChildTreeNode();
-                }
-                selectTime = System.DateTime.Now;
-                float rolloutResult = rollout(leafToSimulate.state, 0);
-                Debug.Log("Rollout took " + (System.DateTime.Now - selectTime));
-                selectTime = System.DateTime.Now;
-                backPropagate(leafToSimulate, rolloutResult, 0);
-                Debug.Log("backPropogate took " + (System.DateTime.Now - selectTime));
-                selectTime = System.DateTime.Now;
-                timePassed++;
-            }
-            TreeNode bestChild = getBestChild(root);
-            selectTime = System.DateTime.Now;
-            root = bestChild;
-            root.parentTreeNode = null;
-            if(root.state.actualState.checkForWin() == GameBoard.Player.None && root.childrenTreeNodes.Count == 0) // node isn't a root node
-            {
-                //Debug.Log("did expand leaf");
-                expandTree(root);
-            }
-            return bestChild;
-        }
-
-        TreeNode findLeafToSimulate(TreeNode root, int numCap)
-        {
-            TreeNode node = root;
-            while(numCap < 100 && node.state.actualState.checkForWin() == GameBoard.Player.None && node.visits != 0)
-            {
-                float maxUCT = Mathf.NegativeInfinity;
-                TreeNode bestChild = new TreeNode();
-                foreach (TreeNode child in node.childrenTreeNodes)
-                {
-                    int childNodeVisits = child.visits;
-                    float childWins = child.wins;
-                    int parentVisits = child.parentTreeNode.visits;
-                    float UCT = getUCT(parentVisits, childWins, childNodeVisits);
-                    if (UCT > maxUCT)
-                    {
-                        maxUCT = UCT;
-                        bestChild = child;
-                        node = bestChild;
-                    }
-                }
-                numCap++;
-            }
-            if(numCap >= 100)
-            {
-                Debug.Log("FindLeafCappedOut");
-            }
-            return node;
-        }
-        float rollout(GameState simulation, int numCap)
-        {
-            if(numCap > 50)
-            {
-                Debug.Log("Rollout capped Out");
-                return Mathf.NegativeInfinity;
-            }
-            if (simulation.actualState.checkForWin() == opponent)
-            {
-                Debug.Log("Cap: " + numCap);
-                Debug.Log("Simulation lost");
-                return Mathf.NegativeInfinity;
-            }
-            else if (simulation.actualState.checkForWin() != opponent && simulation.actualState.checkForWin() != GameBoard.Player.None)
-            {
-                Debug.Log("Cap: " + numCap);
-                Debug.Log("Simulation won");
-                return Mathf.Infinity;
-            }
-            else
-            {
-                System.DateTime time = System.DateTime.Now;
-                List<GameBoard> possibleMoves = getPossibleMoves(simulation.actualState);
-                Debug.Log("PossibleMoves took: " + (System.DateTime.Now - time));
-                Debug.Log("PossibleMoves count: " + possibleMoves.Count);
-                int randomIndex = (int)Round(Random.Range(0.0f, (float)possibleMoves.Count - 1));
-                //Debug.Log("Random: " + randomIndex);
-                GameBoard chosenMove = possibleMoves[randomIndex];
-                GameState nextState = new GameState(chosenMove, simulation.opponent);
-                return rollout(nextState, numCap + 1);
-            }
-        }
-        float rolloutStrat()
-        {
-            return new TreeNode();
-        }
-        void backPropagate(TreeNode leaf, float rolloutResult, int numCap)
-        {
-            TreeNode node = leaf;
-            while (node.parentTreeNode != null)
-            {
-                node.visits++;
-                if(node.state.actualState.checkForWin() != node.state.opponent)
-                {
-                    node.wins += 1.0f;
-                }
-                numCap++;
-                node = node.parentTreeNode;
-            }
-        }
-        TreeNode getBestChild(TreeNode root)
-        {
-            TreeNode bestChild = new TreeNode();
-            foreach (TreeNode child in root.childrenTreeNodes)
-            {
-                if (child.wins > bestChild.wins)
-                {
-                    bestChild = child;
-                }
-            }
-            Debug.Log("Children: " + root.childrenTreeNodes.Count);
-            if(root.childrenTreeNodes.IndexOf(bestChild) == -1)
-            {
-                bestChild = root.childrenTreeNodes[0];
-            }
-            return bestChild;
-        }
-        public float getUCT(int parentVisits, float nodeWinScore, int childVisits)
-        {
-            if (childVisits == 0)
-            {
-                return Mathf.Infinity;
-            }
-            return ((float) nodeWinScore / (float) childVisits) + 1.41f * Mathf.Sqrt(Mathf.Log10(parentVisits) / (float) childVisits);
-        }
-        void expandTree(TreeNode nodeToExpand)
-        {
-            List<GameBoard> possibleMoves = getPossibleMoves(nodeToExpand.state.actualState);
-            foreach (GameBoard g in possibleMoves)
-            {
-                GameState state = new GameState(g, nodeToExpand.state.opponent);
-                TreeNode newNode = new TreeNode(state, nodeToExpand);
-                nodeToExpand.childrenTreeNodes.Add(newNode);
-            }
-        }
-
-    }*/
     
     private List<GameBoard.Coordinate> branchIndexes = new List<GameBoard.Coordinate>
     {
@@ -829,10 +516,13 @@ public class AI
         return httc;
     }
 
-    int touhedTileStability(GameBoard board, GameBoard.Plyaer player)
+    int touhedTileStability(GameBoard board, GameBoard.Player player)
     {
-        int httc = 0;
+        int tts = 0;
         List<GameBoard.Coordinate> touchedTiles = tilesTouched(board, player);
+
+
+        return tts;
     }
 
     public minimaxBoard greedyFreederick(GameBoard position)
@@ -848,7 +538,7 @@ public class AI
         {
             GameBoard endedBoard = new GameBoard(child.board);
             endedBoard.endTurn();
-            float challenger = heuristic(endedBoard);
+            float challenger = applyHeuristic(endedBoard);
             //Debug.Log("challenger score is: " + challenger);
             if(challenger > hvalue.score)
             {
@@ -860,7 +550,85 @@ public class AI
         return hvalue;
     }
 
-    public float heuristic(GameBoard board)
+    public float applyHeuristic(GameBoard board)
+    {
+        switch(strat)
+        {
+            case 1:
+            {
+                return standardHeuristic(board);
+            }
+            case 2:
+            {
+                return roadStrat(board);
+            }
+            case 3:
+            {
+                return nukeStrat(board);
+            }
+            case 4:
+            {
+                return maddening(board);
+            }
+        }
+        return standardHeuristic(board);
+    }
+
+    public float standardHeuristic(GameBoard board)
+    {
+        float heuristicResult = 1;
+        if(board.getScore(opponent) >= 10)
+        {
+            heuristicResult = LOSE;
+        }
+        else if (board.getScore(self) >= 10)
+        {
+            heuristicResult = WIN;
+        }
+        else
+        {
+            heuristicResult = (board.getScore(self) - board.getScore(opponent)) + (branches(board, self) - branches(board, opponent)) + (resourcePotential(board, self) - resourcePotential(board, opponent));
+        }
+        return heuristicResult;
+    }
+
+    public float roadStrat(GameBoard board)
+    {
+        float heuristicResult = 1;
+        if(board.getScore(opponent) >= 10)
+        {
+            heuristicResult = LOSE;
+        }
+        else if (board.getScore(self) >= 10)
+        {
+            heuristicResult = WIN;
+        }
+        else
+        {
+            heuristicResult = (board.getScore(self) - board.getScore(opponent)) + 5 * (branches(board, self) - branches(board, opponent)) + (resourcePotential(board, self) - resourcePotential(board, opponent));
+        }
+        return heuristicResult;
+    }
+
+    public float nukeStrat(GameBoard board)
+    {
+        float heuristicResult = 1;
+        if(board.getScore(opponent) >= 10)
+        {
+            heuristicResult = LOSE;
+        }
+        else if (board.getScore(self) >= 10)
+        {
+            heuristicResult = WIN;
+        }
+        else
+        {
+            heuristicResult = (board.getScore(self) - board.getScore(opponent)) + (branches(board, self) - branches(board, opponent)) + 5 * (resourcePotential(board, self) - resourcePotential(board, opponent));
+        }
+        return heuristicResult;
+    }
+
+    public float maddening(GameBoard board)
     {
         float heuristicResult = 1;
         if(board.getScore(opponent) >= 10)
@@ -920,10 +688,6 @@ public class AI
         }
         return false;
     }
-
-
-
-
 
     private int[] potentialResources(GameBoard b, GameBoard.Player p)
     {
@@ -989,11 +753,6 @@ public class AI
         return incomingResources;
     }
 
-
-
-
-
-
     public int resourcePotential(GameBoard board, GameBoard.Player player)
     {
         int[] incomingResources = potentialResources(board, player);
@@ -1010,10 +769,18 @@ public class AI
         return resourcePotential;
     }
 
+    public void pickStrat()
+    {
+        float rnd = Random.Range(0.0f, 3.0f);
+        strat = (int)(Floor(rnd));
+    }
+
     public AI(GameBoard.Player o, GameBoard firstBoard)
     {
         AIGameBoard = new GameBoard(firstBoard);
         opponent = o;
+        pickStrat();
+
         if (o == GameBoard.Player.Player1)
         {
             self = GameBoard.Player.Player2;
