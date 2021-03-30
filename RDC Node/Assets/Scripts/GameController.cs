@@ -717,12 +717,33 @@ public class GameController : MonoBehaviour
 
     public void returnToMainMenu()
     {
-        Destroy(gameNetworkingManager);
-        Destroy(matchmakingManager);
-        Destroy(connectionManager);
-        Destroy(GameObject.Find("NetworkingObjects"));
         PlayerPrefs.DeleteKey("humanPlayer");
         PlayerPrefs.DeleteKey("gameType");
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        //add checks here
+        if(matchmakingManager.GetComponent<MatchmakingManager>().InRoom)
+        {
+            matchmakingManager.GetComponent<MatchmakingManager>().LeaveRoom(() =>{
+                Debug.Log("Left Room");
+                connectionManager.GetComponent<ConnectionManager>().Disconnect(() =>{
+                    Debug.Log("disconnected");
+                    Destroy(gameNetworkingManager);
+                    Destroy(matchmakingManager);
+                    Destroy(connectionManager);
+                    Destroy(GameObject.Find("NetworkingObjects"));
+                    SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                });
+            });
+        }
+        else if(ConnectionManager.IsConnected())
+        {
+            connectionManager.GetComponent<ConnectionManager>().Disconnect(() =>{
+                Debug.Log("disconnected");
+                Destroy(gameNetworkingManager);
+                Destroy(matchmakingManager);
+                Destroy(connectionManager);
+                Destroy(GameObject.Find("NetworkingObjects"));
+                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            });
+        }
     }
 }

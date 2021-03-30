@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class SettingsController : MonoBehaviour
 {
     public GameObject connectionErrorBox;
-    private bool joinedRoom;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +60,6 @@ public class SettingsController : MonoBehaviour
             Debug.Log("Connected");
             matchmakingManager.JoinRandomRoom(() => {
                 Debug.Log("In Room");
-                joinedRoom = true;
                 if(matchmakingManager.FirstInRoom)
                 {
                     PlayerPrefs.SetInt("humanPlayer", 1);
@@ -93,7 +91,6 @@ public class SettingsController : MonoBehaviour
 
         connectionManager.Connect(() => {
             matchmakingManager.CreatePrivateRoom(() => {
-                joinedRoom = true;
                 GameObject.Find("Room Code").GetComponent<Text>().text = matchmakingManager.RoomName;
                 gameNetworkingManager.OnRoomFull_Callback = () => {
                     matchmakingManager.HostPlayer = PlayerPrefs.GetInt("humanPlayer");
@@ -114,7 +111,6 @@ public class SettingsController : MonoBehaviour
         connectionManager.Connect(() => {
             matchmakingManager.OnHostSet_Callback = (() => {PlayerPrefs.SetInt("humanPlayer", ((matchmakingManager.HostPlayer == 1) ? 2 : 1));});
             matchmakingManager.JoinRoom(roomName, () => {
-                joinedRoom = true;
                 gameNetworkingManager.OnRoomFull_Callback = () => {
                     GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
                 };
@@ -134,11 +130,10 @@ public class SettingsController : MonoBehaviour
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
         var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
 
-        if(joinedRoom)
+        if(matchmakingManager.InRoom)
         {
             matchmakingManager.LeaveRoom(() =>{
                 Debug.Log("Left Room");
-                joinedRoom = false;
                 connectionManager.Disconnect(() =>{
                     Debug.Log("disconnected");
                 });
