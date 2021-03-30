@@ -11,9 +11,11 @@ public class SettingsController : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(GameObject.Find("NetworkingObjects"));
+
         DontDestroyOnLoad(GameObject.Find("SoundManager"));
 
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
+
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
     }
 
@@ -83,14 +85,19 @@ public class SettingsController : MonoBehaviour
 
     public void CreatePrivateRoom()
     {
+        Debug.Log("dresting private room");
         CleanRoomCodeBox();
         SetPlayerForPrivateNetworkGame();
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
         var matchmakingManager = GameObject.Find("MatchmakingManager").GetComponent<MatchmakingManager>();
         var gameNetworkingManager = GameObject.Find("GameNetworkingManager").GetComponent<GameNetworkingManager>();
 
+        matchmakingManager.OnCreatePrivateRoomFailed_Callback = () => {Debug.Log("Creation of room failed");};
+
         connectionManager.Connect(() => {
+            Debug.Log("Connected");
             matchmakingManager.CreatePrivateRoom(() => {
+                Debug.Log("Joined Room");
                 GameObject.Find("Room Code").GetComponent<Text>().text = matchmakingManager.RoomName;
                 gameNetworkingManager.OnRoomFull_Callback = () => {
                     matchmakingManager.HostPlayer = PlayerPrefs.GetInt("humanPlayer");

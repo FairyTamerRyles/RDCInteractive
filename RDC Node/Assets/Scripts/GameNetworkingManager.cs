@@ -89,6 +89,10 @@ public class GameNetworkingManager : MonoBehaviourPunCallbacks {
     void LeaveRoomIfPlayerLeft(object source, ElapsedEventArgs e) {
         if (RoomFull && PhotonNetwork.CurrentRoom?.PlayerCount < maxPlayersPerRoom) {
             MatchmakingManager.LeaveRoom();
+            Debug.Log("other player ye4eted out");
+            Debug.Log(RoomFull);
+            Debug.Log(recordedPlayers);
+            roomFull = false;
         }
     }
 }

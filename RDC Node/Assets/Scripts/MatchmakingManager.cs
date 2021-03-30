@@ -121,17 +121,20 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
     }
 
     public void JoinRandomRoom() {
+        Debug.Log("Joined Random");
         if (ConnectionManager.IsConnected()) {
             PhotonNetwork.JoinRandomRoom();
         }
     }
 
     public void JoinRandomRoom(Action onJoinedRoom_Callback) {
+        Debug.Log("Joined Random");
         OnJoinedRoom_Callback = onJoinedRoom_Callback;
         JoinRandomRoom();
     }
 
     public void JoinRandomRoom(Action onJoinedRoom_Callback, Action onJoinRandomFailed_Callback) {
+        Debug.Log("Joined Random");
         OnJoinRandomFailed_Callback = onJoinRandomFailed_Callback;
         JoinRandomRoom(onJoinedRoom_Callback);
     }

@@ -54,10 +54,26 @@ public class GameController : MonoBehaviour
     {
         blockPlayerFromPlaying();
         piecesPlacedThisTurn = new List<GameObject>();
-
         connectionManager = GameObject.Find("ConnectionManager");
         matchmakingManager = GameObject.Find("MatchmakingManager");
         gameNetworkingManager = GameObject.Find("GameNetworkingManager");
+
+        var connectionManagerS = connectionManager.GetComponent<ConnectionManager>();
+        var matchmakingManagerS = matchmakingManager.GetComponent<MatchmakingManager>();
+        var gameNetworkingManagerS = gameNetworkingManager.GetComponent<GameNetworkingManager>();
+
+        gameNetworkingManagerS.OnOpponentMoved_Callback = null;
+        gameNetworkingManagerS.OnRoomFull_Callback = null;
+        matchmakingManagerS.OnJoinedRoom_Callback = null;
+        matchmakingManagerS.OnLeftRoom_Callback = null;
+        matchmakingManagerS.OnJoinRandomFailed_Callback = null;
+        matchmakingManagerS.OnCreatePrivateRoomFailed_Callback = null;
+        matchmakingManagerS.OnJoinRoomFailed_Callback = null;
+        matchmakingManagerS.OnHostSet_Callback = null;
+        connectionManagerS.FailedToConnect_Callback = null;
+        connectionManagerS.OnConnected_Callback = null;
+        connectionManagerS.OnDisconnected_Callback = null;
+
         soundController = GameObject.Find("SoundManager");
         soundController.GetComponent<SoundManager>().Play("Intern");
 
@@ -726,10 +742,10 @@ public class GameController : MonoBehaviour
                 Debug.Log("Left Room");
                 connectionManager.GetComponent<ConnectionManager>().Disconnect(() =>{
                     Debug.Log("disconnected");
-                    Destroy(gameNetworkingManager);
-                    Destroy(matchmakingManager);
-                    Destroy(connectionManager);
-                    Destroy(GameObject.Find("NetworkingObjects"));
+                    Destroy(gameNetworkingManager, 0);
+                    Destroy(matchmakingManager, 0);
+                    Destroy(connectionManager, 0);
+                    Destroy(GameObject.Find("NetworkingObjects"), 0);
                     SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
                 });
             });
@@ -738,12 +754,20 @@ public class GameController : MonoBehaviour
         {
             connectionManager.GetComponent<ConnectionManager>().Disconnect(() =>{
                 Debug.Log("disconnected");
-                Destroy(gameNetworkingManager);
-                Destroy(matchmakingManager);
-                Destroy(connectionManager);
-                Destroy(GameObject.Find("NetworkingObjects"));
+                Destroy(gameNetworkingManager, 0);
+                Destroy(matchmakingManager, 0);
+                Destroy(connectionManager, 0);
+                Destroy(GameObject.Find("NetworkingObjects"), 0);
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             });
+        }
+        else
+        {
+            Destroy(gameNetworkingManager, 0);
+            Destroy(matchmakingManager, 0);
+            Destroy(connectionManager, 0);
+            Destroy(GameObject.Find("NetworkingObjects"), 0);
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
     }
 }
