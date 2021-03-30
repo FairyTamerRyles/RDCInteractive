@@ -72,6 +72,12 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks {
         }
     }
 
+    public bool InRoom {
+        get {
+            return PhotonNetwork.CurrentRoom != null;
+        }
+    }
+
     public void CreatePrivateRoom() {
         if (ConnectionManager.IsConnected()) {
             creatingPrivateRoom = true;
