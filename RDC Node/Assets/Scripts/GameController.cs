@@ -293,8 +293,15 @@ public class GameController : MonoBehaviour
     public void endGame()
     {
         updateScore();
-        Instantiate(gameOver, new Vector3(0, 0, 1), Quaternion.identity);
         GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
+        if(gameBoard.getScore(GameBoard.Player.Player1) >= 10)
+        {
+            GameObject.Find("GameOverImage").GetComponent<Animator>().SetInteger("winner", 1);
+        }
+        else
+        {
+            GameObject.Find("GameOverImage").GetComponent<Animator>().SetInteger("winner", 2);
+        }
 
         if(gameType == GameType.Network && gameBoard.checkForWin() == humanPlayer)
         {
