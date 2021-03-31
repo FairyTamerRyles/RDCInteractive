@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour
     public GameObject gameNetworkingManager;
     public GameObject soundController;
     public GameObject connectionErrorBox;
+    public GameObject endGameCanvas;
 
     public enum GameType
     {
@@ -151,7 +152,6 @@ public class GameController : MonoBehaviour
         else
         {
             gameBoard = new GameBoard();
-            //TODO: Set players appropriately? Or maybe do this in main menu
             if(humanPlayer == GameBoard.Player.Player1)
             {
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
@@ -275,7 +275,6 @@ public class GameController : MonoBehaviour
         if(gameBoard.checkForWin() != GameBoard.Player.None)
         {
             endGame();
-            //TODO: Give them the option to leave
         }
     }
 
@@ -308,19 +307,16 @@ public class GameController : MonoBehaviour
             gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
         }
 
+        endGameCanvas.SetActive(true);
+
         if(gameType == GameType.Network)
         {
-            connectionManager.GetComponent<ConnectionManager>().Disconnect(() => {
-                Destroy(gameNetworkingManager);
-                Destroy(matchmakingManager);
-                Destroy(connectionManager);
-            });
+            GameObject.Find("PlayAgain").SetActive(false);
         }
         else
         {
-            Destroy(gameNetworkingManager);
-            Destroy(matchmakingManager);
-            Destroy(connectionManager);
+            GameObject.Find("PlayAgain").SetActive(true);
+            //Bring up end game with both buttons
         }
     }
 
@@ -334,7 +330,6 @@ public class GameController : MonoBehaviour
         if(gameBoard.checkForWin() != GameBoard.Player.None)
         {
             endGame();
-            //TODO: Give them the option to leave
         }
         else //Not end of game
         {
@@ -776,5 +771,10 @@ public class GameController : MonoBehaviour
             Destroy(GameObject.Find("NetworkingObjects"), 0);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
+    }
+
+    public void playAgain()
+    {
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

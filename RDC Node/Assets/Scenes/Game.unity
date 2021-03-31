@@ -25995,6 +25995,7 @@ MonoBehaviour:
   gameNetworkingManager: {fileID: 0}
   soundController: {fileID: 0}
   connectionErrorBox: {fileID: 1147238401}
+  endGameCanvas: {fileID: 1733774806}
 --- !u!4 &1357508549
 Transform:
   m_ObjectHideFlags: 0
@@ -32681,7 +32682,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1650480463}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1357508548}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: returnToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1650480463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35976,7 +35989,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1799970207}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1357508548}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: playAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1799970207
 MonoBehaviour:
   m_ObjectHideFlags: 0
