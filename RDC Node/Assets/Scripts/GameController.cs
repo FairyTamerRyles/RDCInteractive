@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Math;
 using System.Threading;
 using UnityEngine.SceneManagement;
 
@@ -189,7 +190,7 @@ public class GameController : MonoBehaviour
                     startTile = o;
                 }
             }
-            Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y, 1), Quaternion.identity);
+            Instantiate(startTile, new Vector3(tileObject.transform.position.x, tileObject.transform.position.y + 0.1f, 1), Quaternion.identity);
         }
     }
 
@@ -229,6 +230,8 @@ public class GameController : MonoBehaviour
                 {
                     case "N":
                         newGameObject = GameObject.Find(button.tag);
+                        int rSound = (int)(Floor(Random.Range(1.0f, 3.0f)));
+                        soundController.GetComponent<SoundManager>().PlaySFX("SlimeSpawn" + rSound);
                         newGameObject.GetComponent<Animator>().ResetTrigger("collectResources");
                         newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
                         break;
@@ -295,11 +298,15 @@ public class GameController : MonoBehaviour
         GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
         if(gameBoard.getScore(GameBoard.Player.Player1) >= 10)
         {
-            GameObject.Find("GameOverImage").GetComponent<Animator>().SetInteger("winner", 1);
+            //TODO: Change Intern to winner
+            //TODO: Change Scientist to loser
+            GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 1);
         }
         else
         {
-            GameObject.Find("GameOverImage").GetComponent<Animator>().SetInteger("winner", 2);
+            //TODO: Change Intern to winner
+            //TODO: Change Scientist to loser
+            GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 2);
         }
 
         if(gameType == GameType.Network && gameBoard.checkForWin() == humanPlayer)
@@ -422,21 +429,21 @@ public class GameController : MonoBehaviour
     {
         if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.Player1)
         {
-            GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -4, GameObject.Find("FickleOrange").transform.position.z);
-            GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 10, GameObject.Find("FicklePurple").transform.position.z);
-            GameObject.Find("FickleN").transform.position = new Vector3(GameObject.Find("FickleN").transform.position.x, 10, GameObject.Find("FickleN").transform.position.z);
+            GameObject.Find("FickleOrange").GetComponent<Animator>().SetInteger("largestNetworkOwner", 1);
+            GameObject.Find("FicklePurple").GetComponent<Animator>().SetInteger("largestNetworkOwner", 1);
+            GameObject.Find("FickleN").GetComponent<Animator>().SetInteger("largestNetworkOwner", 1);
         }
         else if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.Player2)
         {
-            GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -10, GameObject.Find("FickleOrange").transform.position.z);
-            GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 4, GameObject.Find("FicklePurple").transform.position.z);
-            GameObject.Find("FickleN").transform.position = new Vector3(GameObject.Find("FickleN").transform.position.x, 10, GameObject.Find("FickleN").transform.position.z);
+            GameObject.Find("FickleOrange").GetComponent<Animator>().SetInteger("largestNetworkOwner", 2);
+            GameObject.Find("FicklePurple").GetComponent<Animator>().SetInteger("largestNetworkOwner", 2);
+            GameObject.Find("FickleN").GetComponent<Animator>().SetInteger("largestNetworkOwner", 2);
         }
         else if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.None)
         {
-            GameObject.Find("FickleOrange").transform.position = new Vector3(GameObject.Find("FickleOrange").transform.position.x, -10, GameObject.Find("FickleOrange").transform.position.z);
-            GameObject.Find("FicklePurple").transform.position = new Vector3(GameObject.Find("FicklePurple").transform.position.x, 10, GameObject.Find("FicklePurple").transform.position.z);
-            GameObject.Find("FickleN").transform.position = new Vector3(GameObject.Find("FickleN").transform.position.x, 4, GameObject.Find("FickleN").transform.position.z);
+            GameObject.Find("FickleOrange").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
+            GameObject.Find("FicklePurple").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
+            GameObject.Find("FickleN").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
         }
     }
 
@@ -543,6 +550,7 @@ public class GameController : MonoBehaviour
         GameObject[] nodes = GameObject.FindGameObjectsWithTag("node");
         foreach (GameObject n in nodes)
         {
+            soundController.GetComponent<SoundManager>().PlaySFX("SlimeCollect");
             n.GetComponent<Animator>().SetTrigger("collectResources");
         }
     }
@@ -594,6 +602,8 @@ public class GameController : MonoBehaviour
     public void updateBoardGraphic(GameBoard newBoard)
     {
         updateAnimatorAITrigger();
+        bool nodePlaced = false;
+        bool branchPlaced = false;
         for(int i = 0; i < GameBoard.boardSize; ++i)
         {
             for(int j = 0; j < GameBoard.boardSize; ++j)
@@ -610,11 +620,13 @@ public class GameController : MonoBehaviour
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                nodePlaced = true;
                             }
                             else
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                nodePlaced = true;
                             }
                         }
                         else if(gameBoard.isVerticalBranch(gameBoard.getGameBoard()[i,j].coord))
@@ -625,12 +637,14 @@ public class GameController : MonoBehaviour
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                branchPlaced = true;
                             }
                             else
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                branchPlaced = true;
                             }
                         }
                         else if(gameBoard.isHorizontalBranch(gameBoard.getGameBoard()[i,j].coord))
@@ -640,17 +654,28 @@ public class GameController : MonoBehaviour
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                branchPlaced = true;
                             }
                             else
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
                                 changedSprite.GetComponent<Animator>().SetBool("topOrRight", true);
+                                branchPlaced = true;
                             }
                         }
                     }
                 }
             }
+        }
+        if(nodePlaced == true)
+        {
+            int rSound = (int)(Floor(Random.Range(1.0f, 3.0f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("SlimeSpawn" + rSound);
+        }
+        if(branchPlaced == true)
+        {
+            //TODO: play branch SFX
         }
     }
 
@@ -666,6 +691,7 @@ public class GameController : MonoBehaviour
 
     public void updateExhaustedTiles()
     {
+        //soundController.GetComponent<SoundManager>().PlaySFX("Vat Close Sound effect");
         List<GameBoard.Tile> overloadedTiles = gameBoard.overloadedTiles();
         foreach (GameBoard.Tile tile in overloadedTiles)
         {
@@ -676,6 +702,7 @@ public class GameController : MonoBehaviour
     }
     public void updateCapturedTiles()
     {
+        //soundController.GetComponent<SoundManager>().PlaySFX("Vat Capture Sound Effect");
         List<GameBoard.Tile> tiles = gameBoard.getGameTiles();
         foreach (GameBoard.Tile tile in tiles)
         {
@@ -729,6 +756,7 @@ public class GameController : MonoBehaviour
             Debug.Log("Disconnected");
             connectionErrorBox.SetActive(true);
             blockPlayerFromPlaying();
+            soundController.GetComponent<SoundManager>().Stop();
             connectionErrorBox.GetComponent<GraphicRaycaster>().enabled = true;
         }
     }
@@ -775,6 +803,6 @@ public class GameController : MonoBehaviour
 
     public void playAgain()
     {
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 }
