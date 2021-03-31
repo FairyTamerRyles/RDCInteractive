@@ -132,4 +132,49 @@ public class SoundManager : MonoBehaviour
             }
         }
     }
+
+    public void ChangeMasterVolume(float volume) {
+        ChangeSoundMasterVolume(volume);
+        ChangeSFXMasterVolume(volume);
+    }
+
+    public void ChangeSoundMasterVolume(float volume) {
+        foreach (AudioSource audioSource in audioSources) {
+            audioSource.volume = volume;
+        }
+    }
+
+    public void ChangeSFXMasterVolume(float volume) {
+        foreach (AudioSource sfxSource in sfxSources) {
+            sfxSource.volume = volume;
+        }
+    }
+
+    public void ChangeSoundVolume(int index, float volume) {
+        audioSources[index].volume = volume;
+    }
+
+    public void ChangeSoundVolume(String name, float volume) {
+       int index = 0;
+
+        for (int i = 0; i < audioNames.Length; ++i) {
+            if (audioNames[i] == name) index = i;
+        }
+
+        ChangeSoundVolume(index, volume);
+    }
+
+    public void ChangeSFXVolume(int index, float volume) {
+        sfxSources[index].volume = volume;
+    }
+
+    public void ChangeSFXVolume(String name, float volume) {
+        int index = 0;
+
+        for (int i = 0; i < sfxNames.Length; ++i) {
+            if (sfxNames[i] == name) index = i;
+        }
+
+        ChangeSFXVolume(index, volume);
+    }
 }
