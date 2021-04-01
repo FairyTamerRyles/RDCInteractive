@@ -301,12 +301,14 @@ public class GameController : MonoBehaviour
             //TODO: Change Intern to winner
             //TODO: Change Scientist to loser
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 1);
+            GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("humanPlayer", (int)humanPlayer);
         }
         else
         {
             //TODO: Change Intern to winner
             //TODO: Change Scientist to loser
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 2);
+            GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("humanPlayer", (int)humanPlayer);
         }
 
         if(gameType == GameType.Network && gameBoard.checkForWin() == humanPlayer)
