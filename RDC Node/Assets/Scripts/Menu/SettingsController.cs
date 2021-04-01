@@ -17,6 +17,8 @@ public class SettingsController : MonoBehaviour
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
 
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
+
+        //GameObject.Find("SoundManager").GetComponent<SoundManager>().Play("Intro");
     }
 
     public void AIGameSelected()

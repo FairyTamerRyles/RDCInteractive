@@ -126,6 +126,7 @@ TagManager:
   - ChangeScene
   - PrivateRoomName
   - P1ToggleAI
+  - Volume
   layers:
   - Default
   - TransparentFX

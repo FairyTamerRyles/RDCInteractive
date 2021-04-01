@@ -314,8 +314,6 @@ public class GameController : MonoBehaviour
             gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
         }
 
-        endGameCanvas.SetActive(true);
-
         if(gameType == GameType.Network)
         {
             GameObject.Find("PlayAgain").SetActive(false);
@@ -457,8 +455,8 @@ public class GameController : MonoBehaviour
             {
                 collectResources();
             }
-            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -3.75f, GameObject.Find("OrangePlayer").transform.position.z);
-            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 10, GameObject.Find("PurplePlayer").transform.position.z);
+            GameObject.Find("OrangePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 1);
+            GameObject.Find("PurplePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 1);
         }
         else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
@@ -471,8 +469,8 @@ public class GameController : MonoBehaviour
             {
                 collectResources();
             }
-            GameObject.Find("OrangePlayer").transform.position = new Vector3(GameObject.Find("OrangePlayer").transform.position.x, -10, GameObject.Find("OrangePlayer").transform.position.z);
-            GameObject.Find("PurplePlayer").transform.position = new Vector3(GameObject.Find("PurplePlayer").transform.position.x, 3.75f, GameObject.Find("PurplePlayer").transform.position.z);
+            GameObject.Find("OrangePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 2);
+            GameObject.Find("PurplePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 2);
         }
     }
 
