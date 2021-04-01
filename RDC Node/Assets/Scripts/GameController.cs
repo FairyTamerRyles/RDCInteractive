@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using static System.Math;
 using System.Threading;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameController : MonoBehaviour
 {
@@ -77,7 +78,20 @@ public class GameController : MonoBehaviour
         connectionManagerS.OnDisconnected_Callback = null;
 
         soundController = GameObject.Find("SoundManager");
+        soundController.GetComponent<SoundManager>().MusicSlider = GameObject.Find("Music").GetComponent<Slider>();
+        soundController.GetComponent<SoundManager>().SFXSlider = GameObject.Find("SFX").GetComponent<Slider>();
         soundController.GetComponent<SoundManager>().Play("Intern");
+
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.EndDrag;
+        entry.callback.AddListener( (eventData) => {soundController.GetComponent<SoundManager>().ChangeSFXMasterVolume();} );
+
+        EventTrigger.Entry entry2 = new EventTrigger.Entry();
+        entry2.eventID = EventTriggerType.EndDrag;
+        entry2.callback.AddListener( (eventData) => {soundController.GetComponent<SoundManager>().ChangeSoundMasterVolume();} );
+
+        GameObject.Find("SFX").GetComponent<EventTrigger>().triggers.Add(entry);
+        GameObject.Find("Music").GetComponent<EventTrigger>().triggers.Add(entry2);
 
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {Disconnected();};
         matchmakingManager.GetComponent<MatchmakingManager>().OnLeftRoom_Callback = () => {Disconnected();};
@@ -283,7 +297,7 @@ public class GameController : MonoBehaviour
 
     private IEnumerator makeAIMove()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
         GameBoard boardAfterAIMove = testAI.makeMove(new GameBoard(gameBoard));
         updateBoardGraphic(boardAfterAIMove);
         gameBoard = new GameBoard(boardAfterAIMove);

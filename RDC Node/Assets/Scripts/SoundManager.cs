@@ -187,6 +187,18 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void ChangeSoundMasterVolume() {
+        foreach (AudioSource audioSource in audioSources) {
+            if(audioSource.volume != 0)
+            {
+                audioSource.volume = MusicSlider.value;
+            }
+        }
+        MusicVolume = MusicSlider.value;
+        PlayerPrefs.SetFloat("Music", MusicVolume);
+        PlayerPrefs.Save();
+    }
+
     public void ChangeSFXMasterVolume() {
         foreach (AudioSource sfxSource in sfxSources) {
             sfxSource.volume = SFXSlider.value;
