@@ -732,8 +732,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.75
-  m_Text: Each minion and vat minion count for one point. The fickle minion is worth
-    two points. First player to ten points wins.
+  m_Text: You need 10 points to win the game and take control of the lab. Each minion
+    and vat slime is worth 1 point, while the fickle minion is worth 2 points.
 --- !u!222 &190136011
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1549,14 +1549,15 @@ MonoBehaviour:
 
 
     Slime
-    trails are played around vats and in between minion spawners. A slime trail must
-    be played next to a minion spawner that a same colored slime trail is already
-    touching. (Whether or not a minion is there doesn''t matter)
+    trails are played around vats and between minion spawners. A slime trail must
+    be played next to a minion spawner that already has an adjacent slime trail of
+    the same color. (Slime trail placement is not affected by the minion placed at
+    a minion spawner)
 
 
-    Minions are
-    played at the minion spawner locations found at the corner of the vats. They
-    can only be spawned at a spawner touched by a same colored slime trail.'
+    Minions are played at the minion spawner locations found
+    at each corner of the vats. Minions can only be played at a spawner with an adjacent
+    slime trail of the same color.'
 --- !u!222 &242215328
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7108,10 +7109,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.75
-  m_Text: At the beginning of the game, both players will play two free minion &
-    slime trail pairs wherever they want. Orange will play one pair, purple will
-    play both pairs, orange will play their second pair, then purple will start the
-    game.
+  m_Text: To begin the game, each players places two pairs of minions & slime trails
+    anywhere on the board. Orange begins by playing their first pair, followed by
+    purple playing both pairs, then orange playing their second pair. Purple then
+    starts the game.
 --- !u!222 &1248694308
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8858,8 +8859,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 0.75
   m_Text: Bam-Goozled! is a tactical battle game based on the board game Node. Fight
-    for control over the lab and create enough slime minions to defeat their colleague
-    so you can begin their plans for world domination! Do you have what it takes?
+    for control over the lab and create enough slime minions to defeat your colleague
+    so you can begin your plans for world domination! Do you have what it takes?
 --- !u!222 &1461349628
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9306,9 +9307,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.75
-  m_Text: The fickle minion switches loyalty based on who has the most connected
-    slime trails. If both players have the same number, then it will serve neither
-    player.
+  m_Text: The fickle minion is a powerful minion who switches loyalty based on who
+    has the most connected slime trails. If both players have the same number, then
+    it will serve neither player.
 --- !u!222 &1607160009
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10772,19 +10773,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 0.7
   m_Text: 'At the start of each player''s turn, their minions will gather one resource
-    from each vat they are next to. These resources are used to play more minions
-    and slime trails, and can also be used to create other resources.
+    from each vat they are next to. These resources can be used to play more minions
+    and slime trails, or they can be traded for other resources.
 
 
-    1 slime
-    trail = 1 red + 1 blue
+    1 slime trail
+    = 1 red + 1 blue
 
 
     1 minion = 2 green + 2 yellow
 
 
-    1 resource =
-    3 of any other resource(s)'
+    1 resource = 3 of
+    any other resource(s)'
 --- !u!222 &1719272545
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13061,11 +13062,11 @@ MonoBehaviour:
     m_LineSpacing: 0.7
   m_Text: "Vats are affected by the slime trails and minions around them. If the
     number of minions around a vat is greater than the number of minion icons on
-    it, then it will close and minions will not be able to get resources from it.
-    \n\nAny vat(s) completely surrounded by a single player's slime trails (whether
-    it is closed or not) will spawn a vat slime of the color. Vat slimes will only
-    give resources to minions of a matching color, and they negate the minion limit
-    on their vat."
+    the vat, the vat will close and minions will not be able to get resources from
+    it. \n\nAny vat or set of vats completely surrounded by a single player's slime
+    trails will spawn a vat slime of that player's color (regardless of if the vat
+    was closed). Vat slimes only give resources to minions of a matching color, and
+    they negate the minion limit on their vat."
 --- !u!222 &1968943472
 CanvasRenderer:
   m_ObjectHideFlags: 0
