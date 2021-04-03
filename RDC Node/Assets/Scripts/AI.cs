@@ -505,10 +505,10 @@ public class AI
                     }
                 }
 
-                List<GameBoard.Coordinate> abridgedNodeCoords = new List<GameBoard.Coordinate>();
+                List<GameBoard.Coordinate> abridgedNodeCoords = copyNodeCoords(possibleNodeCoords);
                 foreach (GameBoard.Coordinate coord in possibleNodeCoords)
                 {
-                    abridgedNodeCoords = copyNodeCoords(possibleNodeCoords, coord);
+                    abridgedNodeCoords = copyNodeCoords(abridgedNodeCoords, coord);
                     GameBoard g = new GameBoard(gBoard);
                     g.placePiece(coord);
                     possibleNodes.Add(g);
@@ -521,53 +521,31 @@ public class AI
     
     List<GameBoard> getPossibleBranches(GameBoard gBoard, List<GameBoard.Coordinate> unvisitedCoords, bool haveRanOnce)
     {
-        /*if(haveRanOnce)
+        List<GameBoard.Coordinate> possibleInitialBranchCoords = new List<GameBoard.Coordinate>();
+        List<GameBoard> possibleBranches = new List<GameBoard>();
+        if (unvisitedCoords.Count != 0)
         {
-            //unvisitedCoords are now the only possible coords, don't check if they are legal again because we know they are
-            List<GameBoard> possibleBranches = new List<GameBoard>();
-            List<GameBoard.Coordinate> abridgedBranchCoords = new List<GameBoard.Coordinate>();
-            if (unvisitedCoords.Count != 0)
+            foreach (GameBoard.Coordinate coord in unvisitedCoords)
             {
-                foreach (GameBoard.Coordinate coord in unvisitedCoords)
+                GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
+                if(gBoard.isValidMove(coord))
                 {
-                    abridgedBranchCoords = copyBranchCoords(unvisitedCoords, coord);
-                    GameBoard g = new GameBoard(gBoard);
-                    g.placePiece(coord);
-                    possibleBranches.Add(g);
-                    abridgedBranchCoords = addNewCoordinates(g, coord, abridgedBranchCoords);
-                    possibleBranches = possibleBranches.Concat(getPossibleBranches(g, abridgedBranchCoords, true)).ToList();
+                    possibleInitialBranchCoords.Add(testMove);
                 }
             }
-            return possibleBranches;
-        } 
-        else
-        {*/
-            List<GameBoard.Coordinate> possibleInitialBranchCoords = new List<GameBoard.Coordinate>();
-            List<GameBoard> possibleBranches = new List<GameBoard>();
-            if (unvisitedCoords.Count != 0)
-            {
-                foreach (GameBoard.Coordinate coord in unvisitedCoords)
-                {
-                    GameBoard.Coordinate testMove = new GameBoard.Coordinate{x = coord.x, y = coord.y};
-                    if(gBoard.isValidMove(coord))
-                    {
-                        possibleInitialBranchCoords.Add(testMove);
-                    }
-                }
 
-                List<GameBoard.Coordinate> abridgedBranchCoords = new List<GameBoard.Coordinate>();
-                foreach (GameBoard.Coordinate coord in possibleInitialBranchCoords)
-                {
-                    abridgedBranchCoords = copyBranchCoords(possibleInitialBranchCoords, coord);
-                    GameBoard g = new GameBoard(gBoard);
-                    g.placePiece(coord);
-                    possibleBranches.Add(g);
-                    abridgedBranchCoords = addNewCoordinates(g, coord, abridgedBranchCoords);
-                    possibleBranches = possibleBranches.Concat(getPossibleBranches(g, abridgedBranchCoords, true)).ToList();
-                }
+            List<GameBoard.Coordinate> abridgedBranchCoords = copyBranchCoords(possibleInitialBranchCoords);
+            foreach (GameBoard.Coordinate coord in possibleInitialBranchCoords)
+            {
+                abridgedBranchCoords = copyBranchCoords(abridgedBranchCoords, coord);
+                GameBoard g = new GameBoard(gBoard);
+                g.placePiece(coord);
+                possibleBranches.Add(g);
+                abridgedBranchCoords = addNewCoordinates(g, coord, abridgedBranchCoords);
+                possibleBranches = possibleBranches.Concat(getPossibleBranches(g, abridgedBranchCoords, true)).ToList();
             }
-            return possibleBranches;
-        //}
+        }
+        return possibleBranches;
     }
 
     List<GameBoard.Coordinate> addNewCoordinates(GameBoard g, GameBoard.Coordinate newCoord, List<GameBoard.Coordinate> abridgedCoords)
