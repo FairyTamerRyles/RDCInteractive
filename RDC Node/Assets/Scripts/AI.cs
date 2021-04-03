@@ -15,6 +15,8 @@ public class AI
     public GameBoard.Player opponent;
     public GameBoard.Player self;
     private int strat;
+    private float[] hw;
+    
     //public MonteCarloTree Freederick;
     public struct moveResult
     {
@@ -28,6 +30,7 @@ public class AI
             Player2Pieces = gb.getResources(GameBoard.Player.Player2);
         }
     }
+
     public struct CapTileChecker
     {
         public List<GameBoard.Tile> tileStack;
@@ -201,27 +204,93 @@ public class AI
             resourcePool[2] = gBoard.getResources(GameBoard.Player.Player2)[2];
             resourcePool[3] = gBoard.getResources(GameBoard.Player.Player2)[3];
         }
+        //reduce the resources
         resourcePool = reduceResources(resourcePool);
+
+        //see if there is a single resource you can completely trade. If so, only search possible trades in that reality
+        bool oneLargeResource = false;
+        int largestLargeResource = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if(resourcePool[i] - 3 >= 1 && resourcePool[i] - 3 > largestLargeResource)
+            {
+                largestLargeResource = i;
+                oneLargeResource = true;
+            }
+        }
+        if(oneLargeResource)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if(resourcePool[i] != largestLargeResource)
+                {
+                    resourcePool[i] = 0;
+                }
+            }
+        }
         List<GameBoard> allTradedBoards = getPossibleTrades(gBoard, resourcePool);
-        List<GameBoard> allBranchPlacements = new List<GameBoard>();
+        List<GameBoard> allBranchesAndNodes = new List<GameBoard>();
         List<GameBoard> allPossibleOptions = new List<GameBoard>();
         List<GameBoard.Coordinate> branchCoords = copyBranchCoords(branchIndexes);
         List<GameBoard.Coordinate> nodeCoords = copyNodeCoords(nodeIndexes);
-        Debug.Log("Number of Possible Trades: " + allTradedBoards.Count);
-        foreach (GameBoard g in allTradedBoards)
+        
+        //First check for trades, splitting the options into newPieceTrades, and noPieceTrades
+        List<int[]> newPieceTrades = new List<int[]>();
+        List<int[]> noPieceTrades = new List<int[]>();
+        List<int[]> possibleTrades = getPossibleTradeLists(gBoard, resourcePool);
+        foreach (int[] possibleTrade in possibleTrades)
         {
-            List<GameBoard> possibleBranches = getPossibleBranches(g, branchCoords, false);
-            if (gBoard.getSetupCounter() > 4 && possibleBranches.Count == 0)
+            int[] newResourcePool = new int[]{resourcePool[0] + possibleTrade[0], resourcePool[1] + possibleTrade[1], resourcePool[2] + possibleTrade[2], resourcePool[3] + possibleTrade[3]};
+            if ((newResourcePool[0] < 1 || newResourcePool[1] < 1) && (newResourcePool[2] < 2 || newResourcePool[3] < 2))
             {
-                possibleBranches.Add(new GameBoard(g));
+                //this trade does not impact building this turn. Add it to noPieceTrades
+                noPieceTrades.Add(possibleTrade);
             }
-            foreach (GameBoard branchBoard in possibleBranches)
+            else if (newResourcePool[0] > 0 && newResourcePool[1] > 0)
             {
-                allBranchPlacements.Add(branchBoard);
+                //this trade gained a new piece. Add it to newPieceTrades
+                newPieceTrades.Add(possibleTrade);
             }
         }
-        Debug.Log("Number of Possible Branches with Trades: " + allBranchPlacements.Count);
-        foreach (GameBoard g in allBranchPlacements)
+
+        //start with the newPieceTrades. if there are any, apply them, and then get possible branches and nodes
+        if(newPieceTrades.Count != 0)
+        {
+            List<GameBoard> tradedNewPieceBoards = appliedTrades(gBoard, newPieceTrades);
+            List<GameBoard> newPieceBranches = new List<GameBoard>();
+            foreach (GameBoard g in tradedNewPieceBoards)
+            {
+                List<GameBoard> possibleBranches = getPossibleBranches(g, branchCoords, false);
+                if (gBoard.getSetupCounter() > 4 && possibleBranches.Count == 0)
+                {
+                    possibleBranches.Add(new GameBoard(g));
+                }
+                foreach (GameBoard branchBoard in possibleBranches)
+                {
+                    newPieceBranches.Add(branchBoard);
+                }
+            }
+            foreach (GameBoard g in newPieceBranches)
+            {
+                List<GameBoard> possibleNodes = getPossibleNodes(g, nodeCoords, false);
+                if (gBoard.getSetupCounter() > 4 && possibleNodes.Count == 0)
+                {
+                    possibleNodes.Add(new GameBoard(g));
+                }
+                foreach (GameBoard nodeBoard in possibleNodes)
+                {
+                    allPossibleOptions.Add(nodeBoard);
+                }
+            }
+        }
+
+        List<GameBoard> noPieceBranches = getPossibleBranches(gBoard, branchCoords, false);
+        List<GameBoard> noPieceBranchesAndNodes = new List<GameBoard>();
+        if (gBoard.getSetupCounter() > 4 && noPieceBranches.Count == 0)
+        {
+            noPieceBranches.Add(new GameBoard(gBoard));
+        }
+        foreach (GameBoard g in noPieceBranches)
         {
             List<GameBoard> possibleNodes = getPossibleNodes(g, nodeCoords, false);
             if (gBoard.getSetupCounter() > 4 && possibleNodes.Count == 0)
@@ -230,10 +299,15 @@ public class AI
             }
             foreach (GameBoard nodeBoard in possibleNodes)
             {
-                allPossibleOptions.Add(nodeBoard);
+                noPieceBranchesAndNodes.Add(nodeBoard);
             }
         }
-        Debug.Log("All possible Moves: " + allPossibleOptions.Count);
+        List<GameBoard> noPieceOptions = appliedTrades(noPieceBranchesAndNodes, noPieceTrades);
+        foreach(GameBoard g in noPieceOptions)
+        {
+            allPossibleOptions.Add(g);
+        }
+        Debug.Log("All possible moves: " + allPossibleOptions.Count);
         return allPossibleOptions;
     }
 
@@ -282,6 +356,72 @@ public class AI
             }
         }
         return true;
+    }
+
+    List<int[]> getPossibleTradeLists(GameBoard gBoard, int[] resourcePool)
+    {
+
+        //TODO: Add stipulations for possible trades 
+        List<int[]> possibleTrades = new List<int[]>();
+        List<GameBoard> tradedBoards = new List<GameBoard>();
+        possibleTrades.Add(new int[]{0, 0, 0, 0});
+        for(int selectedResource = 0; selectedResource < 4; ++selectedResource)
+        {
+            for(int r1 = 0; r1 <= 3; ++r1)
+            {
+                for(int r2 = 0; r2 <= 3 - r1; ++r2)
+                {
+                    int r3 = 3 - r1 - r2;
+                    int[] resourcesToSpend = new int[]{r1, r2, r3};
+                    int[] testTrade = new int[4];
+                    int resourcesToSpendIndex = 0;
+                    for(int i = 0; i < testTrade.Length; ++i)
+                    {
+                        if(i == selectedResource)
+                        {
+                            testTrade[i] = 1;
+                        }
+                        else
+                        {
+                            testTrade[i] = resourcesToSpend[resourcesToSpendIndex] * -1;
+                            ++resourcesToSpendIndex;
+                        }
+                    }
+                    if(isTradable(testTrade, resourcePool))
+                    {
+                        possibleTrades.Add(testTrade);
+                    }
+                }
+            }
+        }
+        return possibleTrades;
+    }
+
+    List<GameBoard> appliedTrades(GameBoard board, List<int[]> tradesToBeMade)
+    {
+        List<GameBoard> tradedBoards = new List<GameBoard>();
+        foreach (int[] trade in tradesToBeMade)
+        {
+            GameBoard g = new GameBoard(board);
+            g.makeTrade(trade);
+            tradedBoards.Add(g);
+        }
+        return tradedBoards;
+    }
+
+    List<GameBoard> appliedTrades(List<GameBoard> boards, List<int[]> tradesToBeMade)
+    {
+        List<GameBoard> tradedBoards = new List<GameBoard>();
+        foreach (GameBoard board in boards)
+        {
+            foreach (int[] trade in tradesToBeMade)
+            {
+                GameBoard g = new GameBoard(board);
+                g.makeTrade(trade);
+                tradedBoards.Add(g);
+            }
+        }
+        return tradedBoards;
     }
 
     List<GameBoard> getPossibleTrades(GameBoard gBoard, int[] resourcePool)
@@ -550,6 +690,7 @@ public class AI
         return hvalue;
     }
 
+
     public float applyHeuristic(GameBoard board)
     {
         switch(strat)
@@ -641,14 +782,14 @@ public class AI
         }
         else
         {
-            heuristicResult = (board.getScore(self) - board.getScore(opponent)) + (branches(board, self) - branches(board, opponent)) + (resourcePotential(board, self) - resourcePotential(board, opponent));
+            heuristicResult = /*hw[1]*/(board.getScore(self) - board.getScore(opponent)) + /*hw[1]*/(branches(board, self) - branches(board, opponent)) + /*hw[1]*/(resourcePotential(board, self) - resourcePotential(board, opponent));
         }
         return heuristicResult;
     }
 
     private int branches(GameBoard board, GameBoard.Player p)
     {
-        int totalBranches = 0;
+        int branchesValue = 0;
         GameBoard.Coordinate current = new GameBoard.Coordinate{x = 0, y = 0};
 
         //counts total branches for each player and gets a coordinate to start spanning from each player
@@ -663,12 +804,29 @@ public class AI
                 {
                     if(pieceAtCoordinateIsOwnedByPlayer(board, current, p))
                     {
-                        totalBranches++;
+                        switch(Mathf.Abs(5 - current.x) + Mathf.Abs(5 - current.y))
+                        {
+                            case 1:
+                                branchesValue += /*hw[1]*/9;
+                                break;
+                            case 3:
+                                branchesValue += /*hw[1]*/7;
+                                break;
+                            case 5:
+                                branchesValue += /*hw[1]*/5;
+                                break;
+                            case 7:
+                                branchesValue += /*hw[1]*/3;
+                                break;
+                            case 9:
+                                branchesValue += /*hw[1]*/1;
+                                break;
+                        }
                     }
                 }
             }
         }
-        return totalBranches;
+        return branchesValue;
     }
 
     private bool pieceAtCoordinateIsOwnedByPlayer(GameBoard b, GameBoard.Coordinate c, GameBoard.Player p)
@@ -764,8 +922,7 @@ public class AI
                 noResources++;
             }
         }
-        Debug.Log("Resources for " + (int)player + ": " + incomingResources[0] + " " + incomingResources[1] + " " + incomingResources[2] + " " + incomingResources[3]);
-        int resourcePotential = incomingResources[0] + incomingResources[1] + incomingResources[2] + incomingResources[3] - (3 * noResources);
+        int resourcePotential = /*hw[1]*/incomingResources[0] + /*hw[1]*/incomingResources[1] + /*hw[1]*/incomingResources[2] + /*hw[1]*/incomingResources[3] - /*hw[1]*/(3 * noResources);
         return resourcePotential;
     }
 

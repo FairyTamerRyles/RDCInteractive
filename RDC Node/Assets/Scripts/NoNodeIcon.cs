@@ -37,7 +37,6 @@ public class NoNodeIcon : MonoBehaviour
             {
                 animator.SetInteger("currentPlayer", 2);
             }
-            Debug.Log("Valid Hover");
             hovered = true;
             animator.SetBool("validHover", true);
         }
