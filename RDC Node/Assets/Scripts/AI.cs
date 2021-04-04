@@ -15,8 +15,10 @@ public class AI
     public GameBoard.Player opponent;
     public GameBoard.Player self;
     private int strat;
-    private float[] hw;
-    
+    public float[] hw;
+    public int hwLength;
+
+
     //public MonteCarloTree Freederick;
     public struct moveResult
     {
@@ -760,14 +762,14 @@ public class AI
         }
         else
         {
-            heuristicResult = /*hw[1]*/(board.getScore(self) - board.getScore(opponent)) + /*hw[1]*/(branches(board, self) - branches(board, opponent)) + /*hw[1]*/(resourcePotential(board, self) - resourcePotential(board, opponent));
+            heuristicResult = hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent));
         }
         return heuristicResult;
     }
 
-    private int branches(GameBoard board, GameBoard.Player p)
+    private float branches(GameBoard board, GameBoard.Player p)
     {
-        int branchesValue = 0;
+        float branchesValue = 0;
         GameBoard.Coordinate current = new GameBoard.Coordinate{x = 0, y = 0};
 
         //counts total branches for each player and gets a coordinate to start spanning from each player
@@ -785,19 +787,19 @@ public class AI
                         switch(Mathf.Abs(5 - current.x) + Mathf.Abs(5 - current.y))
                         {
                             case 1:
-                                branchesValue += /*hw[1]*/9;
+                                branchesValue += hw[3];
                                 break;
                             case 3:
-                                branchesValue += /*hw[1]*/7;
+                                branchesValue += hw[4];
                                 break;
                             case 5:
-                                branchesValue += /*hw[1]*/5;
+                                branchesValue += hw[5];
                                 break;
                             case 7:
-                                branchesValue += /*hw[1]*/3;
+                                branchesValue += hw[6];
                                 break;
                             case 9:
-                                branchesValue += /*hw[1]*/1;
+                                branchesValue += hw[7];
                                 break;
                         }
                     }
@@ -889,7 +891,7 @@ public class AI
         return incomingResources;
     }
 
-    public int resourcePotential(GameBoard board, GameBoard.Player player)
+    public float resourcePotential(GameBoard board, GameBoard.Player player)
     {
         int[] incomingResources = potentialResources(board, player);
         int noResources = 0;
@@ -900,7 +902,7 @@ public class AI
                 noResources++;
             }
         }
-        int resourcePotential = /*hw[1]*/incomingResources[0] + /*hw[1]*/incomingResources[1] + /*hw[1]*/incomingResources[2] + /*hw[1]*/incomingResources[3] - /*hw[1]*/(3 * noResources);
+        float resourcePotential = hw[8] * incomingResources[0] + hw[9] * incomingResources[1] + hw[10] * incomingResources[2] + hw[11] * incomingResources[3] - hw[12] * (3 * noResources);
         return resourcePotential;
     }
 
@@ -915,6 +917,7 @@ public class AI
         AIGameBoard = new GameBoard(firstBoard);
         opponent = o;
         pickStrat();
+        hw = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
         if (o == GameBoard.Player.Player1)
         {
