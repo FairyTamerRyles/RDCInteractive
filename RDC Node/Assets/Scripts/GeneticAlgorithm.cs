@@ -60,7 +60,7 @@ public class GeneticAlgorithm : MonoBehaviour
                 float mutationChance = Random.Range(0.0f, 100.0f);
                 if(mutationChance < 4.0f)
                 {
-                    genes[i] = Random.Range(-1.0f, 1.0f);
+                    genes[i] = Random.Range(-5.0f, 5.0f);
                 }
 
             }
@@ -182,8 +182,8 @@ public class GeneticAlgorithm : MonoBehaviour
             {
                 monarchPlayer = GameBoard.Player.Player1;
                 peasantPlayer = GameBoard.Player.Player2;
-                monarch.ai = new AI(peasantPlayer, startingBoard);
-                peasant.ai = new AI(monarchPlayer, startingBoard);
+                monarch.ai = new AI(peasantPlayer, startingBoard, true);
+                peasant.ai = new AI(monarchPlayer, startingBoard, true);
                 monarch.ai.hw = monarch.genes;
                 peasant.ai.hw = peasant.genes;
                 winner = simulateGame(peasant, monarch, true, startingBoard, 0);
@@ -192,8 +192,8 @@ public class GeneticAlgorithm : MonoBehaviour
             {
                 monarchPlayer = GameBoard.Player.Player2;
                 peasantPlayer = GameBoard.Player.Player1;
-                monarch.ai = new AI(peasantPlayer, startingBoard);
-                peasant.ai = new AI(monarchPlayer, startingBoard);
+                monarch.ai = new AI(peasantPlayer, startingBoard, true);
+                peasant.ai = new AI(monarchPlayer, startingBoard, true);
                 monarch.ai.hw = monarch.genes;
                 peasant.ai.hw = peasant.genes;
                 winner = simulateGame(peasant, monarch, false, startingBoard, 0);

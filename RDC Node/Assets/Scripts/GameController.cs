@@ -147,8 +147,15 @@ public class GameController : MonoBehaviour
         if(gameType != GameType.Network)
         {
             gameBoard = new GameBoard();
-            testAI = new AI(humanPlayer, gameBoard);
-            randomAI = new AdamRandomAI(gameBoard);
+            if(PlayerPrefs.GetString("difficulty") == "Hard")
+            {
+                testAI = new AI(humanPlayer, gameBoard, true);
+            }
+            else
+            {
+                testAI = new AI(humanPlayer, gameBoard, false);
+            }
+            //randomAI = new AdamRandomAI(gameBoard);
             testAI.AIGameBoard = gameBoard;
             initializeTileGraphics();
             updateCurrentPlayer();
@@ -779,6 +786,7 @@ public class GameController : MonoBehaviour
     {
         PlayerPrefs.DeleteKey("humanPlayer");
         PlayerPrefs.DeleteKey("gameType");
+        PlayerPrefs.DeleteKey("difficulty");
         //add checks here
         if(matchmakingManager.GetComponent<MatchmakingManager>().InRoom)
         {

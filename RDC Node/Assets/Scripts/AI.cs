@@ -906,19 +906,40 @@ public class AI
         return resourcePotential;
     }
 
-    public void pickStrat()
+    public void pickStrat(bool isMaddening)
     {
-        float rnd = Random.Range(0.0f, 3.0f);
-        strat = (int)(Floor(rnd));
+        if(isMaddening)
+        {
+            strat = 4;
+        }
+        else
+        {
+            float rnd = Random.Range(0.0f, 3.0f);
+            strat = (int)(Floor(rnd));
+        }
     }
 
-    public AI(GameBoard.Player o, GameBoard firstBoard)
+    public AI(GameBoard.Player o, GameBoard firstBoard, bool isMaddening)
     {
         AIGameBoard = new GameBoard(firstBoard);
         opponent = o;
-        pickStrat();
-        hw = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-
+        pickStrat(isMaddening);
+        //hw = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        hw = new float[]{
+            0.1068829f,
+            -0.6683943f,
+            0.7714462f,
+            0.8588469f,
+            -0.4448601f,
+            0.6133263f,
+            -0.8766624f,
+            -0.6385219f,
+            -0.7896829f,
+            -0.2846443f,
+            -0.4512476f,
+            0.4773977f,
+            0.3198857f
+        };
         if (o == GameBoard.Player.Player1)
         {
             self = GameBoard.Player.Player2;

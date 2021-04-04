@@ -11,6 +11,10 @@ public class GameOverAnimationController : MonoBehaviour
     public Image resultImage;
     public Text resultText;
     public GameObject gameOverBlock;
+    public GameObject leaveGame;
+    public GameObject playAgain;
+    public Sprite gameOver_Purple;
+    public Sprite gameOver_Orange;
 
     public void updateGameOverCanvas()
     {
@@ -19,11 +23,11 @@ public class GameOverAnimationController : MonoBehaviour
         int humanPlayer = gameOverBlock.GetComponent<Animator>().GetInteger("humanPlayer");
         if(winner == 1)
         {
-            resultImage.color = new Color(255, 141, 66);
+            resultImage.sprite = gameOver_Orange;
         }
         else
         {
-            resultImage.color = new Color(165, 77, 231);
+            resultImage.sprite = gameOver_Orange;
         }
 
         if(humanPlayer == winner)
@@ -34,6 +38,8 @@ public class GameOverAnimationController : MonoBehaviour
         {
             resultText.text = "You lost";
         }
+        leaveGame.GetComponent<Button>().interactable = true;
+        playAgain.GetComponent<Button>().interactable = true;
     }
 
 

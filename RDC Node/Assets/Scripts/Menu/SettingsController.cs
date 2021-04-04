@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class SettingsController : MonoBehaviour
 {
@@ -24,6 +25,20 @@ public class SettingsController : MonoBehaviour
     public void AIGameSelected()
     {
         PlayerPrefs.SetString("gameType", "AI");
+    }
+
+    public void SetAIDifficulty(string buttonPressed)
+    {
+        if(buttonPressed == "Hard")
+        {
+            Debug.Log("Hard game picked");
+            PlayerPrefs.SetString("difficulty", "Hard");
+        }
+        else
+        {
+            Debug.Log("Easy game picked");
+            PlayerPrefs.SetString("difficulty", "Easy");
+        }
     }
 
     public void NetworkGameSelected()
@@ -82,6 +97,8 @@ public class SettingsController : MonoBehaviour
     public void BeginAIGame()
     {
         SetPlayerForAIGame();
+        string buttonPressed = EventSystem.current.currentSelectedGameObject.name;
+        SetAIDifficulty(buttonPressed);
         GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
     }
 
