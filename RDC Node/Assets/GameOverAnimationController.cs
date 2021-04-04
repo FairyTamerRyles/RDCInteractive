@@ -27,7 +27,7 @@ public class GameOverAnimationController : MonoBehaviour
         }
         else
         {
-            resultImage.sprite = gameOver_Orange;
+            resultImage.sprite = gameOver_Purple;
         }
 
         if(humanPlayer == winner)
