@@ -15,6 +15,8 @@ public class SettingsController : MonoBehaviour
 
         DontDestroyOnLoad(GameObject.Find("SoundManager"));
 
+        DontDestroyOnLoad(GameObject.Find("ChangeScene"));
+
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
 
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
@@ -93,7 +95,7 @@ public class SettingsController : MonoBehaviour
                     PlayerPrefs.SetInt("humanPlayer", 2);
                 }
                 gameNetworkingManager.OnRoomFull_Callback = () => {
-                    GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+                    GameObject.Find("Fader").GetComponent<Animator>().SetBool("LeavingScene", true);
                 };
             }, () => {ConnectionError();});
         }, () => {ConnectionError();});
@@ -104,7 +106,7 @@ public class SettingsController : MonoBehaviour
         SetPlayerForAIGame();
         string buttonPressed = EventSystem.current.currentSelectedGameObject.name;
         SetAIDifficulty(buttonPressed);
-        GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+        GameObject.Find("Fader").GetComponent<Animator>().SetBool("LeavingScene", true);
     }
 
     public void CreatePrivateRoom()
@@ -125,7 +127,7 @@ public class SettingsController : MonoBehaviour
                 GameObject.Find("Room Code").GetComponent<Text>().text = matchmakingManager.RoomName;
                 gameNetworkingManager.OnRoomFull_Callback = () => {
                     matchmakingManager.HostPlayer = PlayerPrefs.GetInt("humanPlayer");
-                    GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+                    GameObject.Find("Fader").GetComponent<Animator>().SetBool("LeavingScene", true);
                 };
             }, () => {ConnectionError();});
         }, () => {ConnectionError();});
@@ -143,7 +145,7 @@ public class SettingsController : MonoBehaviour
             matchmakingManager.OnHostSet_Callback = (() => {PlayerPrefs.SetInt("humanPlayer", ((matchmakingManager.HostPlayer == 1) ? 2 : 1));});
             matchmakingManager.JoinRoom(roomName, () => {
                 gameNetworkingManager.OnRoomFull_Callback = () => {
-                    GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+                    GameObject.Find("Fader").GetComponent<Animator>().SetBool("LeavingScene", true);
                 };
             },
             () => {ConnectionError();});
@@ -213,8 +215,8 @@ public class SettingsController : MonoBehaviour
         }
     }
 
-    public void enterGameScene()
+    public void goToLoadingScreen()
     {
-        GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
+        GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("LoadingScreen");
     }
 }

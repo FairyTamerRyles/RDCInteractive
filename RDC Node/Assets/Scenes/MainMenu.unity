@@ -4116,6 +4116,7 @@ GameObject:
   - component: {fileID: 716376786}
   - component: {fileID: 716376785}
   - component: {fileID: 716376784}
+  - component: {fileID: 716376783}
   m_Layer: 0
   m_Name: Fader
   m_TagString: Untagged
@@ -4142,6 +4143,19 @@ RectTransform:
   m_AnchoredPosition: {x: 17.233, y: -9.452}
   m_SizeDelta: {x: 1990.2, y: 1137.214}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &716376783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716376781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 387d7472e124f744a93a8a4a0e24f3fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectionErrorBox: {fileID: 2098929798}
 --- !u!95 &716376784
 Animator:
   serializedVersion: 3
@@ -4175,7 +4189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
