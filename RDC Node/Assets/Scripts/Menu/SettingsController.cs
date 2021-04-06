@@ -22,6 +22,11 @@ public class SettingsController : MonoBehaviour
         //GameObject.Find("SoundManager").GetComponent<SoundManager>().Play("Intro");
     }
 
+    public void KillTheFade()
+    {
+        Destroy(GameObject.Find("Fader"));
+    }
+
     public void AIGameSelected()
     {
         PlayerPrefs.SetString("gameType", "AI");
@@ -206,5 +211,10 @@ public class SettingsController : MonoBehaviour
         {
             roomToJoinBox.text = roomToJoinBox.text.Substring(0,5);
         }
+    }
+
+    public void enterGameScene()
+    {
+        GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
     }
 }

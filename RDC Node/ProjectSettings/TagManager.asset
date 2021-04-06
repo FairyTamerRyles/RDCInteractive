@@ -127,6 +127,7 @@ TagManager:
   - PrivateRoomName
   - P1ToggleAI
   - Volume
+  - Intro
   layers:
   - Default
   - TransparentFX
@@ -172,4 +173,7 @@ TagManager:
     locked: 0
   - name: Menus
     uniqueID: 4237421675
+    locked: 0
+  - name: IntroGraphic
+    uniqueID: 705410021
     locked: 0

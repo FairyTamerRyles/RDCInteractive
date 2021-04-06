@@ -924,8 +924,8 @@ public class AI
         AIGameBoard = new GameBoard(firstBoard);
         opponent = o;
         pickStrat(isMaddening);
-        //hw = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-        hw = new float[]{
+        hw = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        /*hw = new float[]{
             0.1068829f,
             -0.6683943f,
             0.7714462f,
@@ -939,7 +939,7 @@ public class AI
             -0.4512476f,
             0.4773977f,
             0.3198857f
-        };
+        };*/
         if (o == GameBoard.Player.Player1)
         {
             self = GameBoard.Player.Player2;
