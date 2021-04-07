@@ -15,8 +15,6 @@ public class SettingsController : MonoBehaviour
 
         DontDestroyOnLoad(GameObject.Find("SoundManager"));
 
-        DontDestroyOnLoad(GameObject.Find("ChangeScene"));
-
         var connectionManager = GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>();
 
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
