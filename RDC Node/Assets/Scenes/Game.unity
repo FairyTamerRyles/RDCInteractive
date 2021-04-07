@@ -35807,7 +35807,7 @@ MonoBehaviour:
   gameOverBlock: {fileID: 1672653405}
   leaveGame: {fileID: 1650480460}
   playAgain: {fileID: 1799970204}
-  gameOver_Purple: {fileID: 21300000, guid: 34788135be20b844b8b5ad69feb244aa, type: 3}
+  gameOver_Purple: {fileID: 21300000, guid: a9e45e769eab5e942bb1bf9f3f51a272, type: 3}
   gameOver_Orange: {fileID: 21300000, guid: 8c6d11b2605393246bc5946b13002d8c, type: 3}
 --- !u!224 &1672653409
 RectTransform:
