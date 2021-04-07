@@ -635,16 +635,77 @@ public class AI
         }
         return httc;
     }
-
-    int touhedTileStability(GameBoard board, GameBoard.Player player)
+/*
+    int touchedTileStability(GameBoard board, GameBoard.Player player)
     {
         int tts = 0;
         List<GameBoard.Coordinate> touchedTiles = tilesTouched(board, player);
+        foreach (GameBoard.Coordinate tile in touchedTiles)
+        {
+            if(board.gameBoard[tile.x, tile.y].player != opponent && ((GameBoard.Tile)board.gameBoard[tile.x, tile.y]).resourceType != GameBoard.ResourceType.None)
+            {
+                List<GameBoard.Coordinate> nodesOnTile = new List<GameBoard.Coordinate> {
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x + 1, y = board.gameBoard[tile.x, tile.y].coord.y + 1},
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x + 1, y = board.gameBoard[tile.x, tile.y].coord.y - 1},
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x - 1, y = board.gameBoard[tile.x, tile.y].coord.y + 1},
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x - 1, y = board.gameBoard[tile.x, tile.y].coord.y - 1},
+                };
+                List<GameBoard.Coordinate> takenNodes = new List<GameBoard.Coordinate>();
+                List<GameBoard.Coordinate> openNodes = new List<GameBoard.Coordinate>();
+                foreach(GameBoard.Coordinate node in nodesOnTile)
+                {
+                    if(board.gameBoard[node.x, node.y].player == GameBoard.Player.None)
+                    {
+                        openNodes.Add(node);
+                    }
+                    else
+                    {
+                        takenNodes.Add(node);
+                    }
+                }
+                if(((GameBoard.Tile)board.gameBoard[tile.x, tile.y]).maxLoad - takenNodes.Count + 1 > 0)
+                {
+                    foreach(GameBoard.Coordinate openNode in openNodes)
+                    {
+                        List<GameBoard.Coordinate> adjacentBranches = new List<GameBoard.Coordinate>{
+                            new GameBoard.Coordinate{x = openNode.x - 1, openNode.y},
+                            new GameBoard.Coordinate{x = openNode.x + 1, openNode.y},
+                            new GameBoard.Coordinate{x = openNode.x, openNode.y - 1},
+                            new GameBoard.Coordinate{x = openNode.x, openNode.y + 1}
+                        };
+                        int nodesTillDeath = board.gameBoard[tile.x, tile.y].maxLoad - takenNodes.Count + 1;
+                        int nodesInReach = 0;
+                        foreach(GameBoard.Coordinate adjacentBranch in adjacentBranches)
+                        {
+                            if (board.GameBoard[adjacentBranch.x, adjacentBranch.y].player == opponent)
+                            {
+                                nodesInReach++;
+                            }
+                        }
+                        if(nodeInReach)
+                        {
 
+                        }
+                        else if(nodesTillDeath - nodesInReach < 1)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+            }
+            else
+            {
+                tts += -2;
+            }
+        }
 
         return tts;
     }
-
+*/
     public minimaxBoard greedyFreederick(GameBoard position)
     {
         minimaxBoard hvalue = new minimaxBoard(position, Mathf.NegativeInfinity);
