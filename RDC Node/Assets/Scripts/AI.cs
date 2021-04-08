@@ -978,7 +978,7 @@ public class AI
         AIGameBoard = new GameBoard(firstBoard);
         opponent = o;
         pickStrat(isMaddening);
-        hw = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        hw = new float[]{1, 1, 1, 9, 7, 5, 3, 1, 1, 1, 1, 1, 1, 1, 1};
         /*hw = new float[]{
             0.1068829f,
             -0.6683943f,
