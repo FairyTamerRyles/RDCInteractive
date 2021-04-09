@@ -14,6 +14,32 @@ public class TradeController : MonoBehaviour
     public GameObject YellowCounter;
     public GameObject GameController;
     public GameObject TradeSelectText;
+    public GameObject Red1;
+    public GameObject Red2;
+    public GameObject Red3;
+    public GameObject Red4;
+    public GameObject Blue1;
+    public GameObject Blue2;
+    public GameObject Blue3;
+    public GameObject Blue4;
+    public GameObject Green1;
+    public GameObject Green2;
+    public GameObject Green3;
+    public GameObject Green4;
+    public GameObject Yellow1;
+    public GameObject Yellow2;
+    public GameObject Yellow3;
+    public GameObject Yellow4;
+    public GameObject Equal;
+    public GameObject Plus1;
+    public GameObject Plus2;
+
+    private List<GameObject> RedResourceGraphics = new List<GameObject>();
+    private List<GameObject> BlueResourceGraphics = new List<GameObject>();
+    private List<GameObject> GreenResourceGraphics = new List<GameObject>();
+    private List<GameObject> YellowResourceGraphics = new List<GameObject>();
+
+    private List<List<GameObject>> ResourceGraphics = new List<List<GameObject>>();
 
     private int selectedResource;
     private int[] resourceTradeCount;
@@ -47,6 +73,7 @@ public class TradeController : MonoBehaviour
                     GreenCounter.GetComponent<Text>().enabled = true;
                     YellowCounter.GetComponent<Text>().enabled = true;
                     TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
+
                 }
                 else
                 {
@@ -195,6 +222,7 @@ public class TradeController : MonoBehaviour
         BlueResource.interactable = true;
         GreenResource.interactable = true;
         YellowResource.interactable = true;
+        updatePlannedTradeGraphics();
     }
     // Start is called before the first frame update
     public void changeTradeCount(Button ResourceChangeButton)
@@ -297,6 +325,7 @@ public class TradeController : MonoBehaviour
             }
                 break;
         }
+        updatePlannedTradeGraphics();
     }
     public int addedResources(int[] tradeCount)
     {
@@ -328,6 +357,7 @@ public class TradeController : MonoBehaviour
         resourceTradeCount[2] = 0;
         resourceTradeCount[3] = 0;
         GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = false;
+        updatePlannedTradeGraphics();
     }
     public void resetMenu()
     {
@@ -355,11 +385,33 @@ public class TradeController : MonoBehaviour
         YellowCounter.GetComponent<Text>().enabled = false;
         selectedResource = -1;
         TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
+        updatePlannedTradeGraphics();
     }
     void Start()
     {
         selectedResource = -1;
         resourceTradeCount = new int[] {0, 0, 0, 0};
+
+        RedResourceGraphics.Add(Red1);
+        RedResourceGraphics.Add(Red2);
+        RedResourceGraphics.Add(Red3);
+        RedResourceGraphics.Add(Red4);
+        BlueResourceGraphics.Add(Blue1);
+        BlueResourceGraphics.Add(Blue2);
+        BlueResourceGraphics.Add(Blue3);
+        BlueResourceGraphics.Add(Blue4);
+        GreenResourceGraphics.Add(Green1);
+        GreenResourceGraphics.Add(Green2);
+        GreenResourceGraphics.Add(Green3);
+        GreenResourceGraphics.Add(Green4);
+        YellowResourceGraphics.Add(Yellow1);
+        YellowResourceGraphics.Add(Yellow2);
+        YellowResourceGraphics.Add(Yellow3);
+        YellowResourceGraphics.Add(Yellow4);
+        ResourceGraphics.Add(RedResourceGraphics);
+        ResourceGraphics.Add(BlueResourceGraphics);
+        ResourceGraphics.Add(GreenResourceGraphics);
+        ResourceGraphics.Add(YellowResourceGraphics);
     }
 
     public void onAcceptClick()
@@ -383,4 +435,49 @@ public class TradeController : MonoBehaviour
     {
         currentPlayerResources =  GameController.GetComponent<GameController>().getPlayerResources();
     }
+
+    public void updatePlannedTradeGraphics()
+    {
+        bool resourceSelected = false;
+        int currentResourceDisplay = 0;
+        for(int i = 0; i < 4; ++i)
+        {
+            if(resourceTradeCount[i] == -1)
+            {
+                for(int h = 0; h < 3; ++h)
+                {
+                    setResourceGraphic(h, i, false);
+                }
+                setResourceGraphic(3, i, true);
+                resourceSelected = true;
+            }
+            else
+            {
+                setResourceGraphic(3, i, false);
+                for(int j = 0; j < 3; ++j)
+                {
+                    if((j < currentResourceDisplay) || j >= (currentResourceDisplay + resourceTradeCount[i]))
+                    {
+                        setResourceGraphic(j, i, false);
+                    }
+                    else
+                    {
+                        setResourceGraphic(j, i, true);
+                    }
+                }
+                currentResourceDisplay += resourceTradeCount[i];
+            }
+        }
+
+        Equal.SetActive(resourceSelected);
+        Plus1.SetActive(resourceSelected);
+        Plus2.SetActive(resourceSelected);
+    }
+
+    public void setResourceGraphic(int position, int resource, bool b)
+    {
+        ResourceGraphics[resource][position].SetActive(b);
+    }
 }
+
+

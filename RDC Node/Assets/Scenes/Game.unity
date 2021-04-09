@@ -6935,6 +6935,25 @@ MonoBehaviour:
   YellowCounter: {fileID: 544141787}
   GameController: {fileID: 1357508547}
   TradeSelectText: {fileID: 1825993778}
+  Red1: {fileID: 1136619315}
+  Red2: {fileID: 149738948}
+  Red3: {fileID: 444943912}
+  Red4: {fileID: 954122472}
+  Blue1: {fileID: 1590718334}
+  Blue2: {fileID: 65596341}
+  Blue3: {fileID: 556146890}
+  Blue4: {fileID: 1859711583}
+  Green1: {fileID: 1066260932}
+  Green2: {fileID: 1052351943}
+  Green3: {fileID: 1444928202}
+  Green4: {fileID: 1042476572}
+  Yellow1: {fileID: 585639560}
+  Yellow2: {fileID: 292620139}
+  Yellow3: {fileID: 1644749966}
+  Yellow4: {fileID: 1237021192}
+  Equal: {fileID: 1405880527}
+  Plus1: {fileID: 545733634}
+  Plus2: {fileID: 28107141}
 --- !u!4 &382100378
 Transform:
   m_ObjectHideFlags: 0
@@ -18220,7 +18239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 66edfbd5cebdf814fb24dc2d13c7062d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 40e191911a9c04d44b78106cd7d514f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
