@@ -263,7 +263,7 @@ public class GameController : MonoBehaviour
 
     public IEnumerator playActionAnimation_Opponent()
     {
-        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
             GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeAction;
             yield return new WaitForSeconds(2f);
