@@ -16,7 +16,7 @@ public class AI
     public GameBoard.Player self;
     private int strat;
     public float[] hw;
-    public int hwLength;
+    public int hwLength = 14;
 
 
     //public MonteCarloTree Freederick;
@@ -309,7 +309,7 @@ public class AI
         {
             allPossibleOptions.Add(g);
         }
-        Debug.Log("All possible moves: " + allPossibleOptions.Count);
+        //Debug.Log("All possible moves: " + allPossibleOptions.Count);
         return allPossibleOptions;
     }
 
@@ -344,7 +344,7 @@ public class AI
             reducedResources[2] -= 2;
             reducedResources[3] -= 2;
         }
-        Debug.Log("Reduced Resources: " + reducedResources[0] + " " + reducedResources[1] + " " + reducedResources[2] + " " + reducedResources[3]);
+        //Debug.Log("Reduced Resources: " + reducedResources[0] + " " + reducedResources[1] + " " + reducedResources[2] + " " + reducedResources[3]);
         return reducedResources;
     }
 
@@ -636,12 +636,57 @@ public class AI
         return httc;
     }
 
-    int touhedTileStability(GameBoard board, GameBoard.Player player)
+    float touchedTileStability(GameBoard board, GameBoard.Player player)
     {
-        int tts = 0;
+        float tts = 0;
         List<GameBoard.Coordinate> touchedTiles = tilesTouched(board, player);
-
-
+        foreach (GameBoard.Coordinate tile in touchedTiles)
+        {
+            if(board.gameBoard[tile.x, tile.y].player == GameBoard.Player.None && ((GameBoard.Tile)board.gameBoard[tile.x, tile.y]).resourceType != GameBoard.ResourceType.None)
+            {
+                tts = ((GameBoard.Tile)board.gameBoard[tile.x, tile.y]).maxLoad + 1;
+                List<GameBoard.Coordinate> nodesOnTile = new List<GameBoard.Coordinate> {
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x + 1, y = board.gameBoard[tile.x, tile.y].coord.y + 1},
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x + 1, y = board.gameBoard[tile.x, tile.y].coord.y - 1},
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x - 1, y = board.gameBoard[tile.x, tile.y].coord.y + 1},
+                    new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x - 1, y = board.gameBoard[tile.x, tile.y].coord.y - 1},
+                };
+                List<GameBoard.Coordinate> branchesOnTile = new List<GameBoard.Coordinate> {
+                    new GameBoard.Coordinate{x = tile.x - 1, y = tile.y},
+                    new GameBoard.Coordinate{x = tile.x + 1, y = tile.y},
+                    new GameBoard.Coordinate{x = tile.x, y = tile.y - 1},
+                    new GameBoard.Coordinate{x = tile.x, y = tile.y + 1}
+                };
+                foreach(GameBoard.Coordinate node in nodesOnTile)
+                {
+                    if(board.gameBoard[node.x, node.y].player != GameBoard.Player.None)
+                    {
+                         tts--;
+                    }
+                }
+                float potentialCapture = 0;
+                foreach(GameBoard.Coordinate branch in branchesOnTile)
+                {
+                    if(board.gameBoard[branch.x, branch.y].player == opponent)
+                    {
+                        potentialCapture = 0;
+                        break;
+                    }
+                    else if(board.gameBoard[branch.x, branch.y].player == self)
+                    {
+                        potentialCapture += .25f;
+                    }
+                }
+            }
+            else if(board.gameBoard[tile.x, tile.y].player == player)
+            {
+                tts += 4;
+            }
+            else
+            {
+                tts += -2;
+            }
+        }
         return tts;
     }
 
@@ -662,9 +707,17 @@ public class AI
             //Debug.Log("challenger score is: " + challenger);
             if(challenger > hvalue.score)
             {
-                Debug.Log("challenger " + challenger + " beat score " + hvalue.score);
                 hvalue.board = child.board;
                 hvalue.score = challenger;
+            }
+            else if (challenger == hvalue.score)
+            {
+                float rnd = Random.Range(0.0f, 10.0f);
+                if(rnd > 5)
+                {
+                    hvalue.board = child.board;
+                    hvalue.score = challenger;
+                }
             }
         }
         return hvalue;
@@ -762,7 +815,8 @@ public class AI
         }
         else
         {
-            heuristicResult = hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent));
+            heuristicResult = hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + 
+            hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent)) + hw[13] * (touchedTileStability(board, self) - touchedTileStability(board, opponent));
         }
         return heuristicResult;
     }
@@ -924,7 +978,7 @@ public class AI
         AIGameBoard = new GameBoard(firstBoard);
         opponent = o;
         pickStrat(isMaddening);
-        hw = new float[]{1, 1, 1, 9, 7, 5, 3, 1, 1, 1, 1, 1, 1};
+        hw = new float[]{1, 1, 1, 9, 7, 5, 3, 1, 1, 1, 1, 1, 1, 1, 1};
         /*hw = new float[]{
             0.1068829f,
             -0.6683943f,
@@ -954,8 +1008,8 @@ public class AI
     {
         System.DateTime time = System.DateTime.Now;
         minimaxBoard chosenBoard = greedyFreederick(gBoard);
-        Debug.Log("Selection of move from Freederick took " + (System.DateTime.Now - time));
-        Debug.Log("Value of the chosen position: " + chosenBoard.score);
+        //Debug.Log("Selection of move from Freederick took " + (System.DateTime.Now - time));
+        //Debug.Log("Value of the chosen position: " + chosenBoard.score);
         return chosenBoard.board;
     }
 

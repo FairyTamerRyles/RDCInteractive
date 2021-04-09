@@ -12,6 +12,12 @@ public class IntroController : MonoBehaviour
 
     }
 
+    public void canSkipNow()
+    {
+        canSkip = true;
+        GameObject.Find("SkipText").GetComponent<Animator>().SetTrigger("canSkip");
+    }
+
     public void vs()
     {
         GameObject.Find("Sci").GetComponent<Animator>().SetBool("StartSlideIn", true);
@@ -46,7 +52,15 @@ public class IntroController : MonoBehaviour
         GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("MainMenu");
     }
 
-    
+    public void blackOutKillScene()
+    {
+        GameObject.Find("Blackout").GetComponent<Animator>().SetBool("ToMenu", true);
+    }
+
+    public void blockPanels()
+    {
+        GameObject.Find("Darkener").GetComponent<Animator>().SetTrigger("blockPanels");
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +73,7 @@ public class IntroController : MonoBehaviour
     {
         if(Input.anyKey && canSkip)
         {
-            stopAllFadeOut();
+            blackOutKillScene();
         }
     }
 }

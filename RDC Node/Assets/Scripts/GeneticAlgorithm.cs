@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using static System.Math;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class GeneticAlgorithm : MonoBehaviour
 {
-    public static int geneLength = 13; //change this when new genes are added
+    public static int geneLength = 14; //change this when new genes are added
     public class Individual
     {
         public float[] genes;
@@ -141,11 +142,12 @@ public class GeneticAlgorithm : MonoBehaviour
             generations--;
         }
         royalGenes = kingdom[0].genes;
-        Debug.Log("Royal Genes: ");
+        string royalGeneString = "";
         foreach(float x in royalGenes)
         {
-            Debug.Log(x);
+            royalGeneString = royalGeneString + x + "\n";
         }
+        GameObject.Find("ResultText").GetComponent<Text>().text = royalGeneString;
     }
 
     public void updateHierarchy()
@@ -204,14 +206,14 @@ public class GeneticAlgorithm : MonoBehaviour
             }
             matchesPlayed++;
         }
-        Debug.Log("Peasant Score: " + peasantWins / 10.0f);
+        Debug.Log("Peasant Wins: " + peasantWins);
         return peasantWins / 10.0f;
     }
 
     public GameBoard.Player simulateGame(Individual challenger, Individual challengedMonarch, bool monarchTurn, GameBoard currentBoard, int turns)
     {
         GameBoard movedBoard;
-        while(turns < 15)
+        while(turns < 36)
         {    
             if(monarchTurn)
             {
@@ -226,20 +228,21 @@ public class GeneticAlgorithm : MonoBehaviour
             {
                 //the game is still being played. Send it to the next player
                 monarchTurn = !monarchTurn;
+                currentBoard = movedBoard;
                 turns++;
             }
             else if(movedBoard.checkForWin() == challengedMonarch.ai.self)
             {
-                Debug.Log("---------------------------Game Over---------------------------------");
+                //Debug.Log("---------------------------Game Over---------------------------------");
                 return challengedMonarch.ai.self;
             }
             else
             {
-                Debug.Log("---------------------------Game Over---------------------------------");
+                //Debug.Log("---------------------------Game Over---------------------------------");
                 return challenger.ai.self;
             }
         }
-        Debug.Log("---------------------------Game Over---------------------------------");
+        Debug.Log("----------------------Game Over---------Timed Out------------------------");
         return GameBoard.Player.None;
     }
 
@@ -311,13 +314,12 @@ public class GeneticAlgorithm : MonoBehaviour
         else
         {
             kingdom = new List<Individual>();
-            for(int i = 0; i < 24; i++)
+            for(int i = 0; i < 20; i++)
             {
                 kingdom.Add(new Individual());
             }
             monarch = kingdom[0];
         }
-        Debug.Log("Start Complete");
     }
 
     // Update is called once per frame

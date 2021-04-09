@@ -357,6 +357,7 @@ public class GameController : MonoBehaviour
         //End of game
         if(gameBoard.checkForWin() != GameBoard.Player.None)
         {
+            updateGameInfoGraphics();
             endGame();
         }
         else //Not end of game
