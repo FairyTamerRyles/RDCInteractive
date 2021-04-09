@@ -45,6 +45,10 @@ public class GameController : MonoBehaviour
     public GameObject soundController;
     public GameObject connectionErrorBox;
     public GameObject endGameCanvas;
+    public Sprite OrangeAction;
+    public Sprite PurpleAction;
+    public Sprite OrangeNormal;
+    public Sprite PurpleNormal;
 
     public enum GameType
     {
@@ -228,6 +232,69 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void updateOpponentPlayedGraphics(GameBoard proxyBoard)
+    {
+        proxyBoard.endTurn();
+        updateExhaustedTiles(proxyBoard);
+        updateCapturedTiles(proxyBoard);
+        if(proxyBoard.getTurnCounter() > 4)
+        {
+            updateScore(proxyBoard);
+            updateResourceCounters(proxyBoard);
+            updateLargestNetwork(proxyBoard);
+        }
+    }
+
+    public IEnumerator playActionAnimation_Opponent(GameBoard.Player currentPlayer)
+    {
+        if(currentPlayer == GameBoard.Player.Player1)
+        {
+            GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeAction;
+            yield return new WaitForSeconds(2f);
+            GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeNormal;
+        }
+        else
+        {
+            GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleAction;
+            yield return new WaitForSeconds(2f);
+            GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleNormal;
+        }
+    }
+
+    public IEnumerator playActionAnimation_Opponent()
+    {
+        if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
+        {
+            GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeAction;
+            yield return new WaitForSeconds(2f);
+            GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeNormal;
+        }
+        else
+        {
+            GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleAction;
+            yield return new WaitForSeconds(2f);
+            GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleNormal;
+        }
+    }
+
+    public IEnumerator playActionAnimation(GameBoard.Player currentPlayer, string pieceType)
+    {
+        Debug.Log((int)currentPlayer);
+        if(currentPlayer == GameBoard.Player.Player1)
+        {
+            Debug.Log("Playing animation");
+            GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeAction;
+            yield return new WaitForSeconds(1.0f);
+            GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeNormal;
+        }
+        else
+        {
+            GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleAction;
+            yield return new WaitForSeconds(1.0f);
+            GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleNormal;
+        }
+    }
+
     public void onBranchNodeClick(Button button)
     {
         if(gameBoard.getCurrentPlayer() == humanPlayer || gameType == GameType.Local)
@@ -247,6 +314,7 @@ public class GameController : MonoBehaviour
 
                 GameObject newGameObject = new GameObject();
                 string pieceType = button.name.Substring(0, 1);
+                StartCoroutine(playActionAnimation(gameBoard.getCurrentPlayer(), pieceType));
                 switch(pieceType)
                 {
                     case "N":
@@ -277,9 +345,38 @@ public class GameController : MonoBehaviour
     private void onNetworkOpponentMoved()
     {
         GameBoard boardAfterNetworkMove = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
+        //order is critical for updateBoardGraphic
         updateBoardGraphic(boardAfterNetworkMove);
         gameBoard = new GameBoard(boardAfterNetworkMove);
-        updateGameInfoGraphics();
+        updateExhaustedTiles();
+        updateCapturedTiles();
+        StartCoroutine(updateNetworkPlayedGraphics());
+        /*if(gameBoard.getCurrentPlayer() == humanPlayer)
+        {
+            if(gameBoard.getTurnCounter() <= 4)
+            {
+                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
+                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
+                updateScore();
+                updateResourceCounters();
+                updateLargestNetwork();
+            }
+            yield return StartCoroutine(playActionAnimation_Opponent());
+            enablePlayerPlaying();
+        }
+
+        if(gameBoard.checkForWin() != GameBoard.Player.None)
+        {
+            endGame();
+        }*/
+    }
+
+    public IEnumerator updateNetworkPlayedGraphics()
+    {
         if(gameBoard.getCurrentPlayer() == humanPlayer)
         {
             if(gameBoard.getTurnCounter() <= 4)
@@ -291,8 +388,11 @@ public class GameController : MonoBehaviour
                 GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
                 updateScore();
+                updateResourceCounters();
                 updateLargestNetwork();
             }
+            yield return StartCoroutine(playActionAnimation_Opponent());
+            updateCurrentPlayer();
             enablePlayerPlaying();
         }
 
@@ -306,16 +406,24 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         GameBoard boardAfterAIMove = testAI.makeMove(new GameBoard(gameBoard));
+        GameBoard proxyBoard = new GameBoard(boardAfterAIMove);
         updateBoardGraphic(boardAfterAIMove);
+        updateOpponentPlayedGraphics(proxyBoard);
+        yield return StartCoroutine(playActionAnimation_Opponent(boardAfterAIMove.getCurrentPlayer()));
         gameBoard = new GameBoard(boardAfterAIMove);
-        updateResourceCounters();
         endTurn();
         enablePlayerPlaying();
     }
 
     public void endGame()
     {
+        updateCapturedTiles();
+        updateExhaustedTiles();
         updateScore();
+        updateResourceCounters();
+        updateLargestNetwork();
+        updateCurrentPlayer(0);
+
         GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
         if(gameBoard.getScore(GameBoard.Player.Player1) >= 10)
         {
@@ -447,6 +555,30 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void updateResourceCounters(GameBoard b)
+    {
+        Debug.Log("Proxy Entered");
+        GameObject currentResourceCounter;
+        string counterTag;
+        for(int i = 0; i < GameBoard.numResources; ++i)
+        {
+            if(b.getCurrentPlayer() == GameBoard.Player.Player2)
+            {
+                counterTag = "P1_" + i;
+                currentResourceCounter = GameObject.FindGameObjectWithTag(counterTag);
+                currentResourceCounter.GetComponent<Text>().text = b.getResources(GameBoard.Player.Player1)[i].ToString();
+                Debug.Log("P1: " + currentResourceCounter.GetComponent<Text>().text);
+            }
+            else
+            {
+                counterTag = "P2_" + i;
+                currentResourceCounter = GameObject.FindGameObjectWithTag(counterTag);
+                currentResourceCounter.GetComponent<Text>().text = b.getResources(GameBoard.Player.Player2)[i].ToString();
+                Debug.Log("P2: " + currentResourceCounter.GetComponent<Text>().text);
+            }
+        }
+    }
+
     public void updateLargestNetwork()
     {
         if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.Player1)
@@ -462,6 +594,29 @@ public class GameController : MonoBehaviour
             GameObject.Find("FickleN").GetComponent<Animator>().SetInteger("largestNetworkOwner", 2);
         }
         else if(gameBoard.playerWithLargestNetwork() == GameBoard.Player.None)
+        {
+            GameObject.Find("FickleOrange").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
+            GameObject.Find("FicklePurple").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
+            GameObject.Find("FickleN").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
+        }
+    }
+
+    public void updateLargestNetwork(GameBoard b)
+    {
+        Debug.Log("Proxy Entered");
+        if(b.playerWithLargestNetwork() == GameBoard.Player.Player1)
+        {
+            GameObject.Find("FickleOrange").GetComponent<Animator>().SetInteger("largestNetworkOwner", 1);
+            GameObject.Find("FicklePurple").GetComponent<Animator>().SetInteger("largestNetworkOwner", 1);
+            GameObject.Find("FickleN").GetComponent<Animator>().SetInteger("largestNetworkOwner", 1);
+        }
+        else if(b.playerWithLargestNetwork() == GameBoard.Player.Player2)
+        {
+            GameObject.Find("FickleOrange").GetComponent<Animator>().SetInteger("largestNetworkOwner", 2);
+            GameObject.Find("FicklePurple").GetComponent<Animator>().SetInteger("largestNetworkOwner", 2);
+            GameObject.Find("FickleN").GetComponent<Animator>().SetInteger("largestNetworkOwner", 2);
+        }
+        else if(b.playerWithLargestNetwork() == GameBoard.Player.None)
         {
             GameObject.Find("FickleOrange").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
             GameObject.Find("FicklePurple").GetComponent<Animator>().SetInteger("largestNetworkOwner", 0);
@@ -495,6 +650,17 @@ public class GameController : MonoBehaviour
             }
             GameObject.Find("OrangePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 2);
             GameObject.Find("PurplePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 2);
+        }
+    }
+
+    public void updateCurrentPlayer(int currentPlayer)
+    {
+        if(currentPlayer == 0)
+        {
+            GameObject.Find("OrangePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 0);
+            GameObject.Find("PurplePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 0);
+            GameObject.Find("OrangePlayer").GetComponent<Animator>().SetTrigger("GameOver");
+            GameObject.Find("PurplePlayer").GetComponent<Animator>().SetTrigger("GameOver");
         }
     }
 
@@ -583,6 +749,14 @@ public class GameController : MonoBehaviour
         GameObject.Find("Player2_ScoreText").GetComponent<Text>().text = "Player 2\nScore: " + gameBoard.getScore(GameBoard.Player.Player2).ToString();
     }
 
+    private void updateScore(GameBoard b)
+    {
+        Debug.Log("Proxy Entered. Score: " + b.getScore(GameBoard.Player.Player1) + " " + b.getScore(GameBoard.Player.Player2));
+        GameObject.Find("Player1_ScoreText").GetComponent<Text>().text = "Player 1\nScore: " + b.getScore(GameBoard.Player.Player1).ToString();
+        GameObject.Find("Player2_ScoreText").GetComponent<Text>().text = "Player 2\nScore: " + b.getScore(GameBoard.Player.Player2).ToString();
+        Debug.Log("Scores after the update: " +  GameObject.Find("Player1_ScoreText").GetComponent<Text>().text + " " +  GameObject.Find("Player2_ScoreText").GetComponent<Text>().text);
+    }
+
     public void undo()
     {
         if(gameBoard.getTurnCounter() <= 4)
@@ -642,12 +816,14 @@ public class GameController : MonoBehaviour
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                changedSprite.GetComponent<Animator>().ResetTrigger("collectResources");
                                 nodePlaced = true;
                             }
                             else
                             {
                                 GameObject changedSprite = GameObject.Find(buttonToUpdate.tag);
                                 changedSprite.GetComponent<Animator>().SetBool("piecePlaced", true);
+                                changedSprite.GetComponent<Animator>().ResetTrigger("collectResources");
                                 nodePlaced = true;
                             }
                         }
@@ -722,10 +898,50 @@ public class GameController : MonoBehaviour
             tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
         }
     }
+
+    public void updateExhaustedTiles(GameBoard b)
+    {
+        //soundController.GetComponent<SoundManager>().PlaySFX("Vat Close Sound effect");
+        List<GameBoard.Tile> overloadedTiles = b.overloadedTiles();
+        foreach (GameBoard.Tile tile in overloadedTiles)
+        {
+            string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+            GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+            tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+        }
+    }
+
     public void updateCapturedTiles()
     {
         //soundController.GetComponent<SoundManager>().PlaySFX("Vat Capture Sound Effect");
         List<GameBoard.Tile> tiles = gameBoard.getGameTiles();
+        foreach (GameBoard.Tile tile in tiles)
+        {
+            if(tile.player == GameBoard.Player.Player1)
+            {
+                string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("captured", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("player", 1);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("resource", (int)tile.resourceType);
+            }
+            else if (tile.player == GameBoard.Player.Player2)
+            {
+                string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
+                GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("captured", true);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("player", 2);
+                tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetInteger("resource", (int)tile.resourceType);
+            }
+        }
+    }
+
+    public void updateCapturedTiles(GameBoard b)
+    {
+        //soundController.GetComponent<SoundManager>().PlaySFX("Vat Capture Sound Effect");
+        List<GameBoard.Tile> tiles = b.getGameTiles();
         foreach (GameBoard.Tile tile in tiles)
         {
             if(tile.player == GameBoard.Player.Player1)
