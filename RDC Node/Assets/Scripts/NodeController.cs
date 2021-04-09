@@ -10,6 +10,7 @@ public class NodeController : MonoBehaviour
     public GameObject purpleSlime;
     public int random;
     private GameObject gameController;
+
     public void SpawnSlime()
     {
         if(random == 1)

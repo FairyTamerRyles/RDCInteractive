@@ -621,6 +621,11 @@ public class GameController : MonoBehaviour
         GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
     }
 
+    public void triggerWait(GameBoard.Player player)
+    {
+        
+    }
+
     public void updateBoardGraphic(GameBoard newBoard)
     {
         updateAnimatorAITrigger();
@@ -827,5 +832,10 @@ public class GameController : MonoBehaviour
     public void playAgain()
     {
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
+    }
+
+    public void playClick()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("MarkerCap");
     }
 }
