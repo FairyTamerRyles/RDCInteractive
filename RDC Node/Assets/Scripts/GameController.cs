@@ -415,7 +415,13 @@ public class GameController : MonoBehaviour
 
     public void endGame()
     {
+        updateCapturedTiles();
+        updateExhaustedTiles();
         updateScore();
+        updateResourceCounters();
+        updateLargestNetwork();
+        updateCurrentPlayer(0);
+
         GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
         if(gameBoard.getScore(GameBoard.Player.Player1) >= 10)
         {
@@ -642,6 +648,17 @@ public class GameController : MonoBehaviour
             }
             GameObject.Find("OrangePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 2);
             GameObject.Find("PurplePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 2);
+        }
+    }
+
+    public void updateCurrentPlayer(int currentPlayer)
+    {
+        if(currentPlayer == 0)
+        {
+            GameObject.Find("OrangePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 0);
+            GameObject.Find("PurplePlayer").GetComponent<Animator>().SetInteger("currentPlayer", 0);
+            GameObject.Find("OrangePlayer").GetComponent<Animator>().SetTrigger("GameOver");
+            GameObject.Find("PurplePlayer").GetComponent<Animator>().SetTrigger("GameOver");
         }
     }
 
