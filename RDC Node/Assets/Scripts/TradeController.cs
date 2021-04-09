@@ -13,6 +13,7 @@ public class TradeController : MonoBehaviour
     public GameObject GreenCounter;
     public GameObject YellowCounter;
     public GameObject GameController;
+    public GameObject TradeSelectText;
 
     private int selectedResource;
     private int[] resourceTradeCount;
@@ -45,6 +46,7 @@ public class TradeController : MonoBehaviour
                     BlueCounter.GetComponent<Text>().enabled = true;
                     GreenCounter.GetComponent<Text>().enabled = true;
                     YellowCounter.GetComponent<Text>().enabled = true;
+                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
                 }
                 else
                 {
@@ -63,6 +65,7 @@ public class TradeController : MonoBehaviour
                     BlueCounter.GetComponent<Text>().enabled = false;
                     GreenCounter.GetComponent<Text>().enabled = false;
                     YellowCounter.GetComponent<Text>().enabled = false;
+                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
                 }
                 break;
             case "BlueResource":
@@ -83,6 +86,7 @@ public class TradeController : MonoBehaviour
                     BlueCounter.GetComponent<Text>().enabled = false;
                     GreenCounter.GetComponent<Text>().enabled = true;
                     YellowCounter.GetComponent<Text>().enabled = true;
+                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
                 }
                 else
                 {
@@ -102,6 +106,7 @@ public class TradeController : MonoBehaviour
                     RedCounter.GetComponent<Text>().enabled = false;
                     GreenCounter.GetComponent<Text>().enabled = false;
                     YellowCounter.GetComponent<Text>().enabled = false;
+                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
                 }
                 break;
             case "GreenResource":
@@ -122,6 +127,7 @@ public class TradeController : MonoBehaviour
                     BlueCounter.GetComponent<Text>().enabled = true;
                     GreenCounter.GetComponent<Text>().enabled = false;
                     YellowCounter.GetComponent<Text>().enabled = true;
+                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
                 }
                 else
                 {
@@ -141,6 +147,7 @@ public class TradeController : MonoBehaviour
                     RedCounter.GetComponent<Text>().enabled = false;
                     BlueCounter.GetComponent<Text>().enabled = false;
                     YellowCounter.GetComponent<Text>().enabled = false;
+                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
                 }
                 break;
             case "YellowResource":
@@ -161,6 +168,7 @@ public class TradeController : MonoBehaviour
                     BlueCounter.GetComponent<Text>().enabled = true;
                     GreenCounter.GetComponent<Text>().enabled = true;
                     YellowCounter.GetComponent<Text>().enabled = false;
+                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
                 }
                 else
                 {
@@ -179,6 +187,7 @@ public class TradeController : MonoBehaviour
                     RedCounter.GetComponent<Text>().enabled = false;
                     BlueCounter.GetComponent<Text>().enabled = false;
                     GreenCounter.GetComponent<Text>().enabled = false;
+                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
                 }
                 break;
         }
@@ -345,6 +354,7 @@ public class TradeController : MonoBehaviour
         GreenCounter.GetComponent<Text>().enabled = false;
         YellowCounter.GetComponent<Text>().enabled = false;
         selectedResource = -1;
+        TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
     }
     void Start()
     {
