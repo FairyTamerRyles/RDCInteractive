@@ -7,6 +7,6 @@ public class LoadingController : MonoBehaviour
     // Start is called before the first frame update
     public void startGame()
     {
-        GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("LoadingScreen");
+        GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("Game");
     }
 }
