@@ -345,8 +345,9 @@ public class GameController : MonoBehaviour
     private void onNetworkOpponentMoved()
     {
         GameBoard boardAfterNetworkMove = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
-        gameBoard = new GameBoard(boardAfterNetworkMove);
+        //order is critical for updateBoardGraphic
         updateBoardGraphic(boardAfterNetworkMove);
+        gameBoard = new GameBoard(boardAfterNetworkMove);
         updateExhaustedTiles();
         updateCapturedTiles();
         StartCoroutine(updateNetworkPlayedGraphics());
@@ -391,6 +392,7 @@ public class GameController : MonoBehaviour
                 updateLargestNetwork();
             }
             yield return StartCoroutine(playActionAnimation_Opponent());
+            updateCurrentPlayer();
             enablePlayerPlaying();
         }
 
