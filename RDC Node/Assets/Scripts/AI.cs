@@ -815,7 +815,9 @@ public class AI
         }
         else
         {
-            heuristicResult = hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + 
+            heuristicResult = (board.getResources(self)[0] + board.getResources(self)[1] + 4 * board.getResources(self)[2] + 4 * board.getResources(self)[3]) + 
+            hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + 
+            (nextBuildPower(board, self) - nextBuildPower(board, opponent)) +
             hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent)) + hw[13] * (touchedTileStability(board, self) - touchedTileStability(board, opponent));
         }
         return heuristicResult;
@@ -958,6 +960,66 @@ public class AI
         }
         float resourcePotential = hw[8] * incomingResources[0] + hw[9] * incomingResources[1] + hw[10] * incomingResources[2] + hw[11] * incomingResources[3] - hw[12] * (3 * noResources);
         return resourcePotential;
+    }
+
+    public float nextBuildPower(GameBoard board, GameBoard.Player player)
+    {
+        int[] resourcePool = new int[]{-1, -1, -1, -1};
+        resourcePool[0] = board.getResources(player)[0];
+        resourcePool[1] = board.getResources(player)[1];
+        resourcePool[2] = board.getResources(player)[2];
+        resourcePool[3] = board.getResources(player)[3];
+
+        //reduce the resources
+        resourcePool = reduceResources(resourcePool);
+        int[] incomingResources = potentialResources(board, player);
+        resourcePool[0] += incomingResources[0];
+        resourcePool[1] += incomingResources[1];
+        resourcePool[2] += incomingResources[2];
+        resourcePool[3] += incomingResources[3];
+
+        return buildableWeighted(resourcePool);
+    }
+
+    float buildableWeighted(int[] resources)
+    {
+        float nodes = 0;
+        float branches = 0;
+        int[]reducedResources = new int[]{-1, -1, -1, -1};
+        //first reduce branch resources
+        int reducedBranchResources = resources[0] - resources[1];
+        if(reducedBranchResources == 0)
+        {
+            branches = resources[0];
+            reducedResources[0] = 0;
+            reducedResources[1] = 0;
+        }
+        else if (reducedBranchResources < 0)
+        {
+            //blue was bigger than red
+            branches = resources[0];
+            reducedResources[0] = 0;
+            reducedResources[1] = reducedBranchResources * -1;
+        }
+        else
+        {
+            //red was bigger than blue
+            branches = resources[1];
+            reducedResources[0] = reducedBranchResources;
+            reducedResources[1] = 0;
+        }
+
+        //now reduce the node resources
+        reducedResources[2] = resources[2];
+        reducedResources[3] = resources[3];
+        while(reducedResources[2] > 1 && reducedResources[3] > 1)
+        {
+            nodes++;
+            reducedResources[2] -= 2;
+            reducedResources[3] -= 2;
+        }
+        //Debug.Log("Reduced Resources: " + reducedResources[0] + " " + reducedResources[1] + " " + reducedResources[2] + " " + reducedResources[3]);
+        return branches + (2 * nodes);
     }
 
     public void pickStrat(bool isMaddening)
