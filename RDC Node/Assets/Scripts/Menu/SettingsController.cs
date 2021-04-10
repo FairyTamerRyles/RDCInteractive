@@ -56,10 +56,14 @@ public class SettingsController : MonoBehaviour
         if(GameObject.FindGameObjectWithTag("P1ToggleAI").GetComponent<Toggle>().isOn)
         {
             PlayerPrefs.SetInt("humanPlayer", 1);
+            GameObject.FindGameObjectWithTag("P1ToggleAI").GetComponent<Toggle>().interactable = false;
+            GameObject.FindGameObjectWithTag("P2ToggleAI").GetComponent<Toggle>().interactable = true;
         }
         else
         {
             PlayerPrefs.SetInt("humanPlayer", 2);
+            GameObject.FindGameObjectWithTag("P2ToggleAI").GetComponent<Toggle>().interactable = false;
+            GameObject.FindGameObjectWithTag("P1ToggleAI").GetComponent<Toggle>().interactable = true;
         }
     }
 
@@ -68,10 +72,14 @@ public class SettingsController : MonoBehaviour
         if(GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().isOn)
         {
             PlayerPrefs.SetInt("humanPlayer", 1);
+            GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().interactable = false;
+            GameObject.FindGameObjectWithTag("P2Toggle").GetComponent<Toggle>().interactable = true;
         }
         else
         {
             PlayerPrefs.SetInt("humanPlayer", 2);
+            GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().interactable = true;
+            GameObject.FindGameObjectWithTag("P2Toggle").GetComponent<Toggle>().interactable = false;
         }
     }
 
