@@ -83,6 +83,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
         MusicSlider.value = MusicVolume;
         SFXSlider.value = SFXVolume;
+        Play("BamGoozledMenu");
     }
 
     public void Play(int i = 0) {
