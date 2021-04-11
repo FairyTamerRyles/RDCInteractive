@@ -121,6 +121,10 @@ public class SettingsController : MonoBehaviour
     public void BeginAIGame()
     {
         SetPlayerForAIGame();
+        if(bst.GetComponent<InputField>().text != "")
+        {
+            PlayerPrefs.SetString("boardSeed", bst.GetComponent<InputField>().text);
+        }
         string buttonPressed = EventSystem.current.currentSelectedGameObject.name;
         SetAIDifficulty(buttonPressed);
         GameObject.Find("Fader").GetComponent<Animator>().SetBool("LeavingScene", true);

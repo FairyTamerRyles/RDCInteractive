@@ -150,7 +150,15 @@ public class GameController : MonoBehaviour
 
         if(gameType != GameType.Network)
         {
-            gameBoard = new GameBoard();
+            if(PlayerPrefs.HasKey("boardSeed"))
+            {
+                gameBoard = new GameBoard(PlayerPrefs.GetString("boardSeed"));
+            }
+            else
+            {
+                gameBoard = new GameBoard();
+            }
+            
             if(PlayerPrefs.GetString("difficulty") == "Hard")
             {
                 testAI = new AI(humanPlayer, gameBoard, true);
@@ -1009,6 +1017,7 @@ public class GameController : MonoBehaviour
         PlayerPrefs.DeleteKey("humanPlayer");
         PlayerPrefs.DeleteKey("gameType");
         PlayerPrefs.DeleteKey("difficulty");
+        PlayerPrefs.DeleteKey("boardSeed");
         //add checks here
         if(matchmakingManager.GetComponent<MatchmakingManager>().InRoom)
         {
@@ -1016,10 +1025,7 @@ public class GameController : MonoBehaviour
                 Debug.Log("Left Room");
                 connectionManager.GetComponent<ConnectionManager>().Disconnect(() =>{
                     Debug.Log("disconnected");
-                    Destroy(gameNetworkingManager, 0);
-                    Destroy(matchmakingManager, 0);
-                    Destroy(connectionManager, 0);
-                    Destroy(GameObject.Find("NetworkingObjects"), 0);
+                    destroyNetworkingObjects();
                     SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
                 });
             });
@@ -1028,21 +1034,23 @@ public class GameController : MonoBehaviour
         {
             connectionManager.GetComponent<ConnectionManager>().Disconnect(() =>{
                 Debug.Log("disconnected");
-                Destroy(gameNetworkingManager, 0);
-                Destroy(matchmakingManager, 0);
-                Destroy(connectionManager, 0);
-                Destroy(GameObject.Find("NetworkingObjects"), 0);
+                destroyNetworkingObjects();
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             });
         }
         else
         {
-            Destroy(gameNetworkingManager, 0);
-            Destroy(matchmakingManager, 0);
-            Destroy(connectionManager, 0);
-            Destroy(GameObject.Find("NetworkingObjects"), 0);
+            destroyNetworkingObjects();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
+    }
+
+    private void destroyNetworkingObjects()
+    {
+        Destroy(gameNetworkingManager, 0);
+        Destroy(matchmakingManager, 0);
+        Destroy(connectionManager, 0);
+        Destroy(GameObject.Find("NetworkingObjects"), 0);
     }
 
     public void playAgain()
