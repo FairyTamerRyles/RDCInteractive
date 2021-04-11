@@ -121,6 +121,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3883676962483982669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5622826319107075581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79768e82b46ba74b8792c83ecda9e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundController: {fileID: 0}
 --- !u!1 &6522348326663904845
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4031107977540228603}
   - component: {fileID: 8552450753144461320}
+  - component: {fileID: 4980515473521073079}
   m_Layer: 0
   m_Name: VatB2S
   m_TagString: 1.2
@@ -205,6 +219,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4980515473521073079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6522348326663904845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79768e82b46ba74b8792c83ecda9e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundController: {fileID: 0}
 --- !u!1001 &74252724811708813
 PrefabInstance:
   m_ObjectHideFlags: 0

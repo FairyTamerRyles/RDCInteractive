@@ -7,6 +7,9 @@ using UnityEngine.EventSystems;
 
 public class SettingsController : MonoBehaviour
 {
+    public GameObject bst;
+    public GameObject self;
+
     public GameObject connectionErrorBox;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,14 @@ public class SettingsController : MonoBehaviour
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
 
         //GameObject.Find("SoundManager").GetComponent<SoundManager>().Play("Intro");
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftControl) == true && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftArrow) && self.name == "SettingsController")
+        {
+            bst.SetActive(!bst.activeSelf);
+        }
     }
 
     public void KillTheFade()
@@ -56,10 +67,14 @@ public class SettingsController : MonoBehaviour
         if(GameObject.FindGameObjectWithTag("P1ToggleAI").GetComponent<Toggle>().isOn)
         {
             PlayerPrefs.SetInt("humanPlayer", 1);
+            GameObject.FindGameObjectWithTag("P1ToggleAI").GetComponent<Toggle>().interactable = false;
+            GameObject.FindGameObjectWithTag("P2ToggleAI").GetComponent<Toggle>().interactable = true;
         }
         else
         {
             PlayerPrefs.SetInt("humanPlayer", 2);
+            GameObject.FindGameObjectWithTag("P2ToggleAI").GetComponent<Toggle>().interactable = false;
+            GameObject.FindGameObjectWithTag("P1ToggleAI").GetComponent<Toggle>().interactable = true;
         }
     }
 
@@ -68,10 +83,14 @@ public class SettingsController : MonoBehaviour
         if(GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().isOn)
         {
             PlayerPrefs.SetInt("humanPlayer", 1);
+            GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().interactable = false;
+            GameObject.FindGameObjectWithTag("P2Toggle").GetComponent<Toggle>().interactable = true;
         }
         else
         {
             PlayerPrefs.SetInt("humanPlayer", 2);
+            GameObject.FindGameObjectWithTag("P1Toggle").GetComponent<Toggle>().interactable = true;
+            GameObject.FindGameObjectWithTag("P2Toggle").GetComponent<Toggle>().interactable = false;
         }
     }
 
@@ -102,6 +121,10 @@ public class SettingsController : MonoBehaviour
     public void BeginAIGame()
     {
         SetPlayerForAIGame();
+        if(bst.GetComponent<InputField>().text != "")
+        {
+            PlayerPrefs.SetString("boardSeed", bst.GetComponent<InputField>().text);
+        }
         string buttonPressed = EventSystem.current.currentSelectedGameObject.name;
         SetAIDifficulty(buttonPressed);
         GameObject.Find("Fader").GetComponent<Animator>().SetBool("LeavingScene", true);

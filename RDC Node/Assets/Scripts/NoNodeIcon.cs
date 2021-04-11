@@ -16,11 +16,15 @@ public class NoNodeIcon : MonoBehaviour
 
     SpriteRenderer sprite;
 
+    public GameObject soundController;
+
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
+        soundController = GameObject.Find("SoundManager");
         originalColor = sprite.color;
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
+        hovered = false;
     }
 
     // Start is called before the first frame update
@@ -37,8 +41,13 @@ public class NoNodeIcon : MonoBehaviour
             {
                 animator.SetInteger("currentPlayer", 2);
             }
-            hovered = true;
-            animator.SetBool("validHover", true);
+            if(!hovered)
+            {
+                hovered = true;
+                soundController.GetComponent<SoundManager>().PlaySFX("CoverBlinking");
+                soundController.GetComponent<SoundManager>().ToggleLoopSFX("CoverBlinking");
+                animator.SetBool("validHover", true);
+            }
         }
     }
 
@@ -47,6 +56,7 @@ public class NoNodeIcon : MonoBehaviour
         if(hovered)
         {
             hovered = false;
+            soundController.GetComponent<SoundManager>().StopSFX("CoverBlinking");
             animator.SetBool("validHover", false);
         }
     }
@@ -55,6 +65,8 @@ public class NoNodeIcon : MonoBehaviour
     {
 
     }
+
+
     private GameBoard.Coordinate parseName()
     {
         string pieceName = this.name;

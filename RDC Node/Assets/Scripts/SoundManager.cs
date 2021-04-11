@@ -65,7 +65,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("Music", 0.6f);
+            PlayerPrefs.SetFloat("Music", 0.5f);
             MusicVolume = PlayerPrefs.GetFloat("Music");
             ChangeSoundMasterVolume(MusicVolume);
         }
@@ -83,6 +83,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
         MusicSlider.value = MusicVolume;
         SFXSlider.value = SFXVolume;
+        Play("BamGoozledMenu");
     }
 
     public void Play(int i = 0) {
@@ -113,6 +114,20 @@ public class SoundManager : MonoBehaviour
         }
 
         PlaySFX(index);
+    }
+
+    public void StopSFX(int i = 0) {
+        sfxSources[i].Stop();
+    }
+
+    public void StopSFX(String name) {
+        int index = 0;
+
+        for (int i = 0; i < sfxNames.Length; ++i) {
+            if (sfxNames[i] == name) index = i;
+        }
+
+        StopSFX(index);
     }
 
     public void ToggleLoopSFX(int i = 0) {
@@ -246,5 +261,10 @@ public class SoundManager : MonoBehaviour
         }
 
         ChangeSFXVolume(index, volume);
+    }
+
+    public void playClick()
+    {
+        PlaySFX("MarkerCap");
     }
 }
