@@ -815,10 +815,10 @@ public class AI
         }
         else
         {
-            heuristicResult = (board.getResources(self)[0] + board.getResources(self)[1] + 4 * board.getResources(self)[2] + 4 * board.getResources(self)[3]) + 
-            hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + 
-            (nextBuildPower(board, self) - nextBuildPower(board, opponent)) +
-            hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent)) + hw[13] * (touchedTileStability(board, self) - touchedTileStability(board, opponent));
+            //Score, branches, captured tiles(?), Touched (exhausted, quartered, stability), build power, total income, Capture likelihoods, position, cutoff
+            heuristicResult = hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + 
+            (nextBuildPower(board, self) - nextBuildPower(board, opponent)) + hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent)) +
+             hw[13] * (touchedTileStability(board, self) - touchedTileStability(board, opponent));
         }
         return heuristicResult;
     }
