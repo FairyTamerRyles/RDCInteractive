@@ -7,6 +7,9 @@ using UnityEngine.EventSystems;
 
 public class SettingsController : MonoBehaviour
 {
+    public GameObject bst;
+    public GameObject self;
+
     public GameObject connectionErrorBox;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,14 @@ public class SettingsController : MonoBehaviour
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
 
         //GameObject.Find("SoundManager").GetComponent<SoundManager>().Play("Intro");
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftControl) == true && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.LeftArrow) && self.name == "SettingsController")
+        {
+            bst.SetActive(!bst.activeSelf);
+        }
     }
 
     public void KillTheFade()
