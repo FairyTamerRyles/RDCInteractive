@@ -22,7 +22,7 @@ public class SettingsController : MonoBehaviour
 
         connectionManager.GetComponent<ConnectionManager>().OnDisconnected_Callback = () => {ConnectionError();};
 
-        //GameObject.Find("SoundManager").GetComponent<SoundManager>().Play("Intro");
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().Play("BamGoozledMenu");
     }
 
     void Update()
@@ -235,5 +235,6 @@ public class SettingsController : MonoBehaviour
     public void goToLoadingScreen()
     {
         GameObject.FindGameObjectWithTag("ChangeScene").GetComponent<ChangeScene>().loadlevel("LoadingScreen");
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().TransitionToSilence();
     }
 }
