@@ -1051,6 +1051,7 @@ public class GameController : MonoBehaviour
         Destroy(matchmakingManager, 0);
         Destroy(connectionManager, 0);
         Destroy(GameObject.Find("NetworkingObjects"), 0);
+        Destroy(GameObject.Find("SoundManager"), 0);
     }
 
     public void playAgain()
