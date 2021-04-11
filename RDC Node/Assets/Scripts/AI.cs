@@ -1526,11 +1526,34 @@ public class AI
         return true;
     }
 
+    private List<List<int>> graphWeights;
+    private const int noVertex = -1;
+    List<float> djikstraIsAPrettyCoolDude(){
+        List<bool> visitedNodes = new List<bool>();
+        for(int i = 0; i < 24; ++i)
+        {
+            visitedNodes.Add(false);
+        }
 
+        return new List<float>();
+    }
+
+    void setWeightsGraph()
+    {
+
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        graphWeights = new List<List<int>>();
+        for(int i = 0; i < 24; ++i)
+        {
+            graphWeights.Add(new List<int>());
+            for(int j = 0; j < 24; ++j)
+            {
+                graphWeights[i].Add(noVertex);
+            }
+        }
     }
 }
