@@ -88,7 +88,7 @@ public class SoundManager : MonoBehaviour
 
     public void Play(int i = 0) {
         Stop();
-        audioSources[i].volume = 1;
+        audioSources[i].volume = MusicVolume;
         playing = audioSources[i];
     }
 
@@ -168,19 +168,25 @@ public class SoundManager : MonoBehaviour
         Transition(index);
     }
 
+    public void TransitionToSilence() {
+        transitionProgress = 0.0;
+        transitioningTo = null;
+        transitioning = true;
+    }
+
     void FixedUpdate() {
         if (transitioning) {
             transitionProgress += 0.02;
 
             if (transitionProgress >= transitionLength) {
-                playing.volume = 0;
-                transitioningTo.volume = MusicVolume;
+                if (playing != null) playing.volume = 0;
+                if (transitioningTo != null) transitioningTo.volume = MusicVolume;
                 playing = transitioningTo;
                 transitioningTo = null;
                 transitioning = false;
             } else {
-                playing.volume = (float)(MusicVolume - (transitionProgress / transitionLength));
-                transitioningTo.volume = (float)(MusicVolume - playing.volume);
+                if (playing != null) playing.volume = (float)(MusicVolume - (transitionProgress / transitionLength));
+                if (transitioningTo != null) transitioningTo.volume = (float)(MusicVolume - playing.volume);
             }
         }
     }
