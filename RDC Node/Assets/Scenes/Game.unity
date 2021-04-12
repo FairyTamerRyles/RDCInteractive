@@ -609,6 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &17314570
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1663,6 +1664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &73847204
 Animator:
   serializedVersion: 3
@@ -1977,6 +1979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &78084887
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2422,6 +2425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &132367854
 Animator:
   serializedVersion: 3
@@ -2893,6 +2897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &159691315
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2975,6 +2980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &169262953
 Animator:
   serializedVersion: 3
@@ -5818,6 +5824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &306904935
 Animator:
   serializedVersion: 3
@@ -6012,6 +6019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &314406598
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6145,6 +6153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &315518540
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8534,6 +8543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &486083784
 Animator:
   serializedVersion: 3
@@ -9495,6 +9505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &509125427
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -10253,6 +10264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &529613717
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -10488,6 +10500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &536129664
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -12560,6 +12573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &631355599
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -12839,6 +12853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &646071508
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13793,6 +13808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &714964307
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13951,6 +13967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &717012705
 Animator:
   serializedVersion: 3
@@ -14567,6 +14584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &747782677
 Animator:
   serializedVersion: 3
@@ -15127,6 +15145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &800577257
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -15621,6 +15640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &838217310
 Animator:
   serializedVersion: 3
@@ -16043,6 +16063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &845303040
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -16849,6 +16870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &888073925
 Animator:
   serializedVersion: 3
@@ -17320,6 +17342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &900978488
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -17583,6 +17606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &906406852
 Animator:
   serializedVersion: 3
@@ -18848,6 +18872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &959074533
 Animator:
   serializedVersion: 3
@@ -19296,6 +19321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &977886885
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -21175,6 +21201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1079104256
 Animator:
   serializedVersion: 3
@@ -21875,6 +21902,7 @@ GameObject:
   - component: {fileID: 1112097007}
   - component: {fileID: 1112097006}
   - component: {fileID: 1112097008}
+  - component: {fileID: 1112097009}
   m_Layer: 6
   m_Name: OrangePlayer
   m_TagString: Untagged
@@ -21966,6 +21994,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1112097009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112097005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79768e82b46ba74b8792c83ecda9e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundController: {fileID: 0}
 --- !u!1 &1113570708
 GameObject:
   m_ObjectHideFlags: 0
@@ -22457,6 +22498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1128095298
 Animator:
   serializedVersion: 3
@@ -23390,6 +23432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1167180827
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -23523,6 +23566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1179442494
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -23966,6 +24010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1194810070
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -24567,6 +24612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1230930479
 Animator:
   serializedVersion: 3
@@ -25715,6 +25761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1270108777
 Animator:
   serializedVersion: 3
@@ -26269,6 +26316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1300945069
 Animator:
   serializedVersion: 3
@@ -26767,6 +26815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1313999177
 Animator:
   serializedVersion: 3
@@ -27028,6 +27077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1322714354
 Animator:
   serializedVersion: 3
@@ -27399,6 +27449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1343649234
 Animator:
   serializedVersion: 3
@@ -30112,6 +30163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1431784736
 Animator:
   serializedVersion: 3
@@ -31039,6 +31091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1466023036
 Animator:
   serializedVersion: 3
@@ -32218,6 +32271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1520262657
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -32934,6 +32988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1567160881
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -33505,6 +33560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1592394577
 Animator:
   serializedVersion: 3
@@ -34818,6 +34874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1623790326
 Animator:
   serializedVersion: 3
@@ -35170,6 +35227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1635537671
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -35252,6 +35310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1636604986
 Animator:
   serializedVersion: 3
@@ -36574,6 +36633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1691366231
 Animator:
   serializedVersion: 3
@@ -36945,6 +37005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1714731809
 Animator:
   serializedVersion: 3
@@ -37858,6 +37919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1738062672
 Animator:
   serializedVersion: 3
@@ -38001,6 +38063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1744546902
 Animator:
   serializedVersion: 3
@@ -38745,6 +38808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1779157429
 Animator:
   serializedVersion: 3
@@ -39407,6 +39471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1822924501
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -40017,6 +40082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1842436387
 Animator:
   serializedVersion: 3
@@ -40211,6 +40277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &1847762223
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -40454,6 +40521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1857367829
 Animator:
   serializedVersion: 3
@@ -40754,6 +40822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1875631418
 Animator:
   serializedVersion: 3
@@ -40897,6 +40966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1883226644
 Animator:
   serializedVersion: 3
@@ -41040,6 +41110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1892507403
 Animator:
   serializedVersion: 3
@@ -42676,6 +42747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &1997673770
 Animator:
   serializedVersion: 3
@@ -43320,6 +43392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!58 &2028810185
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -44144,6 +44217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1357508547}
+  soundController: {fileID: 0}
 --- !u!95 &2089461011
 Animator:
   serializedVersion: 3

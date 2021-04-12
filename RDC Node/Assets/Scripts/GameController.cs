@@ -84,7 +84,7 @@ public class GameController : MonoBehaviour
         soundController = GameObject.Find("SoundManager");
         soundController.GetComponent<SoundManager>().MusicSlider = GameObject.Find("Music").GetComponent<Slider>();
         soundController.GetComponent<SoundManager>().SFXSlider = GameObject.Find("SFX").GetComponent<Slider>();
-        soundController.GetComponent<SoundManager>().Play("Intern");
+        soundController.GetComponent<SoundManager>().Transition("Intern");
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.EndDrag;
@@ -287,10 +287,10 @@ public class GameController : MonoBehaviour
 
     public IEnumerator playActionAnimation(GameBoard.Player currentPlayer, string pieceType)
     {
-        Debug.Log((int)currentPlayer);
         if(currentPlayer == GameBoard.Player.Player1)
         {
-            Debug.Log("Playing animation");
+            int rSound = (int)(Floor(Random.Range(1.0f, 2.5f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("InternAct" + rSound);
             GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeAction;
             yield return new WaitForSeconds(1.0f);
             GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeNormal;
@@ -329,6 +329,7 @@ public class GameController : MonoBehaviour
                         newGameObject = GameObject.Find(button.tag);
                         int rSound = (int)(Floor(Random.Range(1.0f, 3.0f)));
                         soundController.GetComponent<SoundManager>().PlaySFX("SlimeSpawn" + rSound);
+                        soundController.GetComponent<SoundManager>().PlaySFX("SteamRelease");
                         newGameObject.GetComponent<Animator>().ResetTrigger("collectResources");
                         newGameObject.GetComponent<Animator>().SetBool("piecePlaced", true);
                         break;
@@ -437,6 +438,7 @@ public class GameController : MonoBehaviour
         {
             //TODO: Change Intern to winner
             //TODO: Change Scientist to loser
+            soundController.GetComponent<SoundManager>().PlaySFX("InternWin");
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 1);
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("humanPlayer", (int)humanPlayer);
         }
@@ -444,6 +446,7 @@ public class GameController : MonoBehaviour
         {
             //TODO: Change Intern to winner
             //TODO: Change Scientist to loser
+            soundController.GetComponent<SoundManager>().PlaySFX("InternLose");
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 2);
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("humanPlayer", (int)humanPlayer);
         }
@@ -883,6 +886,7 @@ public class GameController : MonoBehaviour
         {
             int rSound = (int)(Floor(Random.Range(1.0f, 3.0f)));
             soundController.GetComponent<SoundManager>().PlaySFX("SlimeSpawn" + rSound);
+            soundController.GetComponent<SoundManager>().PlaySFX("SteamRelease");
         }
         if(branchPlaced == true)
         {
@@ -1061,6 +1065,6 @@ public class GameController : MonoBehaviour
 
     public void playClick()
     {
-        soundController.GetComponent<SoundManager>().PlaySFX("MarkerCap");
+        soundController.GetComponent<SoundManager>().PlaySFX("MarkerOnDryErase");
     }
 }
