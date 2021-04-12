@@ -185,8 +185,9 @@ public class SoundManager : MonoBehaviour
                 transitioningTo = null;
                 transitioning = false;
             } else {
-                if (playing != null) playing.volume = (float)(MusicVolume - (transitionProgress / transitionLength));
-                //if (transitioningTo != null) transitioningTo.volume = (float)(MusicVolume - playing.volume);
+                float playingVolume = (float)(MusicVolume - (transitionProgress / transitionLength));
+                if (playing != null) playing.volume = playingVolume;
+                if (transitioningTo != null) transitioningTo.volume = (float)(MusicVolume - playingVolume);
             }
         }
     }
