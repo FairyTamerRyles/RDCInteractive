@@ -1674,7 +1674,6 @@ public class AI
             }
         }
 
-        //TODO: at end may need to alter nodes owned by opponent
         public List<int> branchesToNodes(GameBoard g, GameBoard.Player branchingPlayer){
             for(int i = 0; i < nodeIndexes.Count; ++i)
             {
@@ -1711,7 +1710,28 @@ public class AI
                     vertices[i].weight = noVertex;
                 }
 
-                //hello everyone!
+                GameBoard.Player opponent = (branchingPlayer == GameBoard.Player.Player1) ? GameBoard.Player.Player2 : GameBoard.Player.Player1;
+
+                if(g.pieceAtCoordinateIsOwnedByPlayer(vertices[i].c, GameBoard.Player.None))
+                {
+                    if(g.isHorizontalBranch(vertices[i].c))
+                    {
+                        if(g.pieceAtCoordinateIsOwnedByPlayer(new GameBoard.Coordinate{x = vertices[i].c.x + 1, y = vertices[i].c.y}, opponent)
+                            || g.pieceAtCoordinateIsOwnedByPlayer(new GameBoard.Coordinate{x = vertices[i].c.x - 1, y = vertices[i].c.y}, opponent))
+                        {
+                            graphWeights[vertices[i].node1 - 1][vertices[i].node2 - 1] = noVertex;
+                            graphWeights[vertices[i].node2 - 1][vertices[i].node1 - 1] = noVertex;
+                            vertices[i].weight = noVertex;
+                        }
+                    }
+                    else if(g.pieceAtCoordinateIsOwnedByPlayer(new GameBoard.Coordinate{x = vertices[i].c.x, y = vertices[i].c.y + 1}, opponent)
+                            || g.pieceAtCoordinateIsOwnedByPlayer(new GameBoard.Coordinate{x = vertices[i].c.x, y = vertices[i].c.y - 1}, opponent))
+                    {
+                        graphWeights[vertices[i].node1 - 1][vertices[i].node2 - 1] = noVertex;
+                        graphWeights[vertices[i].node2 - 1][vertices[i].node1 - 1] = noVertex;
+                        vertices[i].weight = noVertex;
+                    }
+                }
             }
 
             bool unvisitedNodes = true;
@@ -1757,6 +1777,14 @@ public class AI
             for(int i = 0; i < nodes.Count; ++i)
             {
                 finalWeight.Add(nodes[i].distance);
+            }
+
+            for(int i = 0; i < nodes.Count; ++i)
+            {
+                if(g.gameBoard[nodes[i].c.x, nodes[i].c.y].player != branchingPlayer && g.gameBoard[nodes[i].c.x, nodes[i].c.y].player != GameBoard.Player.None)
+                {
+                    finalWeight[i] = infDist;
+                }
             }
 
             return finalWeight;

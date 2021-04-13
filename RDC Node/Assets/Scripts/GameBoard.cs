@@ -1133,7 +1133,7 @@ public class GameBoard
     }
 
     //checks if a given coordinate is in bounds and has a piece owned by the given player
-    private bool pieceAtCoordinateIsOwnedByPlayer(Coordinate c, Player p)
+    public bool pieceAtCoordinateIsOwnedByPlayer(Coordinate c, Player p)
     {
         if(isInBounds(c) && gameBoard[c.x,c.y].player == p)
         {
