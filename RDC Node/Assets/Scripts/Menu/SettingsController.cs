@@ -219,8 +219,9 @@ public class SettingsController : MonoBehaviour
 
     public void roomToJoinValueChanged()
     {
-        var roomToJoinBox = GameObject.Find("RoomNameToJoin").GetComponent<Text>();
-        Debug.Log(roomToJoinBox.text.Length);
+        var roomToJoinBox = GameObject.Find("Type Room").GetComponent<InputField>();
+        roomToJoinBox.text = roomToJoinBox.text.ToUpper();
+        Debug.Log(roomToJoinBox.text);
         if(roomToJoinBox.text.Length == 5)
         {
             GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = true;
@@ -228,11 +229,6 @@ public class SettingsController : MonoBehaviour
         else
         {
             GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = false;
-        }
-
-        if(roomToJoinBox.text.Length > 5)
-        {
-            roomToJoinBox.text = roomToJoinBox.text.Substring(0,5);
         }
     }
 
