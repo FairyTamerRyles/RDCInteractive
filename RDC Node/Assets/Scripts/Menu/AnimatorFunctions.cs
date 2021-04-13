@@ -7,9 +7,15 @@ public class AnimatorFunctions : MonoBehaviour
 	[SerializeField] MenuButtonController menuButtonController;
 	public bool disableOnce;
 
+	public AudioClip clickConversationProgress;
+
 	void PlaySound(AudioClip whichSound){
 		if(!disableOnce){
-			menuButtonController.audioSource.PlayOneShot (whichSound);
+			if (whichSound == clickConversationProgress) {
+				menuButtonController.soundManager.PlaySFX("ClickConversationProgress");
+			} else {
+				menuButtonController.soundManager.PlaySFX("ClickConversationEnd");
+			}
 		}else{
 			disableOnce = false;
 		}
