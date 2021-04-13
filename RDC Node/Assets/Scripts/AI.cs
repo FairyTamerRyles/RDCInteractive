@@ -643,7 +643,7 @@ public class AI
         {
             if(board.gameBoard[tile.x, tile.y].player == GameBoard.Player.None && ((GameBoard.Tile)board.gameBoard[tile.x, tile.y]).resourceType != GameBoard.ResourceType.None)
             {
-                tts = ((GameBoard.Tile)board.gameBoard[tile.x, tile.y]).maxLoad + 1;
+                int tileStab = ((GameBoard.Tile)board.gameBoard[tile.x, tile.y]).maxLoad + 1;
                 List<GameBoard.Coordinate> nodesOnTile = new List<GameBoard.Coordinate> {
                     new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x + 1, y = board.gameBoard[tile.x, tile.y].coord.y + 1},
                     new GameBoard.Coordinate{x = board.gameBoard[tile.x, tile.y].coord.x + 1, y = board.gameBoard[tile.x, tile.y].coord.y - 1},
@@ -660,7 +660,7 @@ public class AI
                 {
                     if(board.gameBoard[node.x, node.y].player != GameBoard.Player.None)
                     {
-                         tts--;
+                         tileStab--;
                     }
                 }
                 float potentialCapture = 0;
@@ -676,6 +676,7 @@ public class AI
                         potentialCapture += .25f;
                     }
                 }
+                tts += tileStab + potentialCapture;
             }
             else if(board.gameBoard[tile.x, tile.y].player == player)
             {
@@ -816,7 +817,7 @@ public class AI
         {
             //Score, branches, captured tiles(?), Touched (exhausted, quartered, stability), build power, total income, Capture likelihoods, position, cutoff
             heuristicResult = hw[0] * (board.getScore(self) - board.getScore(opponent)) + hw[1] * (branches(board, self) - branches(board, opponent)) + 
-            (nextBuildPower(board, self) - nextBuildPower(board, opponent)) + hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent)) +
+            (nextBuildPower(board, self) /*- nextBuildPower(board, opponent)*/) + hw[2] * (resourcePotential(board, self) - resourcePotential(board, opponent)) +
              hw[13] * (touchedTileStability(board, self) - touchedTileStability(board, opponent));
         }
         return heuristicResult;
@@ -969,13 +970,11 @@ public class AI
         resourcePool[2] = board.getResources(player)[2];
         resourcePool[3] = board.getResources(player)[3];
 
-        //reduce the resources
-        resourcePool = reduceResources(resourcePool);
-        int[] incomingResources = potentialResources(board, player);
-        resourcePool[0] += incomingResources[0];
-        resourcePool[1] += incomingResources[1];
-        resourcePool[2] += incomingResources[2];
-        resourcePool[3] += incomingResources[3];
+        int[] nextResources = potentialResources(board, player);
+        resourcePool[0] += nextResources[0];
+        resourcePool[1] += nextResources[1];
+        resourcePool[2] += nextResources[2];
+        resourcePool[3] += nextResources[3];
 
         return buildableWeighted(resourcePool);
     }
@@ -990,22 +989,16 @@ public class AI
         if(reducedBranchResources == 0)
         {
             branches = resources[0];
-            reducedResources[0] = 0;
-            reducedResources[1] = 0;
         }
         else if (reducedBranchResources < 0)
         {
             //blue was bigger than red
             branches = resources[0];
-            reducedResources[0] = 0;
-            reducedResources[1] = reducedBranchResources * -1;
         }
         else
         {
             //red was bigger than blue
             branches = resources[1];
-            reducedResources[0] = reducedBranchResources;
-            reducedResources[1] = 0;
         }
 
         //now reduce the node resources
@@ -1614,7 +1607,8 @@ public class AI
             public GameBoard.Coordinate c;
         }
 
-        public cutoffChecker(){
+        public cutoffChecker()
+        {
             //Initialize vertices
             vertices = new List<vertex>();
             vertices.Add(new vertex{node1 = 1, node2 = 2, c = branchIndexes[0], weight = -1});
