@@ -176,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 0}
   disableOnce: 0
+  clickConversationProgress: {fileID: 8300000, guid: da1b160ba7e6b4bf0a40defe83b864d4, type: 3}
 --- !u!1 &8428365700978325577
 GameObject:
   m_ObjectHideFlags: 0
