@@ -413,13 +413,17 @@ public class GameController : MonoBehaviour
 
     private IEnumerator makeAIMove()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
         GameBoard boardAfterAIMove = testAI.makeMove(new GameBoard(gameBoard));
         GameBoard proxyBoard = new GameBoard(boardAfterAIMove);
         updateBoardGraphic(boardAfterAIMove);
         updateOpponentPlayedGraphics(proxyBoard);
         yield return StartCoroutine(playActionAnimation_Opponent(boardAfterAIMove.getCurrentPlayer()));
         gameBoard = new GameBoard(boardAfterAIMove);
+
+        AI.cutoffChecker cut = new AI.cutoffChecker();
+        Debug.Log(cut.weightsAsString(gameBoard, AIPlayer));
+
         endTurn();
         enablePlayerPlaying();
     }
@@ -1009,6 +1013,7 @@ public class GameController : MonoBehaviour
         if(gameBoard.checkForWin() == GameBoard.Player.None)
         {
             Debug.Log("Disconnected");
+            GameObject.Find("TopButtonCanvas").GetComponent<GraphicRaycaster>().enabled = false;
             connectionErrorBox.SetActive(true);
             blockPlayerFromPlaying();
             soundController.GetComponent<SoundManager>().Stop();

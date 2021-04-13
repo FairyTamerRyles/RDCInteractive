@@ -121,7 +121,6 @@ public class AI
         new GameBoard.Coordinate{x = 8, y = 4},
         new GameBoard.Coordinate{x = 8, y = 6},
         new GameBoard.Coordinate{x = 8, y = 8},
-        //Matthew was here
         new GameBoard.Coordinate{x = 10, y = 4},
         new GameBoard.Coordinate{x = 10, y = 6}
     };
@@ -1526,34 +1525,261 @@ public class AI
         return true;
     }
 
-    private List<List<int>> graphWeights;
-    private const int noVertex = -1;
-    List<float> djikstraIsAPrettyCoolDude(){
-        List<bool> visitedNodes = new List<bool>();
-        for(int i = 0; i < 24; ++i)
+
+    public class cutoffChecker{
+        private List<GameBoard.Coordinate> branchIndexes = new List<GameBoard.Coordinate>
         {
-            visitedNodes.Add(false);
+            new GameBoard.Coordinate{x = 0, y = 5},
+            new GameBoard.Coordinate{x = 1, y = 4},
+            new GameBoard.Coordinate{x = 1, y = 6},
+            new GameBoard.Coordinate{x = 2, y = 3},
+            new GameBoard.Coordinate{x = 2, y = 5},
+            new GameBoard.Coordinate{x = 2, y = 7},
+            new GameBoard.Coordinate{x = 3, y = 2},
+            new GameBoard.Coordinate{x = 3, y = 4},
+            new GameBoard.Coordinate{x = 3, y = 6},
+            new GameBoard.Coordinate{x = 3, y = 8},
+            new GameBoard.Coordinate{x = 4, y = 1},
+            new GameBoard.Coordinate{x = 4, y = 3},
+            new GameBoard.Coordinate{x = 4, y = 5},
+            new GameBoard.Coordinate{x = 4, y = 7},
+            new GameBoard.Coordinate{x = 4, y = 9},
+            new GameBoard.Coordinate{x = 5, y = 0},
+            new GameBoard.Coordinate{x = 5, y = 2},
+            new GameBoard.Coordinate{x = 5, y = 4},
+            new GameBoard.Coordinate{x = 5, y = 6},
+            new GameBoard.Coordinate{x = 5, y = 8},
+            new GameBoard.Coordinate{x = 5, y = 10},
+            new GameBoard.Coordinate{x = 6, y = 1},
+            new GameBoard.Coordinate{x = 6, y = 3},
+            new GameBoard.Coordinate{x = 6, y = 5},
+            new GameBoard.Coordinate{x = 6, y = 7},
+            new GameBoard.Coordinate{x = 6, y = 9},
+            new GameBoard.Coordinate{x = 7, y = 2},
+            new GameBoard.Coordinate{x = 7, y = 4},
+            new GameBoard.Coordinate{x = 7, y = 6},
+            new GameBoard.Coordinate{x = 7, y = 8},
+            new GameBoard.Coordinate{x = 8, y = 3},
+            new GameBoard.Coordinate{x = 8, y = 5},
+            new GameBoard.Coordinate{x = 8, y = 7},
+            new GameBoard.Coordinate{x = 9, y = 4},
+            new GameBoard.Coordinate{x = 9, y = 6},
+            new GameBoard.Coordinate{x = 10, y = 5}
+        };
+
+        private List<GameBoard.Coordinate> nodeIndexes = new List<GameBoard.Coordinate>
+        {
+            new GameBoard.Coordinate{x = 0, y = 4},
+            new GameBoard.Coordinate{x = 0, y = 6},
+            new GameBoard.Coordinate{x = 2, y = 2},
+            new GameBoard.Coordinate{x = 2, y = 4},
+            new GameBoard.Coordinate{x = 2, y = 6},
+            new GameBoard.Coordinate{x = 2, y = 8},
+            new GameBoard.Coordinate{x = 4, y = 0},
+            new GameBoard.Coordinate{x = 4, y = 2},
+            new GameBoard.Coordinate{x = 4, y = 4},
+            new GameBoard.Coordinate{x = 4, y = 6},
+            new GameBoard.Coordinate{x = 4, y = 8},
+            new GameBoard.Coordinate{x = 4, y = 10},
+            new GameBoard.Coordinate{x = 6, y = 0},
+            new GameBoard.Coordinate{x = 6, y = 2},
+            new GameBoard.Coordinate{x = 6, y = 4},
+            new GameBoard.Coordinate{x = 6, y = 6},
+            new GameBoard.Coordinate{x = 6, y = 8},
+            new GameBoard.Coordinate{x = 6, y = 10},
+            new GameBoard.Coordinate{x = 8, y = 2},
+            new GameBoard.Coordinate{x = 8, y = 4},
+            new GameBoard.Coordinate{x = 8, y = 6},
+            new GameBoard.Coordinate{x = 8, y = 8},
+            new GameBoard.Coordinate{x = 10, y = 4},
+            new GameBoard.Coordinate{x = 10, y = 6}
+        };
+        private List<List<int>> graphWeights; //Used to keep track of the weights of branches between nodes. Should be -1, 0, or 1
+        private List<vertex> vertices; //A list of the vertices (branches) between nodes. Tells the nodes connected by the vertex, the weight, and the coord
+        private List<node> nodes; //List of visited/unvisited nodes and their current distances
+        private const int noVertex = -1;
+        private const int infDist = 999;
+        private GameBoard boardToAnalyze;
+
+        private class vertex{
+            public int node1;
+            public int node2;
+            public int weight;
+            public GameBoard.Coordinate c;
         }
 
-        return new List<float>();
-    }
+        private class node{
+            public bool visited;
+            public int distance;
+            public GameBoard.Coordinate c;
+        }
 
-    void setWeightsGraph()
-    {
+        public cutoffChecker(){
+            //Initialize vertices
+            vertices = new List<vertex>();
+            vertices.Add(new vertex{node1 = 1, node2 = 2, c = branchIndexes[0], weight = -1});
+            vertices.Add(new vertex{node1 = 1, node2 = 4, c = branchIndexes[1], weight = -1});
+            vertices.Add(new vertex{node1 = 2, node2 = 5, c = branchIndexes[2], weight = -1});
+            vertices.Add(new vertex{node1 = 3, node2 = 4, c = branchIndexes[3], weight = -1});
+            vertices.Add(new vertex{node1 = 4, node2 = 5, c = branchIndexes[4], weight = -1});
+            vertices.Add(new vertex{node1 = 5, node2 = 6, c = branchIndexes[5], weight = -1});
+            vertices.Add(new vertex{node1 = 3, node2 = 8, c = branchIndexes[6], weight = -1});
+            vertices.Add(new vertex{node1 = 4, node2 = 9, c = branchIndexes[7], weight = -1});
+            vertices.Add(new vertex{node1 = 5, node2 = 10, c = branchIndexes[8], weight = -1});
+            vertices.Add(new vertex{node1 = 6, node2 = 11, c = branchIndexes[9], weight = -1});
+            vertices.Add(new vertex{node1 = 7, node2 = 8, c = branchIndexes[10], weight = -1});
+            vertices.Add(new vertex{node1 = 8, node2 = 9, c = branchIndexes[11], weight = -1});
+            vertices.Add(new vertex{node1 = 9, node2 = 10, c = branchIndexes[12], weight = -1});
+            vertices.Add(new vertex{node1 = 10, node2 = 11, c = branchIndexes[13], weight = -1});
+            vertices.Add(new vertex{node1 = 11, node2 = 12, c = branchIndexes[14], weight = -1});
+            vertices.Add(new vertex{node1 = 7, node2 = 13, c = branchIndexes[15], weight = -1});
+            vertices.Add(new vertex{node1 = 8, node2 = 14, c = branchIndexes[16], weight = -1});
+            vertices.Add(new vertex{node1 = 9, node2 = 15, c = branchIndexes[17], weight = -1});
+            vertices.Add(new vertex{node1 = 10, node2 = 16, c = branchIndexes[18], weight = -1});
+            vertices.Add(new vertex{node1 = 11, node2 = 17, c = branchIndexes[19], weight = -1});
+            vertices.Add(new vertex{node1 = 12, node2 = 18, c = branchIndexes[20], weight = -1});
+            vertices.Add(new vertex{node1 = 13, node2 = 14, c = branchIndexes[21], weight = -1});
+            vertices.Add(new vertex{node1 = 14, node2 = 15, c = branchIndexes[22], weight = -1});
+            vertices.Add(new vertex{node1 = 15, node2 = 16, c = branchIndexes[23], weight = -1});
+            vertices.Add(new vertex{node1 = 16, node2 = 17, c = branchIndexes[24], weight = -1});
+            vertices.Add(new vertex{node1 = 17, node2 = 18, c = branchIndexes[25], weight = -1});
+            vertices.Add(new vertex{node1 = 14, node2 = 19, c = branchIndexes[26], weight = -1});
+            vertices.Add(new vertex{node1 = 15, node2 = 20, c = branchIndexes[27], weight = -1});
+            vertices.Add(new vertex{node1 = 16, node2 = 21, c = branchIndexes[28], weight = -1});
+            vertices.Add(new vertex{node1 = 17, node2 = 22, c = branchIndexes[29], weight = -1});
+            vertices.Add(new vertex{node1 = 19, node2 = 20, c = branchIndexes[30], weight = -1});
+            vertices.Add(new vertex{node1 = 20, node2 = 21, c = branchIndexes[31], weight = -1});
+            vertices.Add(new vertex{node1 = 21, node2 = 22, c = branchIndexes[32], weight = -1});
+            vertices.Add(new vertex{node1 = 20, node2 = 23, c = branchIndexes[33], weight = -1});
+            vertices.Add(new vertex{node1 = 21, node2 = 24, c = branchIndexes[34], weight = -1});
+            vertices.Add(new vertex{node1 = 23, node2 = 24, c = branchIndexes[35], weight = -1});
 
+            //initialize nodes
+            nodes = new List<node>();
+            for(int i = 0; i < nodeIndexes.Count; ++i)
+            {
+                nodes.Add(new node{visited = false, distance = infDist, c = nodeIndexes[i]});
+            }
+
+
+            //initialize graph weights to noVertex
+            graphWeights = new List<List<int>>();
+            for(int i = 0; i < 24; ++i)
+            {
+                graphWeights.Add(new List<int>());
+                for(int j = 0; j < 24; ++j)
+                {
+                    graphWeights[i].Add(noVertex);
+                }
+            }
+        }
+
+        //TODO: at end may need to alter nodes owned by opponent
+        public List<int> branchesToNodes(GameBoard g, GameBoard.Player branchingPlayer){
+            for(int i = 0; i < nodeIndexes.Count; ++i)
+            {
+                nodes[i].visited = false;
+                if(g.gameBoard[nodes[i].c.x, nodes[i].c.y].player == branchingPlayer)
+                {
+                    nodes[i].distance = 0;
+                }
+                else
+                {
+                    nodes[i].distance = infDist;
+                }
+            }
+
+            //TODO: have to handle multicapture areas
+            for(int i = 0; i < vertices.Count; ++i)
+            {
+                if(g.gameBoard[vertices[i].c.x, vertices[i].c.y].player == branchingPlayer)
+                {
+                    graphWeights[vertices[i].node1 - 1][vertices[i].node2 - 1] = 0;
+                    graphWeights[vertices[i].node2 - 1][vertices[i].node1 - 1] = 0;
+                    vertices[i].weight = 0;
+                }
+                else if(g.gameBoard[vertices[i].c.x, vertices[i].c.y].player == GameBoard.Player.None)
+                {
+                    graphWeights[vertices[i].node1 - 1][vertices[i].node2 - 1] = 1;
+                    graphWeights[vertices[i].node2 - 1][vertices[i].node1 - 1] = 1;
+                    vertices[i].weight = 1;
+                }
+                else
+                {
+                    graphWeights[vertices[i].node1 - 1][vertices[i].node2 - 1] = noVertex;
+                    graphWeights[vertices[i].node2 - 1][vertices[i].node1 - 1] = noVertex;
+                    vertices[i].weight = noVertex;
+                }
+
+                //hello everyone!
+            }
+
+            bool unvisitedNodes = true;
+            int nodeToVisit = -1;
+            while(unvisitedNodes)
+            {
+                int lastNode = nodeToVisit;
+                //select node to visit
+                for(int i = 0; i < nodes.Count; ++i)
+                {
+                    if(!nodes[i].visited)
+                    {
+                        if(nodeToVisit == -1 || (nodes[nodeToVisit].distance > nodes[i].distance))
+                        {
+                            nodeToVisit = i;
+                        }
+                    }
+                }
+
+                if(nodeToVisit != lastNode)
+                {
+                    for(int i = 0; i < 24; ++i)
+                    {
+                        if(graphWeights[nodeToVisit][i] != noVertex && !nodes[i].visited)
+                        {
+                            if(nodes[i].distance > (nodes[nodeToVisit].distance + graphWeights[nodeToVisit][i]))
+                            {
+                                nodes[i].distance = (nodes[nodeToVisit].distance + graphWeights[nodeToVisit][i]);
+                            }
+                        }
+                    }
+
+                    nodes[nodeToVisit].visited = true;
+                    nodeToVisit = -1;
+                }
+                else
+                {
+                    unvisitedNodes = false;
+                }
+            }
+
+            List<int> finalWeight = new List<int>();
+            for(int i = 0; i < nodes.Count; ++i)
+            {
+                finalWeight.Add(nodes[i].distance);
+            }
+
+            return finalWeight;
+        }
+
+        public string weightsAsString(GameBoard g, GameBoard.Player branchingPlayer)
+        {
+            List<int> i = branchesToNodes(g, branchingPlayer);
+            string result = "";
+
+            for(int j = 0; j < i.Count; ++j)
+            {
+                result += i[j].ToString();
+                result += ", ";
+            }
+
+            return result;
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        graphWeights = new List<List<int>>();
-        for(int i = 0; i < 24; ++i)
-        {
-            graphWeights.Add(new List<int>());
-            for(int j = 0; j < 24; ++j)
-            {
-                graphWeights[i].Add(noVertex);
-            }
-        }
+        
     }
 }
