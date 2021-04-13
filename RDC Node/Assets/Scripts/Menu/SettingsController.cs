@@ -219,16 +219,20 @@ public class SettingsController : MonoBehaviour
 
     public void roomToJoinValueChanged()
     {
-        var roomToJoinBox = GameObject.Find("Type Room").GetComponent<InputField>();
-        roomToJoinBox.text = roomToJoinBox.text.ToUpper();
-        Debug.Log(roomToJoinBox.text);
-        if(roomToJoinBox.text.Length == 5)
+        var typeRoom = GameObject.Find("Type Room");
+        if(typeRoom)
         {
-            GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = true;
-        }
-        else
-        {
-            GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = false;
+            var roomToJoinBox = GameObject.Find("Type Room").GetComponent<InputField>();
+            roomToJoinBox.text = roomToJoinBox.text.ToUpper();
+            Debug.Log(roomToJoinBox.text);
+            if(roomToJoinBox.text.Length == 5)
+            {
+                GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = true;
+            }
+            else
+            {
+                GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = false;
+            }
         }
     }
 

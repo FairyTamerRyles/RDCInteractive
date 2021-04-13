@@ -9156,7 +9156,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.7
-  m_Text: Pick your player then create the game.
+  m_Text: Select your player then create the game.
 --- !u!222 &1290170288
 CanvasRenderer:
   m_ObjectHideFlags: 0

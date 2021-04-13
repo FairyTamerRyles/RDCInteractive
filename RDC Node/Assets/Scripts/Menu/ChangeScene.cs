@@ -12,13 +12,13 @@ public class ChangeScene : MonoBehaviour
         //yield return new WaitForSeconds(5);
         StartCoroutine(Action());
         //Invoke("Action", 2.0f);
-        SceneManager.LoadScene(level,LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(level,LoadSceneMode.Single);
 
     }
 
     public IEnumerator Action()
     {
         yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadSceneAsync("Game");
     }
 }
