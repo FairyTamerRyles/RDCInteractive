@@ -1013,11 +1013,15 @@ public class GameController : MonoBehaviour
         if(gameBoard.checkForWin() == GameBoard.Player.None)
         {
             Debug.Log("Disconnected");
+            GameObject.Find("Carousel Slider").SetActive(false);
+            GameObject.Find("Settings_Panel").SetActive(false);
+            GameObject.Find("TradeInPanel").SetActive(false);
+            GameObject.Find("ExitToMenu").SetActive(false);
+            GameObject.Find("Confirm skip").SetActive(false);
             GameObject.Find("TopButtonCanvas").GetComponent<GraphicRaycaster>().enabled = false;
             connectionErrorBox.SetActive(true);
             blockPlayerFromPlaying();
             soundController.GetComponent<SoundManager>().Stop();
-            connectionErrorBox.GetComponent<GraphicRaycaster>().enabled = true;
         }
     }
 
