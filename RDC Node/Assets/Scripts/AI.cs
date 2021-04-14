@@ -209,11 +209,12 @@ public class AI
         resourcePool = reduceResources(resourcePool);
 
         //see if there is a single resource you can completely trade. If so, only search possible trades in that reality
+        //TODO: I think the trade issue may be here
         bool oneLargeResource = false;
-        int largestLargeResource = 0;
+        int largestLargeResource = -1;
         for (int i = 0; i < 4; i++)
         {
-            if(resourcePool[i] - 3 >= 1 && resourcePool[i] - 3 > largestLargeResource)
+            if(resourcePool[i] - 3 >= 1 && (largestLargeResource == -1 || resourcePool[i] - 3 > resourcePool[largestLargeResource]))
             {
                 largestLargeResource = i;
                 oneLargeResource = true;
@@ -223,12 +224,14 @@ public class AI
         {
             for (int i = 0; i < 4; i++)
             {
-                if(resourcePool[i] != largestLargeResource)
+                if(i != largestLargeResource)
                 {
                     resourcePool[i] = 0;
                 }
             }
         }
+
+        
         List<GameBoard> allTradedBoards = getPossibleTrades(gBoard, resourcePool);
         List<GameBoard> allBranchesAndNodes = new List<GameBoard>();
         List<GameBoard> allPossibleOptions = new List<GameBoard>();
