@@ -14,8 +14,14 @@ public class SFXPlayer : MonoBehaviour
 
     public void internEnter()
     {
-        int rSound = (int)(Floor(Random.Range(1.0f, 3.0f)));
+        int rSound = (int)(Floor(Random.Range(1.0f, 3.5f)));
             soundController.GetComponent<SoundManager>().PlaySFX("InternTurn" + rSound);
+    }
+    
+    public void scientistEnter()
+    {
+        int rSound = (int)(Floor(Random.Range(1.0f, 2.5f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("ScientistTurnStart" + rSound);
     }
 
     void Start()

@@ -299,6 +299,8 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            int rrSound = (int)(Floor(Random.Range(1.0f, 2.5f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("ScientistAction" + rrSound.ToString());
             GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleAction;
             yield return new WaitForSeconds(1.0f);
             GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleNormal;
@@ -445,7 +447,6 @@ public class GameController : MonoBehaviour
         {
             //TODO: Change Intern to winner
             //TODO: Change Scientist to loser
-            soundController.GetComponent<SoundManager>().PlaySFX("InternWin");
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 1);
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("humanPlayer", (int)humanPlayer);
         }
@@ -453,7 +454,6 @@ public class GameController : MonoBehaviour
         {
             //TODO: Change Intern to winner
             //TODO: Change Scientist to loser
-            soundController.GetComponent<SoundManager>().PlaySFX("InternLose");
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("winner", 2);
             GameObject.Find("GameOverBlocker").GetComponent<Animator>().SetInteger("humanPlayer", (int)humanPlayer);
         }
