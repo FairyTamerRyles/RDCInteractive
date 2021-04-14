@@ -49,7 +49,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1c3e67e3384a07f44b1fa60193c05080, type: 3}
   - {fileID: 8300000, guid: 0ea8b0113d705d847a1d6dd39574d589, type: 3}
   - {fileID: 8300000, guid: b90efeb21e4ea6a47a7f9b43e3a15954, type: 3}
-  - {fileID: 8300000, guid: b90efeb21e4ea6a47a7f9b43e3a15954, type: 3}
   audioNames:
   - Menu
   - Intro
@@ -77,6 +76,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 330ecb748fbb4fe4bb66449e9a761b2d, type: 3}
   - {fileID: 8300000, guid: da1b160ba7e6b4bf0a40defe83b864d4, type: 3}
   - {fileID: 8300000, guid: cd8f231778a234138849b780b1e91d98, type: 3}
+  - {fileID: 8300000, guid: cdf2421cce14fe047aac01bd2d87c65f, type: 3}
+  - {fileID: 8300000, guid: a32dc298313804f48a8b587e8213a026, type: 3}
+  - {fileID: 8300000, guid: 4c36d427c7ca05c4abb84afb093046e2, type: 3}
+  - {fileID: 8300000, guid: f72cc14b7e9ef7f48ac665bee93b2ad0, type: 3}
+  - {fileID: 8300000, guid: 861c268b9e94eeb448605d795747f04b, type: 3}
+  - {fileID: 8300000, guid: a1264de9e6c2fd34d849acb0e9400685, type: 3}
+  - {fileID: 8300000, guid: 0b5131e81ad262b418b2da0491cbd34e, type: 3}
+  - {fileID: 8300000, guid: d4aba4cc5d9aeb94bb9a9415ddac0142, type: 3}
   sfxNames:
   - MarkerOnDryErase
   - MarkerCap
@@ -98,5 +105,13 @@ MonoBehaviour:
   - InternLose
   - ClickConversationProgress
   - ClickConversationEnd
+  - AlchemyApparatus
+  - HeelStep
+  - Hmmm
+  - LightSwitch
+  - ScientistAction1
+  - ScientistAction2
+  - ScientistTurnStart1
+  - ScientistTurnStart2
   MusicSlider: {fileID: 0}
   SFXSlider: {fileID: 0}
