@@ -51,6 +51,7 @@ public class GameController : MonoBehaviour
     public Sprite PurpleAction;
     public Sprite OrangeNormal;
     public Sprite PurpleNormal;
+    public bool receivedBoard = false;
 
     public enum GameType
     {
@@ -199,30 +200,28 @@ public class GameController : MonoBehaviour
             gameBoard = new GameBoard();
             if(humanPlayer == GameBoard.Player.Player1)
             {
+                
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
 
                 initializeTileGraphics();
                 updateCurrentPlayer();
                 GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
 
-                StartCoroutine(wait(3));
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
+                StartCoroutine(wait(3));
+                
                 enablePlayerPlaying();
             }
             else
             {
-                gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {
-                    gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
-                    gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
-                    initializeTileGraphics();
-                    updateCurrentPlayer();
-                };
+                gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
             }
         }
     }
 
     public void initializeTileGraphics()
     {
+        Debug.Log("Initializing tiles");
         foreach (GameBoard.Tile tile in gameBoard.getGameTiles())
         {
             string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
@@ -381,6 +380,12 @@ public class GameController : MonoBehaviour
 
     private void onNetworkOpponentMoved()
     {
+        if(humanPlayer == GameBoard.Player.Player2 && !receivedBoard)
+        {
+            receivedBoard = true;
+            gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
+            initializeTileGraphics();
+        }
         GameBoard boardAfterNetworkMove = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
         //order is critical for updateBoardGraphic
         updateBoardGraphic(boardAfterNetworkMove);
