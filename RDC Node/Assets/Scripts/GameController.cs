@@ -248,7 +248,10 @@ public class GameController : MonoBehaviour
 
         if(proxyBoard.getTurnCounter() > 4)
         {
-            updateTradeCounters(proxyBoard);
+            if(proxyBoard.getTurnCounter() > 5)
+            {
+                updateTradeCounters(proxyBoard);
+            }
             updateScore(proxyBoard);
             updateResourceCounters(proxyBoard);
             updateLargestNetwork(proxyBoard);
