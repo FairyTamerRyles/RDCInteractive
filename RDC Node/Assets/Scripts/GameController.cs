@@ -45,6 +45,8 @@ public class GameController : MonoBehaviour
     public GameObject soundController;
     public GameObject connectionErrorBox;
     public GameObject endGameCanvas;
+    public GameObject Player1TradeMadeText;
+    public GameObject Player2TradeMadeText;
     public Sprite OrangeAction;
     public Sprite PurpleAction;
     public Sprite OrangeNormal;
@@ -420,6 +422,7 @@ public class GameController : MonoBehaviour
 
     private IEnumerator makeAIMove()
     {
+        updateTradeCounters(gameBoard);
         yield return new WaitForSeconds(2);
         GameBoard boardAfterAIMove = testAI.makeMove(new GameBoard(gameBoard));
         GameBoard proxyBoard = new GameBoard(boardAfterAIMove);
@@ -992,6 +995,7 @@ public class GameController : MonoBehaviour
             tradeMade[i] = b.getResources(AIPlayer)[i] + gameBoard.getResources(AIPlayer)[i] * -1 + resourcesSpent[i] * -1;
         }
 
+        bool tradeWasMade = false;
         string AIP = (AIPlayer == GameBoard.Player.Player1) ? "1" : "2";
         for(int i = 0; i < 4; ++i)
         {
@@ -1000,6 +1004,7 @@ public class GameController : MonoBehaviour
             if(tradeMade[i] == 1)
             {
                 toSetTradeCounterTo = "+";
+                tradeWasMade = true;
             }
             else
             {
@@ -1011,6 +1016,9 @@ public class GameController : MonoBehaviour
 
             GameObject.Find(tradeCounterToGet).GetComponent<Text>().text = toSetTradeCounterTo;
         }
+
+        Player1TradeMadeText.SetActive(AIPlayer == GameBoard.Player.Player1 && tradeWasMade);
+        Player2TradeMadeText.SetActive(AIPlayer == GameBoard.Player.Player2 && tradeWasMade);
     }
 
     public void updateCapturedTiles()

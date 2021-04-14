@@ -30234,6 +30234,8 @@ MonoBehaviour:
   soundController: {fileID: 0}
   connectionErrorBox: {fileID: 1403442652}
   endGameCanvas: {fileID: 1733774806}
+  Player1TradeMadeText: {fileID: 2001216926}
+  Player2TradeMadeText: {fileID: 1338361244}
   OrangeAction: {fileID: 21300000, guid: 7a9704c0c68dac0468908f34859342b8, type: 3}
   PurpleAction: {fileID: 21300000, guid: 7072a39f993ca6147a685709f0c00176, type: 3}
   OrangeNormal: {fileID: 21300000, guid: c191dc749c6a33e45b457a7131118f81, type: 3}
