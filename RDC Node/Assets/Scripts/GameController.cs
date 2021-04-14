@@ -440,7 +440,7 @@ public class GameController : MonoBehaviour
         updateCurrentPlayer(0);
 
         GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
-        GameObject.Find("GameoverCanvas").GetComponent<GraphicRaycaster>().enabled = true;
+        GameObject.Find("GameOverCanvas").GetComponent<GraphicRaycaster>().enabled = true;
         if(gameBoard.getScore(GameBoard.Player.Player1) >= 10)
         {
             //TODO: Change Intern to winner
@@ -495,6 +495,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
+                GameObject.Find("setupInfo").GetComponent<Animator>().SetTrigger("Leave");
                 GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
                 GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
             }
@@ -647,6 +648,7 @@ public class GameController : MonoBehaviour
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
         {
             updateAnimatorCurrentPlayer(1);
+            GameObject.Find("YuisTurn").GetComponent<Animator>().SetTrigger("Flash");
             soundController.GetComponent<SoundManager>().Transition("Intern");
             if(gameBoard.getTurnCounter() > 4)
             {
@@ -658,6 +660,7 @@ public class GameController : MonoBehaviour
         else if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
             updateAnimatorCurrentPlayer(2);
+            GameObject.Find("ScysTurn").GetComponent<Animator>().SetTrigger("Flash");
             if(gameBoard.getTurnCounter() != 3)
             {
                 soundController.GetComponent<SoundManager>().Transition("Scientist");
