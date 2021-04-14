@@ -65,7 +65,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("Music", 0.5f);
+            PlayerPrefs.SetFloat("Music", 0.4f);
             MusicVolume = PlayerPrefs.GetFloat("Music");
             ChangeSoundMasterVolume(MusicVolume);
         }
@@ -199,9 +199,13 @@ public class SoundManager : MonoBehaviour
 
     public void ChangeSoundMasterVolume(System.Single volume) {
         foreach (AudioSource audioSource in audioSources) {
+            if(MusicSlider.value == 0)
+            {
+                MusicSlider.value = .01f;
+            }
             if(audioSource.volume != 0)
             {
-                audioSource.volume = volume;
+                audioSource.volume = MusicSlider.value;
             }
         }
         MusicVolume = volume;
@@ -211,6 +215,10 @@ public class SoundManager : MonoBehaviour
 
     public void ChangeSoundMasterVolume() {
         foreach (AudioSource audioSource in audioSources) {
+            if(MusicSlider.value == 0)
+            {
+                MusicSlider.value = .01f;
+            }
             if(audioSource.volume != 0)
             {
                 audioSource.volume = MusicSlider.value;
