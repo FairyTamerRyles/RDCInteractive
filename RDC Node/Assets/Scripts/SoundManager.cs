@@ -86,6 +86,16 @@ public class SoundManager : MonoBehaviour
         Play("BamGoozledMenu");
     }
 
+    public float getMusicVolume()
+    {
+        return MusicVolume;
+    }
+
+    public float getSFXVolume()
+    {
+        return SFXVolume;
+    }
+
     public void Play(int i = 0) {
         Stop();
         audioSources[i].volume = MusicVolume;
@@ -192,7 +202,6 @@ public class SoundManager : MonoBehaviour
                 }
                 if (playing != null) playing.volume = playingVolume;
                 if (transitioningTo != null) transitioningTo.volume = (float)(MusicVolume - playingVolume);
-                Debug.Log(transitioningTo.volume);
             }
         }
     }
