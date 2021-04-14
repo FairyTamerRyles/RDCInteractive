@@ -440,6 +440,7 @@ public class GameController : MonoBehaviour
         updateCurrentPlayer(0);
 
         GameObject.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
+        GameObject.Find("GameoverCanvas").GetComponent<GraphicRaycaster>().enabled = true;
         if(gameBoard.getScore(GameBoard.Player.Player1) >= 10)
         {
             //TODO: Change Intern to winner
@@ -776,35 +777,47 @@ public class GameController : MonoBehaviour
 
     public void undo()
     {
-        if(gameBoard.getTurnCounter() <= 4)
+        GameBoard.Move mrMove = gameBoard.mostRecentMove();
+        if(mrMove != null)
         {
-            GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
-        }
-
-        if(gameBoard.mostRecentMove().moveType != GameBoard.MoveType.Trade)
-        {
-            GameObject toBeDestroyed = piecesPlacedThisTurn[piecesPlacedThisTurn.Count - 1];
-            piecesPlacedThisTurn.RemoveAt(piecesPlacedThisTurn.Count - 1);
-            toBeDestroyed.GetComponent<Animator>().SetBool("piecePlaced", false);
-            if(toBeDestroyed.tag == "branch")
+            if(gameBoard.getTurnCounter() <= 4)
             {
-                toBeDestroyed.GetComponent<Animator>().SetBool("topOrRight", false);
-                toBeDestroyed.GetComponent<Animator>().SetBool("bottomOrLeft", false);
+                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
             }
-            //Destroy(toBeDestroyed);
-        }
-        else
-        {
-            GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
-        }
-        gameBoard.undo();
+            if(mrMove.moveType != GameBoard.MoveType.Trade)
+            {
+                GameObject toBeDestroyed = piecesPlacedThisTurn[piecesPlacedThisTurn.Count - 1];
+                piecesPlacedThisTurn.RemoveAt(piecesPlacedThisTurn.Count - 1);
+                toBeDestroyed.GetComponent<Animator>().SetBool("piecePlaced", false);
+                Debug.Log(mrMove.moveType);
+                if(mrMove.moveType == GameBoard.MoveType.PlaceNode || (mrMove.moveType == GameBoard.MoveType.StartMove && gameBoard.isNode(mrMove.coord)))
+                {
+                    Transform childPoof = toBeDestroyed.transform.GetChild(0);
+                    if(childPoof != null)
+                    {
+                        childPoof.gameObject.GetComponent<Animator>().SetTrigger("Poof");
+                    }
+                }
+                if(toBeDestroyed.tag == "branch")
+                {
+                    toBeDestroyed.GetComponent<Animator>().SetBool("topOrRight", false);
+                    toBeDestroyed.GetComponent<Animator>().SetBool("bottomOrLeft", false);
+                }
+                //Destroy(toBeDestroyed);
+            }
+            else
+            {
+                GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
+            }
+            gameBoard.undo();
 
-        if(gameBoard.mostRecentMove() == null)
-        {
-            GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
+            if(gameBoard.mostRecentMove() == null)
+            {
+                GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
+            }
+            updateResourceCounters();
         }
-
-        updateResourceCounters();
+        enablePlayerPlaying();
     }
 
     public void blockPlayerFromPlaying()
