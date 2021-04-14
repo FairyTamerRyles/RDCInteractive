@@ -378,6 +378,10 @@ public class GameController : MonoBehaviour
         //order is critical for updateBoardGraphic
         updateBoardGraphic(boardAfterNetworkMove);
         gameBoard = new GameBoard(boardAfterNetworkMove);
+        if(gameBoard.getTurnCounter() > 4)
+        {
+            GameObject.Find("setupInfo").GetComponent<Animator>().SetTrigger("Leave");
+        }
         updateExhaustedTiles();
         updateCapturedTiles();
         StartCoroutine(updateNetworkPlayedGraphics());
@@ -670,6 +674,10 @@ public class GameController : MonoBehaviour
 
     public void updateCurrentPlayer()
     {
+        if(gameBoard.getCurrentPlayer() == humanPlayer)
+        {
+            resetAnimatorAITrigger();
+        }
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
         {
             updateAnimatorCurrentPlayer(1);
@@ -774,6 +782,62 @@ public class GameController : MonoBehaviour
                 else
                 {
                     n.GetComponent<Animator>().SetTrigger("AIMove_P");
+                }
+            }
+        }
+    }
+
+    void resetAnimatorAITrigger()
+    {
+        GameObject[] nodes = GameObject.FindGameObjectsWithTag("node");
+        GameObject[] branches = GameObject.FindGameObjectsWithTag("branch");
+        if(gameType == GameType.AI)
+        {
+            foreach (GameObject b in branches)
+            {
+                if(AIPlayer == GameBoard.Player.Player1)
+                {
+                    b.GetComponent<Animator>().ResetTrigger("AIMove_O");
+                }
+                else
+                {
+                    b.GetComponent<Animator>().ResetTrigger("AIMove_P");
+                }
+            }
+            foreach (GameObject n in nodes)
+            {
+                if(AIPlayer == GameBoard.Player.Player1)
+                {
+                    n.GetComponent<Animator>().ResetTrigger("AIMove_O");
+                }
+                else
+                {
+                    n.GetComponent<Animator>().ResetTrigger("AIMove_P");
+                }
+            }
+        }
+        else if(gameType == GameType.Network)
+        {
+            foreach (GameObject b in branches)
+            {
+                if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+                {
+                    b.GetComponent<Animator>().ResetTrigger("AIMove_P");
+                }
+                else
+                {
+                    b.GetComponent<Animator>().ResetTrigger("AIMove_O");
+                }
+            }
+            foreach (GameObject n in nodes)
+            {
+                if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player1)
+                {
+                    n.GetComponent<Animator>().ResetTrigger("AIMove_P");
+                }
+                else
+                {
+                    n.GetComponent<Animator>().ResetTrigger("AIMove_O");
                 }
             }
         }
