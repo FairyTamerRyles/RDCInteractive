@@ -404,7 +404,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.7
-  m_Text: "Select player then difficulty. \nThen get ready to fight >:)"
+  m_Text: "Select player and difficulty. \nThen get ready to fight >:)"
 --- !u!222 &30033656
 CanvasRenderer:
   m_ObjectHideFlags: 0
