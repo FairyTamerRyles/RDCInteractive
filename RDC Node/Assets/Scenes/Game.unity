@@ -32629,6 +32629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1431345404}
   - component: {fileID: 1431345403}
+  - component: {fileID: 1431345406}
   - component: {fileID: 1431345405}
   m_Layer: 6
   m_Name: PurplePlayer
@@ -32721,6 +32722,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1431345406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431345402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79768e82b46ba74b8792c83ecda9e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundController: {fileID: 0}
 --- !u!1 &1431784733
 GameObject:
   m_ObjectHideFlags: 0
