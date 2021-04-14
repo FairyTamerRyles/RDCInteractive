@@ -486,7 +486,14 @@ public class GameController : MonoBehaviour
         //End of game
         if(gameBoard.checkForWin() != GameBoard.Player.None)
         {
-            updateGameInfoGraphics();
+            updateExhaustedTiles();
+            updateCapturedTiles();
+            if(gameBoard.getTurnCounter() > 4)
+            {
+                updateScore();
+                updateResourceCounters();
+                updateLargestNetwork();
+            }
             endGame();
         }
         else //Not end of game
