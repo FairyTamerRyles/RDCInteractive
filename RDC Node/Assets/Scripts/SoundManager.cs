@@ -186,6 +186,10 @@ public class SoundManager : MonoBehaviour
                 transitioning = false;
             } else {
                 float playingVolume = (float)(MusicVolume - (transitionProgress / transitionLength));
+                if(playingVolume < 0)
+                {
+                    playingVolume = 0;
+                }
                 if (playing != null) playing.volume = playingVolume;
                 if (transitioningTo != null) transitioningTo.volume = (float)(MusicVolume - playingVolume);
                 Debug.Log(transitioningTo.volume);
