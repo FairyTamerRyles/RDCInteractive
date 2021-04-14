@@ -66,6 +66,8 @@ public class IntroController : MonoBehaviour
     void Start()
     {
         canSkip = false;
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().Play("Intro");
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().ChangeSoundMasterVolume_temp(0.2f);
     }
 
     // Update is called once per frame
