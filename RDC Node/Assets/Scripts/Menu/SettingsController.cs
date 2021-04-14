@@ -41,6 +41,7 @@ public class SettingsController : MonoBehaviour
     public void AIGameSelected()
     {
         PlayerPrefs.SetString("gameType", "AI");
+        SetAIDifficulty("Easy");
     }
 
     public void SetAIDifficulty(string buttonPressed)
@@ -55,6 +56,12 @@ public class SettingsController : MonoBehaviour
             Debug.Log("Easy game picked");
             PlayerPrefs.SetString("difficulty", "Easy");
         }
+    }
+
+    public void AIDifficultyButtonClicked()
+    {
+        string buttonPressed = EventSystem.current.currentSelectedGameObject.name;
+        SetAIDifficulty(buttonPressed);
     }
 
     public void NetworkGameSelected()
@@ -125,8 +132,6 @@ public class SettingsController : MonoBehaviour
         {
             PlayerPrefs.SetString("boardSeed", bst.GetComponent<InputField>().text);
         }
-        string buttonPressed = EventSystem.current.currentSelectedGameObject.name;
-        SetAIDifficulty(buttonPressed);
         GameObject.Find("Fader").GetComponent<Animator>().SetBool("LeavingScene", true);
     }
 
