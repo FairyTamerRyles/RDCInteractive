@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource playing;
 
     private bool transitioning;
-    private double transitionLength = 0.5;
+    private double transitionLength = 1;
     private double transitionProgress;
     private AudioSource transitioningTo;
 
@@ -65,7 +65,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("Music", 0.5f);
+            PlayerPrefs.SetFloat("Music", 0.4f);
             MusicVolume = PlayerPrefs.GetFloat("Music");
             ChangeSoundMasterVolume(MusicVolume);
         }
@@ -84,6 +84,16 @@ public class SoundManager : MonoBehaviour
         MusicSlider.value = MusicVolume;
         SFXSlider.value = SFXVolume;
         Play("BamGoozledMenu");
+    }
+
+    public float getMusicVolume()
+    {
+        return MusicVolume;
+    }
+
+    public float getSFXVolume()
+    {
+        return SFXVolume;
     }
 
     public void Play(int i = 0) {
@@ -186,6 +196,10 @@ public class SoundManager : MonoBehaviour
                 transitioning = false;
             } else {
                 float playingVolume = (float)(MusicVolume - (transitionProgress / transitionLength));
+                if(playingVolume < 0)
+                {
+                    playingVolume = 0;
+                }
                 if (playing != null) playing.volume = playingVolume;
                 if (transitioningTo != null) transitioningTo.volume = (float)(MusicVolume - playingVolume);
             }
@@ -199,9 +213,13 @@ public class SoundManager : MonoBehaviour
 
     public void ChangeSoundMasterVolume(System.Single volume) {
         foreach (AudioSource audioSource in audioSources) {
+            if(MusicSlider.value == 0)
+            {
+                MusicSlider.value = .01f;
+            }
             if(audioSource.volume != 0)
             {
-                audioSource.volume = volume;
+                audioSource.volume = MusicSlider.value;
             }
         }
         MusicVolume = volume;
@@ -211,6 +229,10 @@ public class SoundManager : MonoBehaviour
 
     public void ChangeSoundMasterVolume() {
         foreach (AudioSource audioSource in audioSources) {
+            if(MusicSlider.value == 0)
+            {
+                MusicSlider.value = .01f;
+            }
             if(audioSource.volume != 0)
             {
                 audioSource.volume = MusicSlider.value;
@@ -219,6 +241,19 @@ public class SoundManager : MonoBehaviour
         MusicVolume = MusicSlider.value;
         PlayerPrefs.SetFloat("Music", MusicVolume);
         PlayerPrefs.Save();
+    }
+
+    public void ChangeSoundMasterVolume_temp(float volume) {
+        foreach (AudioSource audioSource in audioSources) {
+            if(MusicSlider.value == 0)
+            {
+                MusicSlider.value = .01f;
+            }
+            if(audioSource.volume != 0)
+            {
+                audioSource.volume = volume;
+            }
+        }
     }
 
     public void ChangeSFXMasterVolume() {

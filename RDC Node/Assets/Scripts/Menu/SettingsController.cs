@@ -9,6 +9,7 @@ public class SettingsController : MonoBehaviour
 {
     public GameObject bst;
     public GameObject self;
+    public GameObject joinPrivate;
 
     public GameObject connectionErrorBox;
     // Start is called before the first frame update
@@ -232,11 +233,11 @@ public class SettingsController : MonoBehaviour
             Debug.Log(roomToJoinBox.text);
             if(roomToJoinBox.text.Length == 5)
             {
-                GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = true;
+                joinPrivate.SetActive(true);
             }
             else
             {
-                GameObject.Find("JoinPrivateButton").GetComponent<Button>().interactable = false;
+                joinPrivate.SetActive(false);
             }
         }
     }

@@ -24,6 +24,44 @@ public class SFXPlayer : MonoBehaviour
             soundController.GetComponent<SoundManager>().PlaySFX("ScientistTurnStart" + rSound);
     }
 
+    public void heelClick()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("HeelStep");
+    }
+
+    public void hmmm()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("Hmmm");
+    }
+
+    public void light()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("LightSwitch");
+    }
+
+    public void fight()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("InternLose");
+        soundController.GetComponent<SoundManager>().PlaySFX("ScientistAction2");
+    }
+
+    public void bubbly()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("AlchemyApparatus");
+    }
+
+    public void heh()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("InternTurn1");
+    }
+
+    public void verses()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("VsSound");
+    }
+
+
+
     void Start()
     {
         soundController = GameObject.Find("SoundManager");

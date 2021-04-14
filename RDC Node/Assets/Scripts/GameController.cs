@@ -87,6 +87,10 @@ public class GameController : MonoBehaviour
         soundController.GetComponent<SoundManager>().MusicSlider = GameObject.Find("Music").GetComponent<Slider>();
         soundController.GetComponent<SoundManager>().SFXSlider = GameObject.Find("SFX").GetComponent<Slider>();
         soundController.GetComponent<SoundManager>().Transition("Intern");
+        soundController.GetComponent<SoundManager>().MusicSlider = GameObject.Find("Music").GetComponent<Slider>();
+        soundController.GetComponent<SoundManager>().SFXSlider = GameObject.Find("SFX").GetComponent<Slider>();
+        GameObject.Find("Music").GetComponent<Slider>().value = soundController.GetComponent<SoundManager>().getMusicVolume();
+        GameObject.Find("SFX").GetComponent<Slider>().value = soundController.GetComponent<SoundManager>().getSFXVolume();
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.EndDrag;
@@ -264,12 +268,16 @@ public class GameController : MonoBehaviour
     {
         if(currentPlayer == GameBoard.Player.Player1)
         {
+            int rSound = (int)(Floor(Random.Range(1.0f, 2.5f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("InternAct" + rSound);
             GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeAction;
             yield return new WaitForSeconds(2f);
             GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeNormal;
         }
         else
         {
+            int rSound = (int)(Floor(Random.Range(1.0f, 2.5f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("ScientistAction" + rSound);
             GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleAction;
             yield return new WaitForSeconds(2f);
             GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleNormal;
@@ -280,12 +288,16 @@ public class GameController : MonoBehaviour
     {
         if(gameBoard.getCurrentPlayer() == GameBoard.Player.Player2)
         {
+            int rSound = (int)(Floor(Random.Range(1.0f, 2.5f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("InternAct" + rSound);
             GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeAction;
             yield return new WaitForSeconds(2f);
             GameObject.Find("OrangePlayer").GetComponent<SpriteRenderer>().sprite = OrangeNormal;
         }
         else
         {
+            int rSound = (int)(Floor(Random.Range(1.0f, 2.5f)));
+            soundController.GetComponent<SoundManager>().PlaySFX("ScientistAction" + rSound);
             GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleAction;
             yield return new WaitForSeconds(2f);
             GameObject.Find("PurplePlayer").GetComponent<SpriteRenderer>().sprite = PurpleNormal;
