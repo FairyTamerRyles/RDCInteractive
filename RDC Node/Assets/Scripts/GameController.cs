@@ -59,6 +59,11 @@ public class GameController : MonoBehaviour
         Network = 2
     }
 
+    public IEnumerator wait(int seconds)
+    {
+        yield return new WaitForSeconds((float)seconds);
+    }
+
     void Start()
     {
         blockPlayerFromPlaying();
@@ -194,21 +199,23 @@ public class GameController : MonoBehaviour
             gameBoard = new GameBoard();
             if(humanPlayer == GameBoard.Player.Player1)
             {
-                gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
 
                 initializeTileGraphics();
                 updateCurrentPlayer();
                 GameObject.Find("UndoButton").GetComponent<Button>().interactable = false;
+
+                StartCoroutine(wait(3));
+                gameNetworkingManager.GetComponent<GameNetworkingManager>().Board = gameBoard.serializeBoard();
                 enablePlayerPlaying();
             }
             else
             {
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {
                     gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
+                    gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
                     initializeTileGraphics();
                     updateCurrentPlayer();
-                    gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
                 };
             }
         }
