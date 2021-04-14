@@ -106,6 +106,7 @@ public class TradeController : MonoBehaviour
             resourceTradeCount[resourceClicked]--;
             selectedResource = resourceClicked;
             TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
+            updateIncrementAndDecrementCounters();
         }
         else //Same resource clicked
         {
@@ -166,106 +167,34 @@ public class TradeController : MonoBehaviour
                 break;
         }
 
-        
-        switch(typeOfChange)
+        if(incrementing)
         {
-            case "+R":
-                if(addedResources(resourceTradeCount) < 3 && currentPlayerResources[0] > resourceTradeCount[0])
-                {
-                    Debug.Log(addedResources(resourceTradeCount));
-                    resourceTradeCount[0]++;
-                    RedCounter.GetComponent<Text>().text = resourceTradeCount[0].ToString();
-                    if(addedResources(resourceTradeCount) == 3)
-                    {
-                        Debug.Log("Button Enabled");
-                        GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = true;
-                    }
-                }
-                break;
-            case "-R":
-                if(resourceTradeCount[0] > 0)
-                {
-                    resourceTradeCount[0]--;
-                    RedCounter.GetComponent<Text>().text = resourceTradeCount[0].ToString();
-                    if(GameObject.Find("AcceptTrade").GetComponent<Button>().interactable == true)
-                    {
-                        Debug.Log("Button Disabled");
-                        GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = false;
-                    }
-                }
-                break;
-            case "+B":
-                if(addedResources(resourceTradeCount) < 3 && currentPlayerResources[1] > resourceTradeCount[1])
-                {
-                    resourceTradeCount[1]++;
-                    Debug.Log(addedResources(resourceTradeCount));
-                    BlueCounter.GetComponent<Text>().text = resourceTradeCount[1].ToString();
-                    if(addedResources(resourceTradeCount) == 3)
-                    {
-                        GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = true;
-                    }
-                }
-                break;
-            case "-B":
-                if(resourceTradeCount[1] > 0)
-                {
-                    resourceTradeCount[1]--;
-                    BlueCounter.GetComponent<Text>().text = resourceTradeCount[1].ToString();
-                    if(GameObject.Find("AcceptTrade").GetComponent<Button>().interactable == true)
-                    {
-                        GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = false;
-                    }
-                }
-                break;
-            case "+G":
-                if(addedResources(resourceTradeCount) < 3 && currentPlayerResources[2] > resourceTradeCount[2])
-                {
-                    resourceTradeCount[2]++;
-                    Debug.Log(addedResources(resourceTradeCount));
-                    GreenCounter.GetComponent<Text>().text = resourceTradeCount[2].ToString();
-                    if(addedResources(resourceTradeCount) == 3)
-                    {
-                        GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = true;
-                    }
-                }
-                break;
-            case "-G":
-                if(resourceTradeCount[2] > 0)
-                {
-                    resourceTradeCount[2]--;
-                    GreenCounter.GetComponent<Text>().text = resourceTradeCount[2].ToString();
-                    if(GameObject.Find("AcceptTrade").GetComponent<Button>().interactable == true)
-                    {
-                        GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = false;
-                    }
-                }
-                break;
-            case "+Y":
-                if(addedResources(resourceTradeCount) < 3 && currentPlayerResources[3] > resourceTradeCount[3])
-                {
-                    resourceTradeCount[3]++;
-                    Debug.Log(addedResources(resourceTradeCount));
-                    YellowCounter.GetComponent<Text>().text = resourceTradeCount[3].ToString();
-                    if(addedResources(resourceTradeCount) == 3)
-                    {
-                        GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = true;
-                    }
-                }
-                break;
-            case "-Y":
-            if(resourceTradeCount[3] > 0)
+            if(addedResources(resourceTradeCount) < 3 && currentPlayerResources[resourceClicked] > resourceTradeCount[resourceClicked])
             {
-                resourceTradeCount[3]--;
-                YellowCounter.GetComponent<Text>().text = resourceTradeCount[3].ToString();
+                resourceTradeCount[resourceClicked]++;
+                if(addedResources(resourceTradeCount) == 3)
+                {
+                    GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = true;
+                }
+            }
+        }
+        else
+        {
+            if(resourceTradeCount[resourceClicked] > 0)
+            {
+                resourceTradeCount[resourceClicked]--;
                 if(GameObject.Find("AcceptTrade").GetComponent<Button>().interactable == true)
                 {
                     GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = false;
                 }
             }
-                break;
         }
+
+        Counters[resourceClicked].GetComponent<Text>().text = resourceTradeCount[resourceClicked].ToString();
         updatePlannedTradeGraphics();
+        updateIncrementAndDecrementCounters();
     }
+
     public int addedResources(int[] tradeCount)
     {
         if(tradeCount[0] == -1)
@@ -414,6 +343,15 @@ public class TradeController : MonoBehaviour
         Equal.SetActive(resourceSelected);
         Plus1.SetActive(resourceSelected);
         Plus2.SetActive(resourceSelected);
+    }
+
+    public void updateIncrementAndDecrementCounters()
+    {
+        for(int i = 0; i < IncrementCounters.Count; ++i)
+        {
+            IncrementCounters[i].GetComponent<Image>().enabled = ((addedResources(resourceTradeCount) < 3 && currentPlayerResources[i] > resourceTradeCount[i]) && selectedResource != i);
+            DecrementCounters[i].GetComponent<Image>().enabled = (resourceTradeCount[i] > 0 && selectedResource != i);
+        }
     }
 
     public void setResourceGraphic(int position, int resource, bool b)
