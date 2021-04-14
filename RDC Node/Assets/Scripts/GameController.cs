@@ -1239,6 +1239,11 @@ public class GameController : MonoBehaviour
 
     public void playClick()
     {
-        soundController.GetComponent<SoundManager>().PlaySFX("MarkerOnDryErase");
+        soundController.GetComponent<SoundManager>().PlaySFX("MarkerCap");
+    }
+
+    public void playRing()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("ClickConversationEnd");
     }
 }

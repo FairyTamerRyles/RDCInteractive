@@ -234,10 +234,12 @@ public class SettingsController : MonoBehaviour
             if(roomToJoinBox.text.Length == 5)
             {
                 joinPrivate.SetActive(true);
+                //joinPrivate.GetComponent<Button>().interactable = true;
             }
             else
             {
                 joinPrivate.SetActive(false);
+                //joinPrivate.GetComponent<Button>().interactable = false;
             }
         }
     }

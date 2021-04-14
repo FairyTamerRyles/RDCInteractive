@@ -309,4 +309,8 @@ public class SoundManager : MonoBehaviour
     {
         PlaySFX("MarkerCap");
     }
+    public void playThud()
+    {
+        PlaySFX("MarkerOnDryErase");
+    }
 }

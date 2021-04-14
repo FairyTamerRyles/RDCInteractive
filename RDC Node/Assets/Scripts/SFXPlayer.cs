@@ -60,6 +60,20 @@ public class SFXPlayer : MonoBehaviour
         soundController.GetComponent<SoundManager>().PlaySFX("VsSound");
     }
 
+    public void playClick()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("MarkerCap");
+    }
+    public void playThud()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("MarkerOnDryErase");
+    }
+
+    public void playTech()
+    {
+        soundController.GetComponent<SoundManager>().PlaySFX("CoverOpen");
+    }
+
 
 
     void Start()
