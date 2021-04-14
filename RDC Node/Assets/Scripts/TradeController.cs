@@ -127,10 +127,46 @@ public class TradeController : MonoBehaviour
         YellowResource.interactable = true;
         updatePlannedTradeGraphics();
     }
-    // Start is called before the first frame update
+
+    
     public void changeTradeCount(Button ResourceChangeButton)
     {
+        int resourceClicked = -1;
+        bool incrementing = true;
         string typeOfChange = ResourceChangeButton.tag;
+        switch(typeOfChange)
+        {
+            case "+R":
+                resourceClicked = 0;
+                break;
+            case "-R":
+                resourceClicked = 0;
+                incrementing = false;
+                break;
+            case "+B":
+                resourceClicked = 1;
+                break;
+            case "-B":
+                resourceClicked = 1;
+                incrementing = false;
+                break;
+            case "+G":
+                resourceClicked = 2;
+                break;
+            case "-G":
+                resourceClicked = 2;
+                incrementing = false;
+                break;
+            case "+Y":
+                resourceClicked = 3;
+                break;
+            case "-Y":
+                resourceClicked = 3;
+                incrementing = false;
+                break;
+        }
+
+        
         switch(typeOfChange)
         {
             case "+R":
@@ -249,47 +285,35 @@ public class TradeController : MonoBehaviour
             return tradeCount[1] + tradeCount[2] + tradeCount[0];
         }
     }
+
     public void clearResources()
     {
-        RedCounter.GetComponent<Text>().text = "0";
-        BlueCounter.GetComponent<Text>().text = "0";
-        GreenCounter.GetComponent<Text>().text = "0";
-        YellowCounter.GetComponent<Text>().text = "0";
-        resourceTradeCount[0] = 0;
-        resourceTradeCount[1] = 0;
-        resourceTradeCount[2] = 0;
-        resourceTradeCount[3] = 0;
+        for(int i = 0; i < Counters.Count; ++i)
+        {
+            Counters[i].GetComponent<Text>().text = "0";
+            resourceTradeCount[i] = 0;
+        }
         GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = false;
         updatePlannedTradeGraphics();
     }
+
     public void resetMenu()
     {
-        GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
-        GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
-        GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
-        GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
-        GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
-        GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
-        GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
-        GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
-        RedCounter.GetComponent<Text>().text = "0";
-        BlueCounter.GetComponent<Text>().text = "0";
-        GreenCounter.GetComponent<Text>().text = "0";
-        YellowCounter.GetComponent<Text>().text = "0";
-        resourceTradeCount[0] = 0;
-        resourceTradeCount[1] = 0;
-        resourceTradeCount[2] = 0;
-        resourceTradeCount[3] = 0;
+        for(int i = 0; i < Counters.Count; ++i)
+        {
+            IncrementCounters[i].GetComponent<Image>().enabled = false;
+            DecrementCounters[i].GetComponent<Image>().enabled = false;
+            Counters[i].GetComponent<Text>().enabled = false;
+            Counters[i].GetComponent<Text>().text = "0";
+            resourceTradeCount[i] = 0;
+        }
         GameObject.Find("AcceptTrade").GetComponent<Button>().interactable = false;
         UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null); 
-        RedCounter.GetComponent<Text>().enabled = false;
-        BlueCounter.GetComponent<Text>().enabled = false;
-        GreenCounter.GetComponent<Text>().enabled = false;
-        YellowCounter.GetComponent<Text>().enabled = false;
         selectedResource = -1;
         TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
         updatePlannedTradeGraphics();
     }
+
     void Start()
     {
         selectedResource = -1;
