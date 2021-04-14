@@ -245,8 +245,10 @@ public class GameController : MonoBehaviour
         proxyBoard.endTurn();
         updateExhaustedTiles(proxyBoard);
         updateCapturedTiles(proxyBoard);
+
         if(proxyBoard.getTurnCounter() > 4)
         {
+            updateTradeCounters(proxyBoard);
             updateScore(proxyBoard);
             updateResourceCounters(proxyBoard);
             updateLargestNetwork(proxyBoard);
@@ -929,6 +931,59 @@ public class GameController : MonoBehaviour
             string tileTag = (int)tile.resourceType + "." + tile.maxLoad;
             GameObject tileObject = GameObject.FindGameObjectWithTag(tileTag);
             tileObject.transform.Find("vatIndicator").GetComponent<Animator>().SetBool("closeVat", true);
+        }
+    }
+
+    public void updateTradeCounters(GameBoard b)
+    {
+        int nodesPlayed = 0, branchesPlayed = 0;
+
+        for(int i = 0; i < GameBoard.boardSize; ++i)
+        {
+            for(int j = 0; j < GameBoard.boardSize; ++j)
+            {
+                if(b.isNode(new GameBoard.Coordinate {x = i, y = j}) && gameBoard.getGameBoard()[i,j].player != b.getGameBoard()[i,j].player)
+                {
+                    nodesPlayed++;
+                }
+                else if((b.isVerticalBranch(new GameBoard.Coordinate {x = i, y = j}) || b.isHorizontalBranch(new GameBoard.Coordinate {x = i, y = j})) 
+                    && gameBoard.getGameBoard()[i,j].player != b.getGameBoard()[i,j].player)
+                {
+                    branchesPlayed++;
+                }
+            }
+        }
+
+        int[] resourcesSpent = new int[4];
+        resourcesSpent[0] = branchesPlayed * -1;
+        resourcesSpent[1] = branchesPlayed * -1;
+        resourcesSpent[2] = nodesPlayed * -2;
+        resourcesSpent[3] = nodesPlayed * -2;
+
+        int[] tradeMade = new int[4];
+        for(int i = 0; i < 4; ++i)
+        {
+            tradeMade[i] = b.getResources(AIPlayer)[i] + gameBoard.getResources(AIPlayer)[i] * -1 + resourcesSpent[i] * -1;
+        }
+
+        string AIP = (AIPlayer == GameBoard.Player.Player1) ? "1" : "2";
+        for(int i = 0; i < 4; ++i)
+        {
+            string tradeCounterToGet = "P" + AIP + "_" + i.ToString() + "_Trade";
+            string toSetTradeCounterTo = "";
+            if(tradeMade[i] == 1)
+            {
+                toSetTradeCounterTo = "+";
+            }
+            else
+            {
+                for(int j = 0; j > tradeMade[i]; --j)
+                {
+                    toSetTradeCounterTo += "-";
+                }
+            }
+
+            GameObject.Find(tradeCounterToGet).GetComponent<Text>().text = toSetTradeCounterTo;
         }
     }
 
