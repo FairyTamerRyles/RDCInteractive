@@ -7086,6 +7086,14 @@ MonoBehaviour:
   Equal: {fileID: 1405880527}
   Plus1: {fileID: 545733634}
   Plus2: {fileID: 28107141}
+  RedIncrement: {fileID: 1309993281}
+  RedDecrement: {fileID: 2108503760}
+  BlueIncrement: {fileID: 1736640444}
+  BlueDecrement: {fileID: 597412682}
+  GreenIncrement: {fileID: 1195798783}
+  GreenDecrement: {fileID: 2009595844}
+  YellowIncrement: {fileID: 1668274987}
+  YellowDecrement: {fileID: 1990353151}
 --- !u!4 &382100378
 Transform:
   m_ObjectHideFlags: 0

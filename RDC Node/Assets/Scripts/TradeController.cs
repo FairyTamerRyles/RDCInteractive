@@ -33,11 +33,25 @@ public class TradeController : MonoBehaviour
     public GameObject Equal;
     public GameObject Plus1;
     public GameObject Plus2;
+    public GameObject RedIncrement;
+    public GameObject RedDecrement;
+    public GameObject BlueIncrement;
+    public GameObject BlueDecrement;
+    public GameObject GreenIncrement;
+    public GameObject GreenDecrement;
+    public GameObject YellowIncrement;
+    public GameObject YellowDecrement;
+
 
     private List<GameObject> RedResourceGraphics = new List<GameObject>();
     private List<GameObject> BlueResourceGraphics = new List<GameObject>();
     private List<GameObject> GreenResourceGraphics = new List<GameObject>();
     private List<GameObject> YellowResourceGraphics = new List<GameObject>();
+
+    private List<GameObject> IncrementCounters = new List<GameObject>();
+    private List<GameObject> DecrementCounters = new List<GameObject>();
+
+    private List<GameObject> Counters = new List<GameObject>();
 
     private List<List<GameObject>> ResourceGraphics = new List<List<GameObject>>();
 
@@ -52,172 +66,61 @@ public class TradeController : MonoBehaviour
         GreenResource.interactable = false;
         YellowResource.interactable = false;
 
+        clearResources();
+        int resourceClicked = -1;
         switch(resourceChosen)
         {
             case "RedResource":
-                if (selectedResource != 0)
-                {
-                    clearResources();
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = true;
-                    resourceTradeCount[0]--;
-                    selectedResource = 0;
-                    RedCounter.GetComponent<Text>().enabled = false;
-                    BlueCounter.GetComponent<Text>().enabled = true;
-                    GreenCounter.GetComponent<Text>().enabled = true;
-                    YellowCounter.GetComponent<Text>().enabled = true;
-                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
-
-                }
-                else
-                {
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
-                    resourceTradeCount[0]++;
-                    selectedResource = -1;
-                    UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-                    clearResources();
-                    BlueCounter.GetComponent<Text>().enabled = false;
-                    GreenCounter.GetComponent<Text>().enabled = false;
-                    YellowCounter.GetComponent<Text>().enabled = false;
-                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
-                }
+                resourceClicked = 0;
                 break;
             case "BlueResource":
-                if (selectedResource != 1)
-                {
-                    clearResources();
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = true;
-                    resourceTradeCount[1]--;
-                    selectedResource = 1;;
-                    RedCounter.GetComponent<Text>().enabled = true;
-                    BlueCounter.GetComponent<Text>().enabled = false;
-                    GreenCounter.GetComponent<Text>().enabled = true;
-                    YellowCounter.GetComponent<Text>().enabled = true;
-                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
-                }
-                else
-                {
-                    clearResources();
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
-                    resourceTradeCount[1]++;
-                    selectedResource = -1;
-                    UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-                    clearResources();
-                    RedCounter.GetComponent<Text>().enabled = false;
-                    GreenCounter.GetComponent<Text>().enabled = false;
-                    YellowCounter.GetComponent<Text>().enabled = false;
-                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
-                }
+                resourceClicked = 1;
                 break;
             case "GreenResource":
-                if (selectedResource != 2)
-                {
-                    clearResources();
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = true;
-                    resourceTradeCount[2]--;
-                    selectedResource = 2;
-                    RedCounter.GetComponent<Text>().enabled = true;
-                    BlueCounter.GetComponent<Text>().enabled = true;
-                    GreenCounter.GetComponent<Text>().enabled = false;
-                    YellowCounter.GetComponent<Text>().enabled = true;
-                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
-                }
-                else
-                {
-                    clearResources();
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
-                    resourceTradeCount[2]++;
-                    selectedResource = -1;
-                    UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-                    clearResources();
-                    RedCounter.GetComponent<Text>().enabled = false;
-                    BlueCounter.GetComponent<Text>().enabled = false;
-                    YellowCounter.GetComponent<Text>().enabled = false;
-                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
-                }
+                resourceClicked = 2;
                 break;
             case "YellowResource":
-                if (selectedResource != 3)
+                resourceClicked = 3;
+                break;
+        }
+
+        //New Resource selected
+        if(selectedResource != resourceClicked)
+        {
+            for(int i = 0; i < IncrementCounters.Count; ++i)
+            {
+                if(i == resourceClicked)
                 {
-                    clearResources();
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = true;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
-                    resourceTradeCount[3]--;
-                    selectedResource = 3;
-                    RedCounter.GetComponent<Text>().enabled = true;
-                    BlueCounter.GetComponent<Text>().enabled = true;
-                    GreenCounter.GetComponent<Text>().enabled = true;
-                    YellowCounter.GetComponent<Text>().enabled = false;
-                    TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
+                    IncrementCounters[i].GetComponent<Image>().enabled = false;
+                    DecrementCounters[i].GetComponent<Image>().enabled = false;
+                    Counters[i].GetComponent<Text>().enabled = false;
                 }
                 else
                 {
-                    GameObject.Find("RedIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowIncrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("RedDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("BlueDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("GreenDecrement").GetComponent<Image>().enabled = false;
-                    GameObject.Find("YellowDecrement").GetComponent<Image>().enabled = false;
-                    resourceTradeCount[3]++;
-                    selectedResource = -1;
-                    UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-                    clearResources();
-                    RedCounter.GetComponent<Text>().enabled = false;
-                    BlueCounter.GetComponent<Text>().enabled = false;
-                    GreenCounter.GetComponent<Text>().enabled = false;
-                    TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
+                    IncrementCounters[i].GetComponent<Image>().enabled = true;
+                    DecrementCounters[i].GetComponent<Image>().enabled = true;
+                    Counters[i].GetComponent<Text>().enabled = true;
                 }
-                break;
+            }
+
+            resourceTradeCount[resourceClicked]--;
+            selectedResource = resourceClicked;
+            TradeSelectText.GetComponent<Text>().text = "Select resources to trade in";
         }
+        else //Same resource clicked
+        {
+            for(int i = 0; i < IncrementCounters.Count; ++i)
+            {
+                IncrementCounters[i].GetComponent<Image>().enabled = false;
+                DecrementCounters[i].GetComponent<Image>().enabled = false;
+                Counters[i].GetComponent<Text>().enabled = false;
+            }
+            
+            selectedResource = -1;
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+            TradeSelectText.GetComponent<Text>().text = "Select the resource you want";
+        }
+
         RedResource.interactable = true;
         BlueResource.interactable = true;
         GreenResource.interactable = true;
@@ -412,6 +315,21 @@ public class TradeController : MonoBehaviour
         ResourceGraphics.Add(BlueResourceGraphics);
         ResourceGraphics.Add(GreenResourceGraphics);
         ResourceGraphics.Add(YellowResourceGraphics);
+
+        IncrementCounters.Add(RedIncrement);
+        IncrementCounters.Add(BlueIncrement);
+        IncrementCounters.Add(GreenIncrement);
+        IncrementCounters.Add(YellowIncrement);
+
+        DecrementCounters.Add(RedDecrement);
+        DecrementCounters.Add(BlueDecrement);
+        DecrementCounters.Add(GreenDecrement);
+        DecrementCounters.Add(YellowDecrement);
+
+        Counters.Add(RedCounter);
+        Counters.Add(BlueCounter);
+        Counters.Add(GreenCounter);
+        Counters.Add(YellowCounter);
     }
 
     public void onAcceptClick()
