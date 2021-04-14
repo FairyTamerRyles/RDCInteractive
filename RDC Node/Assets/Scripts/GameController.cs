@@ -52,6 +52,7 @@ public class GameController : MonoBehaviour
     public Sprite OrangeNormal;
     public Sprite PurpleNormal;
     public bool receivedBoard = false;
+    public bool inCallback = false;
 
     public enum GameType
     {
@@ -67,6 +68,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("In Start");
         blockPlayerFromPlaying();
         piecesPlacedThisTurn = new List<GameObject>();
         connectionManager = GameObject.Find("ConnectionManager");
@@ -200,7 +202,6 @@ public class GameController : MonoBehaviour
             gameBoard = new GameBoard();
             if(humanPlayer == GameBoard.Player.Player1)
             {
-                
                 gameNetworkingManager.GetComponent<GameNetworkingManager>().OnOpponentMoved_Callback = () => {onNetworkOpponentMoved();};
 
                 initializeTileGraphics();
@@ -380,45 +381,33 @@ public class GameController : MonoBehaviour
 
     private void onNetworkOpponentMoved()
     {
-        if(humanPlayer == GameBoard.Player.Player2 && !receivedBoard)
+        Debug.Log("Callback fired");
+        if(!inCallback)
         {
-            receivedBoard = true;
-            gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
-            initializeTileGraphics();
-        }
-        GameBoard boardAfterNetworkMove = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
-        //order is critical for updateBoardGraphic
-        updateBoardGraphic(boardAfterNetworkMove);
-        gameBoard = new GameBoard(boardAfterNetworkMove);
-        if(gameBoard.getTurnCounter() > 4)
-        {
-            GameObject.Find("setupInfo").GetComponent<Animator>().SetTrigger("Leave");
-        }
-        updateExhaustedTiles();
-        updateCapturedTiles();
-        StartCoroutine(updateNetworkPlayedGraphics());
-        /*if(gameBoard.getCurrentPlayer() == humanPlayer)
-        {
-            if(gameBoard.getTurnCounter() <= 4)
+            Debug.Log("Got in code");
+            inCallback = true;
+            if(humanPlayer == GameBoard.Player.Player2 && !receivedBoard)
             {
-                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = false;
+                receivedBoard = true;
+                gameBoard = new GameBoard(gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board));
+                initializeTileGraphics();
+                updateCurrentPlayer();
             }
-            else
-            {
-                GameObject.Find("Trade-In Button").GetComponent<Button>().interactable = true;
-                GameObject.Find("EndTurnButton").GetComponent<Button>().interactable = true;
-                updateScore();
-                updateResourceCounters();
-                updateLargestNetwork();
+            else{
+                GameBoard boardAfterNetworkMove = gameBoard.deserializeBoard(gameNetworkingManager.GetComponent<GameNetworkingManager>().Board);
+                //order is critical for updateBoardGraphic
+                updateBoardGraphic(boardAfterNetworkMove);
+                gameBoard = new GameBoard(boardAfterNetworkMove);
+                if(gameBoard.getTurnCounter() > 4)
+                {
+                    GameObject.Find("setupInfo").GetComponent<Animator>().SetTrigger("Leave");
+                }
+                updateExhaustedTiles();
+                updateCapturedTiles();
+                StartCoroutine(updateNetworkPlayedGraphics());
             }
-            yield return StartCoroutine(playActionAnimation_Opponent());
-            enablePlayerPlaying();
+            inCallback = false;
         }
-
-        if(gameBoard.checkForWin() != GameBoard.Player.None)
-        {
-            endGame();
-        }*/
     }
 
     public IEnumerator updateNetworkPlayedGraphics()
@@ -907,7 +896,6 @@ public class GameController : MonoBehaviour
                     toBeDestroyed.GetComponent<Animator>().SetBool("topOrRight", false);
                     toBeDestroyed.GetComponent<Animator>().SetBool("bottomOrLeft", false);
                 }
-                //Destroy(toBeDestroyed);
             }
             else
             {
