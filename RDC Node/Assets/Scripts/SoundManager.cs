@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource playing;
 
     private bool transitioning;
-    private double transitionLength = 0.5;
+    private double transitionLength = 1;
     private double transitionProgress;
     private AudioSource transitioningTo;
 
@@ -188,6 +188,7 @@ public class SoundManager : MonoBehaviour
                 float playingVolume = (float)(MusicVolume - (transitionProgress / transitionLength));
                 if (playing != null) playing.volume = playingVolume;
                 if (transitioningTo != null) transitioningTo.volume = (float)(MusicVolume - playingVolume);
+                Debug.Log(transitioningTo.volume);
             }
         }
     }
